@@ -4,21 +4,22 @@ using UnityEngine.UI;
 public class Card : MonoBehaviour
 {
 
-    // the piece it can convert to
+    /* --- Associated Piece ---*/
     public GameObject pieceObject;
 
-    // the player who owns the card
-    public GameObject playerObject;
+    /* --- The Player ---*/
+    [HideInInspector] public GameObject playerObject;
 
-    // the cards properties
-    public string faction;
+
+    /*--- Card Properties ---*/
+    [HideInInspector] public string faction;
     public Sprite[] sprites;
     public int level = 1;
 
-    void Awake()
+    void Start()
     {
-        playerObject = gameObject.transform.parent.gameObject;
-        gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        GetPlayer();
+        GetFaction();
         UpdateSprite();
     }
 
@@ -28,28 +29,7 @@ public class Card : MonoBehaviour
         spriteRenderer.sprite = sprites[level - 1];
     }
 
-    public void OnMouseDown()
-    {
-        Debug.Log("In Card, OnMouseDown; Selected a card");
-        Player player = playerObject.GetComponent<Player>();
-        if (player.isTurn)
-        {
-            if (player.phase == 1 && player.selections.Count < 2)
-            {
-                player.selections.Add(gameObject);
-            }
-            else if (player.phase == 2 && player.selections.Count < 1)
-            {
-                Debug.Log("During place phase, added card to selections");
-                player.selections.Add(gameObject);
-            }
-        }
-        player.infoField.GetComponent<Text>().text = Properties();
-        // false for not clearing selections
-        player.Highlight(gameObject.transform.GetChild(0).gameObject, false);
-    }
-
-    public string Properties()
+    public string ReadProperties()
     {
         string s01 = "Name: " + name;
         string s02 = "\nFaction: " + faction;
@@ -57,4 +37,13 @@ public class Card : MonoBehaviour
         return s01 + s02 + s03;
     }
 
+    private void GetPlayer()
+    {
+        playerObject = gameObject.transform.parent.gameObject;
+    }
+
+    private void GetFaction()
+    {
+        faction = gameObject.tag;
+    }
 }
