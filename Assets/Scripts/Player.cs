@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
 
     public void DisplayHand()
     {
-        print(handList.Count);
+        handObjects        
         for (int i = 0; i < handList.Count; i++)
         {
             Instantiate(handList[i], new Vector3(i, 0, 0), Quaternion.identity, gameObject.transform);
