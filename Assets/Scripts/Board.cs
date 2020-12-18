@@ -13,7 +13,7 @@ public class Board : MonoBehaviour
     // the board
     public int height = 9;
     public int width = 9;
-    public int scale = 1;
+    public int scale = 2;
     public GameObject[][] gridArray; // initialized within
     public GameObject squareObject; // from inspector
 
@@ -70,7 +70,7 @@ public class Board : MonoBehaviour
             // put the squares in the grid
             for (int j = 0; j < width; j++)
             {
-                Vector3 squarePos = new Vector3(interX + i * scale - (height - 1) / 2, interY + j * scale - (height - 1) / 2, interZ + offSet);
+                Vector3 squarePos = new Vector3(interX + i * scale - (height - 1) * scale / 2, interY + j * scale - (height - 1) * scale / 2, interZ + offSet);
                 gridArray[i][j] = Instantiate(squareObject, squarePos, Quaternion.identity, gameObject.transform);
             }
         }

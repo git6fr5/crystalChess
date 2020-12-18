@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
     // the locations of objects
     private Vector3 handPos;
     private Vector3 deckPos;
-    private Vector3 infoPos;
+    //private Vector3 infoPos;
     public Vector3 phasePos;
 
     // the size of the deck
@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
         //phaser
         infoField = infoFieldBase; //Instantiate(infoFieldBase, infoPos, Quaternion.identity, gameObject.transform);
         infoField.GetComponent<Text>().text = "Nothing selected";
-        infoField.transform.position = infoPos;
+        //infoField.transform.position = infoPos;
         phaseObject = Instantiate(phaseObjectBase, phasePos, Quaternion.identity, gameObject.transform);
     }
 
@@ -108,7 +108,7 @@ public class Player : MonoBehaviour
         float interZ = gameObject.transform.position.z;
         deckPos = new Vector3(n * 12 + s, 4, 0);
         handPos = new Vector3(n * 10 + s, 0, 0);
-        infoPos = new Vector3(n * 10 + s, -4, 0);
+        //infoPos = new Vector3(n * 10 + s, -4, 0);
         phasePos = new Vector3(n * 15 + s, 4, 0);
     }
 
@@ -167,11 +167,9 @@ public class Player : MonoBehaviour
     public GameObject CreateCardFromBase(GameObject cardObjectBase, int newLevel, bool addToHand)
     {
         //Debug.Log("Instantiating card object");
-        //Debug.Log(cardObjectBase.name);
+
         GameObject newCardObject = Instantiate(cardObjectBase, deckPos, Quaternion.identity, gameObject.transform);
         newCardObject.GetComponent<Card>().level = newLevel;
-        //Debug.Log("addToHand"); 
-        //Debug.Log(addToHand);
         newCardObject.GetComponent<Card>().UpdateSprite();
         if (addToHand) { hand.Add(newCardObject); }
         return newCardObject;

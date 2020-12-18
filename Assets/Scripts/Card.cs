@@ -51,10 +51,9 @@ public class Card : MonoBehaviour
 
     public string Properties()
     {
-        string s01 = "Name: " + name;
-        string s02 = "\nFaction: " + faction;
-        string s03 = "\nLevel: " + level.ToString();
-        return s01 + s02 + s03;
+        string s01 = "\nFaction: " + faction;
+        string s02 = "\nLevel: " + level.ToString();
+        return s01 + s02;
     }
 
 }

@@ -9,22 +9,22 @@ public class Piece : MonoBehaviour
 
     // the pieces properties
     public string faction;
-    public int level = 1;
+    [HideInInspector] public int level = 1;
     public Sprite[] sprites;
     private int[] radiuses = { 1, 1, 1, 2, 2, 2, 3, 3, 4 };
     
     public float baseHealth = 1;
-    public float health = 0;
-    public float damageTaken = 0;
-    public int radius = 0;
+    [HideInInspector] public float health = 0;
+    [HideInInspector] public float damageTaken = 0;
+    [HideInInspector] public int radius = 0;
 
     // possible debuffs/buffs
-    public float drownTicker;
-    public float paralyzeTicker;
-    public float armyCount;
-    public float burnDamage;
-    public bool paralyzed = false;
-    public float drownThreshold = 0;
+    [HideInInspector] public float drownTicker;
+    [HideInInspector] public float paralyzeTicker;
+    [HideInInspector] public float armyCount;
+    [HideInInspector] public float burnDamage;
+    [HideInInspector] public bool paralyzed = false;
+    [HideInInspector] public float drownThreshold = 0;
 
     void Awake()
     {
@@ -46,7 +46,7 @@ public class Piece : MonoBehaviour
 
     public string Properties()
     {
-        string s01 = "Name: " + name;
+        //string s01 = "Name: " + name;
         string s02 = "\nFaction: " + faction;
         string s03 = "\nLevel: " + level.ToString();
         string s04 = "\nHealth: " + health.ToString();
@@ -55,6 +55,6 @@ public class Piece : MonoBehaviour
         if (armyCount != 0) { s06 = "\nArmy bonus in vicinity: " + armyCount.ToString(); } else { s06 = "\nNo army bonus in vicinity"; }
         if (drownTicker != 0) { s07 = "\nDrowning for: " + drownTicker.ToString() + " / Threshold: " + drownThreshold.ToString(); } else { s07 = "\nNot drowning"; }
         if (paralyzed) { s08 = "\nParalyze time left: " + paralyzeTicker.ToString(); } else { s08 = "\nNot paralyzed"; }
-        return s01 + s02 + s03 + s04 + s05 + s06 + s07 + s08;
+        return s02 + s03 + s04 + s05 + s06 + s07 + s08;
     }
 }
