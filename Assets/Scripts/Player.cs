@@ -6,6 +6,8 @@ using UnityEngine.Events;
 public class Player : MonoBehaviour
 {
 
+    public TurnSystem turnSystem;
+
     public GameObject cardsObject;
     public GameObject piecesObject;
     public int deckSize;
@@ -16,21 +18,11 @@ public class Player : MonoBehaviour
     [HideInInspector] public List<GameObject> handList = new List<GameObject>();
     private List<GameObject> cardsList = new List<GameObject>();
 
-    [HideInInspector] public bool isTurn = false;
-
-    [System.Serializable] public class IntEvent : UnityEvent<int> { }
-
-    public UnityEvent OnTurnEvent;
-    public IntEvent OnDrawEvent;
-    public UnityEvent OnCombineEvent;
-
-
     void Start()
     {
         GetCards();
         CreateDeck();
-        OnTurnEvent.Invoke();
-        //DisplayHand();
+        turnSystem.OnTurnEvent.Invoke();
     }
 
     void GetCards()
@@ -49,28 +41,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    void DisplayHand()
+    public void DisplayHand()
     {
         print(handList.Count);
         for (int i = 0; i < handList.Count; i++)
         {
             Instantiate(handList[i], new Vector3(i, 0, 0), Quaternion.identity, gameObject.transform);
-
         }
-    }
-
-    public void OnTurn()
-    {
-        OnDrawEvent.Invoke(drawRegular);
-    }
-
-    public void OnDraw(int drawNum)
-    {
-        for (int i = 0; i < drawNum; i++)
-        {
-            handList.Add(deckList[i]);
-        }
-        deckList.RemoveRange(0, drawNum);
-        DisplayHand();
     }
 }
