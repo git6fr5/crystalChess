@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Piece : MonoBehaviour
 {
@@ -25,6 +26,10 @@ public class Piece : MonoBehaviour
     [HideInInspector] public float burnDamage = 0f;
     [HideInInspector] public bool paralyzed = false;
     [HideInInspector] public float drownThreshold = 0;
+
+    /*--- UI ---*/
+
+    public GameObject statusObject;
 
     void Start()
     {
@@ -56,6 +61,14 @@ public class Piece : MonoBehaviour
         health = baseHealth * radius - damageTaken;
     }
 
+    public void SetHealth()
+    {
+        GameObject healthBar = statusObject.GetComponent<Status>().healthBar;
+        Slider healthSlider = healthBar.GetComponent<Slider>();
+        healthSlider.maxValue = baseHealth;
+        healthSlider.value = health;
+    }
+
     private void GetPlayer()
     {
         playerObject = gameObject.transform.parent.gameObject;
@@ -65,4 +78,5 @@ public class Piece : MonoBehaviour
     {
         faction = gameObject.tag;
     }
+
 }

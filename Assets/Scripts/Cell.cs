@@ -34,18 +34,7 @@ public class Cell : MonoBehaviour
     {
         if (piece)
         {
-            DisplayHealth();
-            DisplayModifiers();
+            piece.statusObject.SetActive(true);
         }
-    }
-
-    private void DisplayHealth()
-    {
-        //
-    }
-
-    private void DisplayModifiers()
-    {
-        //
     }
 }

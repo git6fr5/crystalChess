@@ -80,13 +80,16 @@ public class Player : MonoBehaviour
     public void Place()
     {
         Card selectedCard = selectionList[0].GetComponent<Card>();
-        Piece newPiece = selectedCard.pieceObject.GetComponent<Piece>();
+        GameObject newPieceObject = Instantiate(selectedCard.pieceObject, Vector3.zero, Quaternion.identity, gameObject.transform);
+        Piece newPiece = newPieceObject.GetComponent<Piece>();
         newPiece.level = selectedCard.level;
         newPiece.SetSprite();
 
         Cell selectedCell = selectionList[1].GetComponent<Cell>();
         selectedCell.piece = newPiece;
         selectedCell.SetPiece();
+        selectedCell.DisplayCell();
+
 
         Discard(selectionList[0]);
     }
