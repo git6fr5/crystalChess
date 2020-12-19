@@ -15,10 +15,13 @@ public class Cell : MonoBehaviour
         board = gameObject.transform.parent.GetComponent<Board>();
     }
 
-    public void SetPiece()
+    public void UpdateCell()
     {
-        piece.transform.parent = gameObject.transform;
-        piece.transform.localPosition = new Vector3(0, 0, -5);
+        if (piece)
+        {
+            piece.transform.parent = gameObject.transform;
+            piece.transform.localPosition = new Vector3(0, 0, -5);
+        }
     }
 
     void OnMouseDown()
@@ -43,13 +46,11 @@ public class Cell : MonoBehaviour
 
             foreach (Cell cell in adjacentCells)
             {
-                SpriteRenderer spriteRenderer = cell.GetComponent<SpriteRenderer>();
-                //spriteRenderer.color = piece.modifier.color;
-            }
-
-            foreach (Cell cell in adjacentCells)
-            {
-                if (cell.piece && cell.piece.player != piece.player)
+                if (cell.piece && cell.piece.player != piece.player && (!cell.piece.modifier.isBuff))
+                {
+                    piece.modifiers.Add(cell.piece.modifier);
+                }
+                else if (cell.piece && cell.piece.player == piece.player && cell.piece.modifier.isBuff)
                 {
                     piece.modifiers.Add(cell.piece.modifier);
                 }

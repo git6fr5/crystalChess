@@ -20,7 +20,7 @@ public class Card : MonoBehaviour
     {
         GetPlayer();
         GetFaction();
-        SetSprite();
+        UpdateCard();
     }
 
     public string ReadProperties()
@@ -41,7 +41,7 @@ public class Card : MonoBehaviour
         faction = gameObject.tag;
     }
 
-    public void SetSprite()
+    public void UpdateCard()
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprites[level - 1];

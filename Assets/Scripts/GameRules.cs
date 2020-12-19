@@ -23,15 +23,26 @@ public class GameRules : MonoBehaviour
     public Player player1;
     [HideInInspector] public Player player;
 
+    public Text moveCounter;
+    public int moveLimit = 3;
+    private int moves;
+
+    public int drawStart = 5;
+
     void Start()
     {
+        player = player1;
+        OnDrawEvent.Invoke(drawStart);
         player = player0;
+        OnDrawEvent.Invoke(drawStart);
         OnTurnEvent.Invoke();
     }
 
     public void OnTurn()
     {
         player.isTurn = true;
+        moves = 0;
+        MoveCounter();
     }
 
     public void OnDraw(int drawNum)
@@ -70,9 +81,16 @@ public class GameRules : MonoBehaviour
     {
         if (MoveRules(player.selectionList))
         {
+            moves++;
+            MoveCounter();
             player.Move();
             player.ResetSelections();
         }
+    }
+
+    public void MoveCounter()
+    {
+        moveCounter.text = moves.ToString();
     }
 
     public void OnAura()
@@ -117,6 +135,7 @@ public class GameRules : MonoBehaviour
         print("passed type check");
         if (!PieceCheck(selectionList[0])) { return false; }
         if (!EmptyCheck(selectionList[1])) { return false; }
+        if (!MoveLimitCheck()) { return false; }
 
         print("can move");
         return true;
@@ -167,6 +186,16 @@ public class GameRules : MonoBehaviour
         if (!cellObject.GetComponent<Cell>().piece.GetComponent<Piece>().player == player)
         {
             Debug.Log("Did not select your piece");
+            return player.ResetSelections();
+        }
+        return true;
+    }
+
+    private bool MoveLimitCheck()
+    {
+        if (moves >= moveLimit)
+        {
+            Debug.Log("Used up all moves");
             return player.ResetSelections();
         }
         return true;

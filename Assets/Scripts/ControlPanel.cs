@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ControlButton : MonoBehaviour
+public class ControlPanel : MonoBehaviour
 {
-    public int drawNum = 5;
+    private int drawNum = 2;
     public Board board;
 
     public void OnClick()

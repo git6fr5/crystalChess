@@ -11,8 +11,6 @@ public class Player : MonoBehaviour
     public GameObject cardsObject;
     public GameObject piecesObject;
     public int deckSize;
-    public int drawStart;
-    public int drawRegular;
 
     [HideInInspector] public List<GameObject> deckList = new List<GameObject>();
     [HideInInspector] public List<GameObject> handList = new List<GameObject>();
@@ -66,7 +64,7 @@ public class Player : MonoBehaviour
         GameObject newCardObject = Instantiate(selectionList[0], Vector3.zero, Quaternion.identity, gameObject.transform);
         Card newCard = newCardObject.GetComponent<Card>();
         newCard.level = newLevel;
-        newCard.SetSprite();
+        newCard.UpdateCard();
 
         handList.Add(newCardObject);
 
@@ -82,11 +80,12 @@ public class Player : MonoBehaviour
         GameObject newPieceObject = Instantiate(selectedCard.pieceObject, Vector3.zero, Quaternion.identity, gameObject.transform);
         Piece newPiece = newPieceObject.GetComponent<Piece>();
         newPiece.level = selectedCard.level;
-        newPiece.SetSprite();
+        newPiece.modifier.GetModifierValues();
+        newPiece.UpdatePiece();
 
         Cell selectedCell = selectionList[1].GetComponent<Cell>();
         selectedCell.piece = newPiece;
-        selectedCell.SetPiece();
+        selectedCell.UpdateCell();
         selectedCell.DisplayCell();
 
         foreach (Cell adjacentCell in selectedCell.adjacentCells)
@@ -105,8 +104,18 @@ public class Player : MonoBehaviour
         Cell selectedCell = selectionList[1].GetComponent<Cell>();
 
         selectedCell.piece = previousCell.piece;
-        selectedCell.SetPiece();
+        previousCell.piece = null;
+
+        previousCell.UpdateCell();
+        previousCell.DisplayCell();
+
+        selectedCell.UpdateCell();
         selectedCell.DisplayCell();
+
+        foreach (Cell adjacentCell in previousCell.adjacentCells)
+        {
+            adjacentCell.DisplayCell();
+        }
 
         foreach (Cell adjacentCell in selectedCell.adjacentCells)
         {
@@ -119,7 +128,7 @@ public class Player : MonoBehaviour
     public void Aura()
     {
         Board board = gameRules.gameObject.GetComponent<Board>();
-        for (int i = 0; i <board.rows; i++)
+        for (int i = 0; i < board.rows; i++)
         {
             for (int j = 0; j< board.columns; j++)
             {
@@ -129,9 +138,27 @@ public class Player : MonoBehaviour
                     cell.DisplayCell();
                     foreach(Modifier modifier in cell.piece.modifiers)
                     {
-                        modifier.targetPiece = cell.piece;
-                        modifier.Apply();
+                        if (!modifier.isBuff)
+                        {
+                            modifier.targetPiece = cell.piece;
+                            modifier.Apply();
+                        }
                     }
+                    cell.DisplayCell();
+                }
+                else if (cell.piece && cell.piece.playerObject == gameObject)
+                {
+                    cell.DisplayCell();
+                    foreach (Modifier modifier in cell.piece.modifiers)
+                    {
+                        if (modifier.isBuff)
+                        {
+                            modifier.targetPiece = cell.piece;
+                            modifier.Apply();
+                        }
+                    }
+                    if (!cell.piece.isDrowning) { cell.piece.drownDuration = 0f; }
+                    if (cell.piece.isParalyzed) { cell.piece.paralyzeDuration = cell.piece.paralyzeDuration - cell.piece.paralyzeRecovery; }
                     cell.DisplayCell();
                 }
             }

@@ -19,6 +19,7 @@ public class Board : MonoBehaviour
     void Start()
     {
         CreateBoard();
+        CenterObjects();
     }
 
     void CreateBoard()
@@ -51,6 +52,11 @@ public class Board : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    void CenterObjects()
+    {
+        //
     }
 
 }
