@@ -6,6 +6,7 @@ public class Card : MonoBehaviour
 
     /* --- Associated Piece ---*/
     public GameObject pieceObject;
+    private Player player;
 
     /* --- The Player ---*/
     [HideInInspector] public GameObject playerObject;
@@ -20,13 +21,7 @@ public class Card : MonoBehaviour
     {
         GetPlayer();
         GetFaction();
-        UpdateSprite();
-    }
-
-    public void UpdateSprite()
-    {
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = sprites[level - 1];
+        SetSprite();
     }
 
     public string ReadProperties()
@@ -40,10 +35,31 @@ public class Card : MonoBehaviour
     private void GetPlayer()
     {
         playerObject = gameObject.transform.parent.gameObject;
+        player = playerObject.GetComponent<Player>();
     }
 
     private void GetFaction()
     {
         faction = gameObject.tag;
+    }
+
+    public void SetSprite()
+    {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = sprites[level - 1];
+    }
+
+    void OnMouseDown()
+    {
+        Select();
+    }
+
+    void Select()
+    {
+        print("selected a card");
+        if (player.isTurn)
+        {
+            player.selectionList.Add(gameObject);
+        }
     }
 }
