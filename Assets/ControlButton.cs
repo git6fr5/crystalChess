@@ -26,5 +26,11 @@ public class ControlButton : MonoBehaviour
             print("clicked place button");
             board.gameRules.OnPlaceEvent.Invoke();
         }
+
+        if (name == "Move")
+        {
+            print("clicked move button");
+            board.gameRules.OnMoveEvent.Invoke();
+        }
     }
 }

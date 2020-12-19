@@ -7,6 +7,7 @@ public class Piece : MonoBehaviour
 {
     /* --- The Player ---*/
     public GameObject playerObject;
+    [HideInInspector] public Player player;
 
     /*--- Piece Properties ---*/
     public Sprite[] sprites;
@@ -71,7 +72,7 @@ public class Piece : MonoBehaviour
 
     private void GetPlayer()
     {
-        playerObject = gameObject.transform.parent.gameObject;
+        player = playerObject.GetComponent<Player>(); ;
     }
 
     private void GetFaction()

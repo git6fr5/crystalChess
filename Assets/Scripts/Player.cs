@@ -26,7 +26,6 @@ public class Player : MonoBehaviour
     {
         GetCards();
         CreateDeck();
-        gameRules.OnTurnEvent.Invoke();
     }
 
     void GetCards()
@@ -92,6 +91,19 @@ public class Player : MonoBehaviour
 
 
         Discard(selectionList[0]);
+    }
+
+    public void Move()
+    {
+        print("moving");
+        Cell previousCell = selectionList[0].GetComponent<Cell>();
+        Cell selectedCell = selectionList[1].GetComponent<Cell>();
+
+        selectedCell.piece = previousCell.piece;
+        selectedCell.SetPiece();
+        selectedCell.DisplayCell();
+
+        previousCell.piece = null;
     }
 
     public bool ResetSelections()

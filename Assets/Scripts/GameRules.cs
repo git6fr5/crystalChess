@@ -12,6 +12,7 @@ public class GameRules : MonoBehaviour
     public IntEvent OnDrawEvent;
     public UnityEvent OnCombineEvent;
     public UnityEvent OnPlaceEvent;
+    public UnityEvent OnMoveEvent;
 
     public LayerMask cardLayer;
     public LayerMask pieceLayer;
@@ -24,6 +25,7 @@ public class GameRules : MonoBehaviour
     void Start()
     {
         player = player0;
+        OnTurnEvent.Invoke();
     }
 
     public void OnTurn()
@@ -63,6 +65,15 @@ public class GameRules : MonoBehaviour
         }
     }
 
+    public void OnMove()
+    {
+        if (MoveRules(player.selectionList))
+        {
+            player.Move();
+            player.ResetSelections();
+        }
+    }
+
     public bool CombineRules(List<GameObject> selectionList)
     {
         if (!GeneralCheck(selectionList)) { return false; }
@@ -82,9 +93,22 @@ public class GameRules : MonoBehaviour
         print("passed general check");
         if (!TypeCheck(selectionList, cardLayer, cellLayer)) { return false; }
         print("passed type check");
-        if (!EmptyCheck(selectionList)) { return false; }
+        if (!EmptyCheck(selectionList[1])) { return false; }
 
         print("can combine");
+        return true;
+    }
+
+    public bool MoveRules(List<GameObject> selectionList)
+    {
+        if (!GeneralCheck(selectionList)) { return false; }
+        print("passed general check");
+        if (!TypeCheck(selectionList, cellLayer, cellLayer)) { return false; }
+        print("passed type check");
+        if (!PieceCheck(selectionList[0])) { return false; }
+        if (!EmptyCheck(selectionList[1])) { return false; }
+
+        print("can move");
         return true;
     }
 
@@ -112,11 +136,27 @@ public class GameRules : MonoBehaviour
         return true;
     }
 
-    private bool EmptyCheck(List<GameObject> selectionList)
+    private bool EmptyCheck(GameObject cellObject)
     {
-        if (selectionList[1].GetComponent<Cell>().piece)
+        if (cellObject.GetComponent<Cell>().piece)
         {
             Debug.Log("This cell is not empty");
+            return player.ResetSelections();
+        }
+        return true;
+    }
+
+    private bool PieceCheck(GameObject cellObject)
+    {
+        if (!cellObject.GetComponent<Cell>().piece)
+        {
+            Debug.Log("Did not select a piece to move");
+            return player.ResetSelections();
+        }
+
+        if (!cellObject.GetComponent<Cell>().piece.GetComponent<Piece>().player == player)
+        {
+            Debug.Log("Did not select your piece");
             return player.ResetSelections();
         }
         return true;

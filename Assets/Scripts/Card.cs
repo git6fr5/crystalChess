@@ -6,11 +6,10 @@ public class Card : MonoBehaviour
 
     /* --- Associated Piece ---*/
     public GameObject pieceObject;
-    private Player player;
 
     /* --- The Player ---*/
-    [HideInInspector] public GameObject playerObject;
-
+    public GameObject playerObject;
+    [HideInInspector] public Player player;
 
     /*--- Card Properties ---*/
     [HideInInspector] public string faction;
@@ -34,7 +33,6 @@ public class Card : MonoBehaviour
 
     private void GetPlayer()
     {
-        playerObject = gameObject.transform.parent.gameObject;
         player = playerObject.GetComponent<Player>();
     }
 
