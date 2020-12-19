@@ -106,6 +106,11 @@ public class Player : MonoBehaviour
         previousCell.piece = null;
     }
 
+    public void Aura()
+    {
+        //
+    }
+
     public bool ResetSelections()
     {
         selectionList.Clear();

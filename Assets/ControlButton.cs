@@ -32,5 +32,11 @@ public class ControlButton : MonoBehaviour
             print("clicked move button");
             board.gameRules.OnMoveEvent.Invoke();
         }
+
+        if (name == "Aura")
+        {
+            print("clicked aura button");
+            board.gameRules.OnAuraEvent.Invoke();
+        }
     }
 }

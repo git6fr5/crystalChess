@@ -13,6 +13,7 @@ public class GameRules : MonoBehaviour
     public UnityEvent OnCombineEvent;
     public UnityEvent OnPlaceEvent;
     public UnityEvent OnMoveEvent;
+    public UnityEvent OnAuraEvent;
 
     public LayerMask cardLayer;
     public LayerMask pieceLayer;
@@ -72,6 +73,15 @@ public class GameRules : MonoBehaviour
             player.Move();
             player.ResetSelections();
         }
+    }
+
+    public void OnAura()
+    {
+        player.Aura();
+        player.ResetSelections();
+        if (player == player0) { player = player1; }
+        else if (player == player1) { player = player0; }
+        OnTurnEvent.Invoke();
     }
 
     public bool CombineRules(List<GameObject> selectionList)
