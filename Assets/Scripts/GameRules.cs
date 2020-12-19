@@ -11,9 +11,57 @@ public class GameRules : MonoBehaviour
     public UnityEvent OnTurnEvent;
     public IntEvent OnDrawEvent;
     public UnityEvent OnCombineEvent;
+    public UnityEvent OnPlaceEvent;
 
     public LayerMask cardLayer;
     public LayerMask pieceLayer;
+    public LayerMask cellLayer;
+
+    public Player player0;
+    public Player player1;
+    [HideInInspector] public Player player;
+
+    void Start()
+    {
+        player = player0;
+    }
+
+    public void OnTurn()
+    {
+        player.isTurn = true;
+    }
+
+    public void OnDraw(int drawNum)
+    {
+        if (drawNum > player.deckList.Count) { drawNum = player.deckList.Count; }
+        for (int i = 0; i < drawNum; i++)
+        {
+            GameObject newCardObject = Instantiate(player.deckList[i], Vector3.zero, Quaternion.identity, player.gameObject.transform);
+            player.handList.Add(newCardObject);
+        }
+        player.deckList.RemoveRange(0, drawNum);
+        player.DisplayHand();
+    }
+
+    public void OnCombine()
+    {
+        if (CombineRules(player.selectionList))
+        {
+            player.Combine();
+            player.DisplayHand();
+            player.ResetSelections();
+        }
+    }
+
+    public void OnPlace()
+    {
+        if (PlaceRules(player.selectionList))
+        {
+            player.Place();
+            player.DisplayHand();
+            player.ResetSelections();
+        }
+    }
 
     public bool CombineRules(List<GameObject> selectionList)
     {
@@ -28,6 +76,18 @@ public class GameRules : MonoBehaviour
         return true;
     }
 
+    public bool PlaceRules(List<GameObject> selectionList)
+    {
+        if (!GeneralCheck(selectionList)) { return false; }
+        print("passed general check");
+        if (!TypeCheck(selectionList, cardLayer, cellLayer)) { return false; }
+        print("passed type check");
+        if (!EmptyCheck(selectionList)) { return false; }
+
+        print("can combine");
+        return true;
+    }
+
     private bool TypeCheck(List<GameObject> selectionList, LayerMask layer1, LayerMask layer2)
     {
 
@@ -37,7 +97,7 @@ public class GameRules : MonoBehaviour
         if (selection1 != layer1 || selection2 != layer2)
         {
             Debug.Log("Incorrect types of selections");
-            return ResetSelections(selectionList);
+            return player.ResetSelections();
         }
         return true;
     }
@@ -47,7 +107,17 @@ public class GameRules : MonoBehaviour
         if (selectionList[0].tag != selectionList[1].tag)
         {
             Debug.Log("These are of different factions");
-            return ResetSelections(selectionList);
+            return player.ResetSelections();
+        }
+        return true;
+    }
+
+    private bool EmptyCheck(List<GameObject> selectionList)
+    {
+        if (selectionList[1].GetComponent<Cell>().piece)
+        {
+            Debug.Log("This cell is not empty");
+            return player.ResetSelections();
         }
         return true;
     }
@@ -64,22 +134,16 @@ public class GameRules : MonoBehaviour
         if (selectionList.Count > 2)
         {
             Debug.Log("Too many items selected");
-            return ResetSelections(selectionList);
+            return player.ResetSelections();
         }
         //check that same item has not been selected twice, and if it has then deselect
         if (selectionList[0] == selectionList[1])
         {
             Debug.Log("Selected same item twice");
-            return ResetSelections(selectionList);
+            return player.ResetSelections();
         }
         
         return true;
-    }
-
-    public bool ResetSelections(List<GameObject> selectionList)
-    {
-        selectionList.Clear();
-        return false;
     }
 
 }

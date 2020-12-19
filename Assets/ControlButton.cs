@@ -4,21 +4,27 @@ using UnityEngine;
 
 public class ControlButton : MonoBehaviour
 {
-
-    public GameObject playerObject;
-    private Player player;
-
-    void Start()
-    {
-        player = playerObject.GetComponent<Player>();
-    }
+    public int drawNum = 5;
+    public Board board;
 
     public void OnClick()
     {
+        if (name == "Draw")
+        {
+            print("clicked draw button");
+            board.gameRules.OnDrawEvent.Invoke(drawNum);
+        }
+
         if (name == "Combine")
         {
             print("clicked combine button");
-            player.gameRules.OnCombineEvent.Invoke();
+            board.gameRules.OnCombineEvent.Invoke();
+        }
+
+        if (name == "Place")
+        {
+            print("clicked place button");
+            board.gameRules.OnPlaceEvent.Invoke();
         }
     }
 }

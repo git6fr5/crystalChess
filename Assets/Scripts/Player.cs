@@ -50,37 +50,11 @@ public class Player : MonoBehaviour
         for (int i = 0; i < handList.Count; i++)
         {
             //Instantiate(handList[i], new Vector3(i, 0, 0), Quaternion.identity, gameObject.transform);
-            handList[i].transform.position = new Vector3(i, 0, 0);
+            handList[i].transform.localPosition = new Vector3(i, 0, 0);
         }
     }
 
-    public void OnTurn()
-    {
-        isTurn = true;
-        gameRules.OnDrawEvent.Invoke(drawRegular);
-    }
-
-    public void OnDraw(int drawNum)
-    {
-        for (int i = 0; i < drawNum; i++)
-        {
-            GameObject newCardObject = Instantiate(deckList[i], Vector3.zero, Quaternion.identity, gameObject.transform);
-            handList.Add(newCardObject);
-        }
-        deckList.RemoveRange(0, drawNum);
-        DisplayHand();
-    }
-
-    public void OnCombine()
-    {
-        if (gameRules.CombineRules(selectionList))
-        {
-            Combine();
-            DisplayHand();
-        }
-    }
-
-    private void Combine()
+    public void Combine()
     {
         int newLevel = 0;
 
@@ -101,6 +75,26 @@ public class Player : MonoBehaviour
         {
             Discard(cardObject);
         }
+    }
+
+    public void Place()
+    {
+        Card selectedCard = selectionList[0].GetComponent<Card>();
+        Piece newPiece = selectedCard.pieceObject.GetComponent<Piece>();
+        newPiece.level = selectedCard.level;
+        newPiece.SetSprite();
+
+        Cell selectedCell = selectionList[1].GetComponent<Cell>();
+        selectedCell.piece = newPiece;
+        selectedCell.SetPiece();
+
+        Discard(selectionList[0]);
+    }
+
+    public bool ResetSelections()
+    {
+        selectionList.Clear();
+        return false;
     }
 
     public void Discard(GameObject cardObject)

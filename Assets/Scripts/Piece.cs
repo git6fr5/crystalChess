@@ -30,14 +30,7 @@ public class Piece : MonoBehaviour
     {
         GetPlayer();
         GetFaction();
-    }
-
-    public void UpdateSprite()
-    {
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = sprites[level - 1];
-        radius = radiuses[level - 1];
-        health = baseHealth * radius - damageTaken;
+        //SetSprite();
     }
 
     public string ReadProperties()
@@ -52,6 +45,15 @@ public class Piece : MonoBehaviour
         if (drownTicker != 0) { s07 = "\nDrowning for: " + drownTicker.ToString() + " / Threshold: " + drownThreshold.ToString(); } else { s07 = "\nNot drowning"; }
         if (paralyzed) { s08 = "\nParalyze time left: " + paralyzeTicker.ToString(); } else { s08 = "\nNot paralyzed"; }
         return s01 + s02 + s03 + s04 + s05 + s06 + s07 + s08;
+    }
+
+    public void SetSprite()
+    {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        print(level);
+        spriteRenderer.sprite = sprites[level - 1];
+        radius = radiuses[level - 1];
+        health = baseHealth * radius - damageTaken;
     }
 
     private void GetPlayer()
