@@ -40,6 +40,16 @@ public class Board : MonoBehaviour
 
         Vector3 cellPosition = new Vector3(i - (rows - 1) / 2, j - (columns - 1) / 2, 0) * scale;
         gridArray[i][j].transform.localPosition = cellPosition;
+        gridArray[i][j].GetComponent<Cell>().SetLocation(i, j);
         gridArray[i][j].SetActive(true);
+    }
+
+    public bool ValidLocation(int i, int j)
+    {
+        if (i < rows && j < columns && i >= 0 && j >= 0)
+        {
+            return true;
+        }
+        return false;
     }
 }

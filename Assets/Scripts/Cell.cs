@@ -7,6 +7,8 @@ public class Cell : MonoBehaviour
 
     public Piece piece;
     private Board board;
+    private Vector2 location;
+    private List<Cell> adjacentCells;
 
     void Start()
     {
@@ -35,6 +37,38 @@ public class Cell : MonoBehaviour
         if (piece)
         {
             piece.statusObject.SetActive(true);
+
+            GetAdjacentCells();
+            foreach (Cell cell in adjacentCells)
+            {
+                SpriteRenderer spriteRenderer = cell.GetComponent<SpriteRenderer>();
+                spriteRenderer.color = piece.color;
+            }
+
+        }
+    }
+
+    public void SetLocation(int i, int j)
+    {
+        location = new Vector2(i, j);
+    }
+
+    public void GetAdjacentCells()
+    {
+        adjacentCells = new List<Cell>();
+
+        Vector2[] adjacentVectors = new Vector2[] { new Vector2(1, 0), new Vector2(-1, 0),
+            new Vector2(0, 1), new Vector2(0, -1),
+            new Vector2(1, 1), new Vector2(-1, -1),
+            new Vector2(-1, 1), new Vector2(1, -1) };
+
+        foreach (Vector2 v in adjacentVectors)
+        {
+            Vector2 newLocation = new Vector2(location.x + v.x, location.y + v.y);
+            if (board.ValidLocation((int)newLocation.x, (int)newLocation.y))
+            {
+                adjacentCells.Add(board.gridArray[(int)newLocation.x][(int)newLocation.y].GetComponent<Cell>());
+            }
         }
     }
 }

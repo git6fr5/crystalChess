@@ -10,6 +10,7 @@ public class Piece : MonoBehaviour
     [HideInInspector] public Player player;
 
     /*--- Piece Properties ---*/
+    public Vector4 color;
     public Sprite[] sprites;
     private int[] radiuses = { 1, 1, 1, 2, 2, 2, 3, 3, 4 };
 
