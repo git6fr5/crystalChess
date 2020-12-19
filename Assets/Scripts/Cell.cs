@@ -34,18 +34,29 @@ public class Cell : MonoBehaviour
 
     public void DisplayCell()
     {
+        GetAdjacentCells();
+
         if (piece)
         {
             piece.statusObject.SetActive(true);
 
-            GetAdjacentCells();
             foreach (Cell cell in adjacentCells)
             {
                 SpriteRenderer spriteRenderer = cell.GetComponent<SpriteRenderer>();
-                spriteRenderer.color = piece.color;
+                //spriteRenderer.color = piece.modifier.color;
             }
 
         }
+
+        foreach (Cell cell in adjacentCells)
+        {
+            if (cell.piece && cell.piece.player != piece.player)
+            {
+                piece.modifiers.Add(cell.piece.modifier);
+            }
+        }
+
+        piece.DisplayStatus();
     }
 
     public void SetLocation(int i, int j)

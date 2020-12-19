@@ -10,7 +10,8 @@ public class Piece : MonoBehaviour
     [HideInInspector] public Player player;
 
     /*--- Piece Properties ---*/
-    public Vector4 color;
+    public Modifier modifier; // the modifier that this piece casts
+    [HideInInspector] public List<Modifier> modifiers = new List<Modifier>(); // the modifier that this piece is affected by
     public Sprite[] sprites;
     private int[] radiuses = { 1, 1, 1, 2, 2, 2, 3, 3, 4 };
 
@@ -61,14 +62,30 @@ public class Piece : MonoBehaviour
         spriteRenderer.sprite = sprites[level - 1];
         radius = radiuses[level - 1];
         health = baseHealth * radius - damageTaken;
-    }
 
-    public void SetHealth()
-    {
         GameObject healthBar = statusObject.GetComponent<Status>().healthBar;
         Slider healthSlider = healthBar.GetComponent<Slider>();
-        healthSlider.maxValue = baseHealth;
+        healthSlider.maxValue = baseHealth * radius;
         healthSlider.value = health;
+    }
+
+    public void DisplayStatus()
+    {
+
+        GameObject healthBar = statusObject.GetComponent<Status>().healthBar;
+        Slider healthSlider = healthBar.GetComponent<Slider>();
+        healthSlider.value = health;
+
+        foreach (Modifier effectModifier in modifiers)
+        {
+            foreach (GameObject statusEffect in statusObject.GetComponent<Status>().statusEffects)
+            {
+                if (statusEffect.tag == effectModifier.tag)
+                {
+                    statusEffect.SetActive(true);
+                }
+            }
+        }
     }
 
     private void GetPlayer()

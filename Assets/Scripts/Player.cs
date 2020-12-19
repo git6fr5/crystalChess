@@ -108,7 +108,22 @@ public class Player : MonoBehaviour
 
     public void Aura()
     {
-        //
+        Board board = gameRules.gameObject.GetComponent<Board>();
+        for (int i = 0; i <board.rows; i++)
+        {
+            for (int j = 0; j< board.columns; j++)
+            {
+                Cell cell = board.gridArray[i][j].GetComponent<Cell>();
+                if (cell.piece && cell.piece.playerObject != gameObject)
+                {
+                    cell.DisplayCell();
+                    foreach(Modifier modifier in cell.piece.modifiers)
+                    {
+                        modifier.Apply();
+                    }
+                }
+            }
+        }
     }
 
     public bool ResetSelections()
