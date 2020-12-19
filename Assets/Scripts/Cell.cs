@@ -8,7 +8,7 @@ public class Cell : MonoBehaviour
     public Piece piece;
     private Board board;
     private Vector2 location;
-    private List<Cell> adjacentCells;
+    [HideInInspector] public List<Cell> adjacentCells;
 
     void Start()
     {
@@ -39,6 +39,7 @@ public class Cell : MonoBehaviour
         if (piece)
         {
             piece.statusObject.SetActive(true);
+            piece.modifiers = new List<Modifier>();
 
             foreach (Cell cell in adjacentCells)
             {
@@ -46,17 +47,17 @@ public class Cell : MonoBehaviour
                 //spriteRenderer.color = piece.modifier.color;
             }
 
-        }
-
-        foreach (Cell cell in adjacentCells)
-        {
-            if (cell.piece && cell.piece.player != piece.player)
+            foreach (Cell cell in adjacentCells)
             {
-                piece.modifiers.Add(cell.piece.modifier);
+                if (cell.piece && cell.piece.player != piece.player)
+                {
+                    piece.modifiers.Add(cell.piece.modifier);
+                }
             }
-        }
 
-        piece.DisplayStatus();
+            piece.DisplayStatus();
+
+        }
     }
 
     public void SetLocation(int i, int j)

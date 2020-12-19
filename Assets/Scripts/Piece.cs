@@ -76,6 +76,11 @@ public class Piece : MonoBehaviour
         Slider healthSlider = healthBar.GetComponent<Slider>();
         healthSlider.value = health;
 
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
+
         foreach (Modifier effectModifier in modifiers)
         {
             foreach (GameObject statusEffect in statusObject.GetComponent<Status>().statusEffects)
@@ -90,7 +95,7 @@ public class Piece : MonoBehaviour
 
     private void GetPlayer()
     {
-        player = playerObject.GetComponent<Player>(); ;
+        player = playerObject.GetComponent<Player>();
     }
 
     private void GetFaction()

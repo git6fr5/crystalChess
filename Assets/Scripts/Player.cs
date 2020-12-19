@@ -89,6 +89,11 @@ public class Player : MonoBehaviour
         selectedCell.SetPiece();
         selectedCell.DisplayCell();
 
+        foreach (Cell adjacentCell in selectedCell.adjacentCells)
+        {
+            adjacentCell.DisplayCell();
+        }
+
 
         Discard(selectionList[0]);
     }
@@ -102,6 +107,11 @@ public class Player : MonoBehaviour
         selectedCell.piece = previousCell.piece;
         selectedCell.SetPiece();
         selectedCell.DisplayCell();
+
+        foreach (Cell adjacentCell in selectedCell.adjacentCells)
+        {
+            adjacentCell.DisplayCell();
+        }
 
         previousCell.piece = null;
     }
@@ -119,8 +129,10 @@ public class Player : MonoBehaviour
                     cell.DisplayCell();
                     foreach(Modifier modifier in cell.piece.modifiers)
                     {
+                        modifier.targetPiece = cell.piece;
                         modifier.Apply();
                     }
+                    cell.DisplayCell();
                 }
             }
         }

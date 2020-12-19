@@ -8,21 +8,35 @@ public class Modifier : MonoBehaviour
     public delegate void EffectDelegate();
     private EffectDelegate effectDelegate;
 
+    public Piece targetPiece;
+
     void Start()
     {
         if (name == "Burn")
         {
             effectDelegate = Burn;
         }
+
+        else { effectDelegate = Nullity; }
     }
 
     public void Apply()
     {
-        //
+        if (targetPiece)
+        {
+            effectDelegate();
+        }
     }
 
     void Burn()
     {
+        print("burning");
+        targetPiece.health = targetPiece.health - 0.5f;
+    }
+
+    void Nullity()
+    {
         //
+        print("nullity");
     }
 }
