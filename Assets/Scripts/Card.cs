@@ -59,5 +59,7 @@ public class Card : MonoBehaviour
         {
             player.selectionList.Add(gameObject);
         }
+
+        player.InspectCard(this);
     }
 }

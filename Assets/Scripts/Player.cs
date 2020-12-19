@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
 
     public GameRules gameRules;
+    public Inspector inspector;
 
     public GameObject cardsObject;
     public GameObject piecesObject;
@@ -175,5 +176,34 @@ public class Player : MonoBehaviour
     {
         if (handList.Contains(cardObject)) { Debug.Log("Remove card from hand"); handList.Remove(cardObject); }
         Destroy(cardObject);
+    }
+
+    public void InspectCard(Card card)
+    {
+
+        inspector.image.sprite = card.gameObject.GetComponent<SpriteRenderer>().sprite;
+        inspector.nameText.text = card.faction;
+        inspector.levelText.text = card.level.ToString();
+        
+        inspector.locationText.text = "";
+        
+    }
+
+    public void InspectCell(Cell cell)
+    {
+        inspector.locationText.text = cell.location.x.ToString() + ", " + cell.location.y.ToString();
+
+        if (cell.piece)
+        {
+            inspector.image.sprite = cell.piece.gameObject.GetComponent<SpriteRenderer>().sprite;
+            inspector.nameText.text = cell.piece.faction;
+            inspector.levelText.text = cell.piece.level.ToString();
+        }
+        else
+        {
+            inspector.image.sprite = null;
+            inspector.nameText.text = "";
+            inspector.levelText.text = "";
+        }
     }
 }

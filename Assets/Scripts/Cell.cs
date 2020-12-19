@@ -7,7 +7,7 @@ public class Cell : MonoBehaviour
 
     public Piece piece;
     private Board board;
-    private Vector2 location;
+    [HideInInspector] public Vector2 location;
     [HideInInspector] public List<Cell> adjacentCells;
 
     void Start()
@@ -33,6 +33,8 @@ public class Cell : MonoBehaviour
     {
         print("selected a cell");
         board.gameRules.player.selectionList.Add(gameObject);
+
+        board.gameRules.player.InspectCell(this);
     }
 
     public void DisplayCell()
