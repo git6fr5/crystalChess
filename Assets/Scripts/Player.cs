@@ -52,6 +52,17 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void Draw(int drawNum)
+    {
+        if (drawNum > deckList.Count) { drawNum = deckList.Count; }
+        for (int i = 0; i < drawNum; i++)
+        {
+            GameObject newCardObject = Instantiate(deckList[i], Vector3.zero, Quaternion.identity, gameObject.transform);
+            handList.Add(newCardObject);
+        }
+        deckList.RemoveRange(0, drawNum);
+    }
+
     public void Combine()
     {
         int newLevel = 0;

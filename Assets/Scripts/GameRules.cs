@@ -27,13 +27,21 @@ public class GameRules : MonoBehaviour
     public int moveLimit = 3;
     private int moves;
 
+    public Text placeCounter;
+    public int placeLimit = 2;
+    private int places;
+
+    public Text drawCounter;
+    public int drawLimit = 1;
+    private int draws;
+
     public int drawStart = 5;
 
     void Start()
     {
         player = player1;
-        OnDrawEvent.Invoke(drawStart);
-        player = player0;
+        OnDrawEvent.Invoke(drawStart); draws = 0;
+        player = player0; draws = 0;
         OnDrawEvent.Invoke(drawStart);
         OnTurnEvent.Invoke();
     }
@@ -41,20 +49,29 @@ public class GameRules : MonoBehaviour
     public void OnTurn()
     {
         player.isTurn = true;
+        draws = 0;
         moves = 0;
+        places = 0;
+        DrawCounter();
+        PlaceCounter();
         MoveCounter();
     }
 
     public void OnDraw(int drawNum)
     {
-        if (drawNum > player.deckList.Count) { drawNum = player.deckList.Count; }
-        for (int i = 0; i < drawNum; i++)
+        if (DrawRules())
         {
-            GameObject newCardObject = Instantiate(player.deckList[i], Vector3.zero, Quaternion.identity, player.gameObject.transform);
-            player.handList.Add(newCardObject);
+            draws++;
+            DrawCounter();
+            player.Draw(drawNum);
+            player.DisplayHand();
+            player.ResetSelections();
         }
-        player.deckList.RemoveRange(0, drawNum);
-        player.DisplayHand();
+    }
+
+    public void DrawCounter()
+    {
+        drawCounter.text = draws.ToString();
     }
 
     public void OnCombine()
@@ -71,10 +88,17 @@ public class GameRules : MonoBehaviour
     {
         if (PlaceRules(player.selectionList))
         {
+            places++;
+            PlaceCounter();
             player.Place();
             player.DisplayHand();
             player.ResetSelections();
         }
+    }
+
+    public void PlaceCounter()
+    {
+        placeCounter.text = places.ToString();
     }
 
     public void OnMove()
@@ -102,6 +126,14 @@ public class GameRules : MonoBehaviour
         OnTurnEvent.Invoke();
     }
 
+    public bool DrawRules()
+    {
+        if (!DrawLimitCheck()) { return false; }
+
+        print("can draw");
+        return true;
+    }
+
     public bool CombineRules(List<GameObject> selectionList)
     {
         if (!GeneralCheck(selectionList)) { return false; }
@@ -122,6 +154,7 @@ public class GameRules : MonoBehaviour
         if (!TypeCheck(selectionList, cardLayer, cellLayer)) { return false; }
         print("passed type check");
         if (!EmptyCheck(selectionList[1])) { return false; }
+        if (!PlaceLimitCheck()) { return false; }
 
         print("can combine");
         return true;
@@ -136,6 +169,7 @@ public class GameRules : MonoBehaviour
         if (!PieceCheck(selectionList[0])) { return false; }
         if (!EmptyCheck(selectionList[1])) { return false; }
         if (!MoveLimitCheck()) { return false; }
+        if (!FearCheck(selectionList[0])) { return false; }
 
         print("can move");
         return true;
@@ -196,6 +230,37 @@ public class GameRules : MonoBehaviour
         if (moves >= moveLimit)
         {
             Debug.Log("Used up all moves");
+            return player.ResetSelections();
+        }
+        return true;
+    }
+
+    private bool FearCheck(GameObject cellObject)
+    {
+        Piece piece = cellObject.GetComponent<Cell>().piece;
+        if (piece.isParalyzed)
+        {
+            Debug.Log("piece is paralyzed");
+            return player.ResetSelections();
+        }
+        return true;
+    }
+
+    private bool PlaceLimitCheck()
+    {
+        if (places >= placeLimit)
+        {
+            Debug.Log("Used up all places");
+            return player.ResetSelections();
+        }
+        return true;
+    }
+
+    private bool DrawLimitCheck()
+    {
+        if (draws >= drawLimit)
+        {
+            Debug.Log("Used up all draws");
             return player.ResetSelections();
         }
         return true;
