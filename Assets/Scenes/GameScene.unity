@@ -554,6 +554,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7252208047660160904, guid: 1761573998c1f7d4b9d434fd46b2100c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5dd470bfe0e57d446bab745abb4ca63f, type: 3}
     - target: {fileID: 7252208047660160906, guid: 1761573998c1f7d4b9d434fd46b2100c, type: 3}
       propertyPath: board
       value: 
@@ -566,13 +570,17 @@ PrefabInstance:
       propertyPath: board
       value: 
       objectReference: {fileID: 1813679495}
+    - target: {fileID: 7252208047825309773, guid: 1761573998c1f7d4b9d434fd46b2100c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1c0433c5e888c884da1ab948f654b692, type: 3}
     - target: {fileID: 7252208047825309775, guid: 1761573998c1f7d4b9d434fd46b2100c, type: 3}
       propertyPath: board
       value: 
       objectReference: {fileID: 1813679495}
     - target: {fileID: 7252208048221002253, guid: 1761573998c1f7d4b9d434fd46b2100c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 178
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7252208048447749995, guid: 1761573998c1f7d4b9d434fd46b2100c, type: 3}
       propertyPath: m_Name

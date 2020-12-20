@@ -250,7 +250,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            inspector.image.sprite = null;
+            inspector.image.sprite = inspector.defaultSprite;
             inspector.nameText.text = "";
             inspector.levelText.text = "";
         }

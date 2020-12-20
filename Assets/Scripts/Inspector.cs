@@ -13,4 +13,6 @@ public class Inspector : MonoBehaviour
     public Text healthText;
     public Text drownText;
     public Text fearText;
+
+    public Sprite defaultSprite;
 }
