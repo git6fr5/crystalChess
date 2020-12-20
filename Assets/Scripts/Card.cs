@@ -11,6 +11,8 @@ public class Card : MonoBehaviour
     public GameObject playerObject;
     [HideInInspector] public Player player;
 
+    public GameObject highlight;
+
     /*--- Card Properties ---*/
     [HideInInspector] public string faction;
     public Sprite[] sprites;

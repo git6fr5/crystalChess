@@ -10,6 +10,8 @@ public class Cell : MonoBehaviour
     [HideInInspector] public Vector2 location;
     [HideInInspector] public List<Cell> adjacentCells;
 
+    public GameObject highlight;
+
     public void UpdateCell()
     {
         if (piece)

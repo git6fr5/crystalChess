@@ -29,6 +29,8 @@ public class GameRules : MonoBehaviour
 
     public int drawStart = 5;
 
+    public GameObject controlPanel;
+
     void Start()
     {
         player = player1;
@@ -252,7 +254,7 @@ public class GameRules : MonoBehaviour
         if (selectionList.Count < 2)
         {
             Debug.Log("Not enough items selected");  
-            return false;
+            return player.ResetSelections();
         }
         //check that there are only two items, if not reset
         if (selectionList.Count > 2)

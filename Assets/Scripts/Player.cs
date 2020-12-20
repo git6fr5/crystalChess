@@ -190,6 +190,17 @@ public class Player : MonoBehaviour
     public bool ResetSelections()
     {
         selectionList.Clear();
+        if (inspector.currentObject)
+        {
+            if (inspector.currentObject.GetComponent<Card>())
+            {
+                inspector.currentObject.GetComponent<Card>().highlight.SetActive(false);
+            }
+            else if (inspector.currentObject.GetComponent<Cell>())
+            {
+                inspector.currentObject.GetComponent<Cell>().highlight.SetActive(false);
+            }
+        }
         return false;
     }
 
@@ -202,6 +213,18 @@ public class Player : MonoBehaviour
     public void InspectCard(Card card)
     {
 
+        if (inspector.currentObject)
+        {
+            if (inspector.currentObject.GetComponent<Card>())
+            {
+                inspector.currentObject.GetComponent<Card>().highlight.SetActive(false);
+            }
+            else if (inspector.currentObject.GetComponent<Cell>())
+            {
+                inspector.currentObject.GetComponent<Cell>().highlight.SetActive(false);
+            }
+        }
+
         inspector.image.sprite = card.gameObject.GetComponent<SpriteRenderer>().sprite;
         inspector.nameText.text = card.faction;
         inspector.levelText.text = card.level.ToString();
@@ -211,10 +234,27 @@ public class Player : MonoBehaviour
         inspector.drownText.text = "";
         inspector.fearText.text = "";
 
+        print("highlighting card");
+        card.highlight.SetActive(true);
+        inspector.currentObject = card.gameObject;
+
     }
 
     public void InspectCell(Cell cell)
     {
+
+        if (inspector.currentObject)
+        {
+            if (inspector.currentObject.GetComponent<Card>())
+            {
+                inspector.currentObject.GetComponent<Card>().highlight.SetActive(false);
+            }
+            else if (inspector.currentObject.GetComponent<Cell>())
+            {
+                inspector.currentObject.GetComponent<Cell>().highlight.SetActive(false);
+            }
+        }
+
         inspector.locationText.text = cell.location.x.ToString() + ", " + cell.location.y.ToString();
 
         if (cell.piece)
@@ -254,5 +294,10 @@ public class Player : MonoBehaviour
             inspector.nameText.text = "";
             inspector.levelText.text = "";
         }
+
+        cell.highlight.SetActive(true);
+        inspector.currentObject = cell.gameObject;
+
     }
+
 }

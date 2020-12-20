@@ -108,7 +108,18 @@ public class Modifier : MonoBehaviour
     void Army()
     {
         print("army");
-        targetPiece.health = targetPiece.health + armyHealth;
+
+        Status status = targetPiece.statusObject.GetComponent<Status>();
+        GameObject healthBar = status.healthBar;
+
+        if (targetPiece.health < healthBar.maxValue)
+        {
+            targetPiece.health = targetPiece.health + armyHealth;
+            if (targetPiece.health > healthBar.maxValue)
+            {
+                targetPiece.health = healthBar.maxValue;
+            }
+        }
     }
 
     void Nullity()
