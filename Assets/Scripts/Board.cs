@@ -28,7 +28,7 @@ public class Board : MonoBehaviour
         for (int i = 0; i < gridArray.Length; i++)
         {
             gridArray[i] = new GameObject[columns];
-            for (int j = 0; j<gridArray[i].Length; j++)
+            for (int j = 0; j < gridArray[i].Length; j++)
             {
                 AttachCell(i, j);
             }
@@ -56,7 +56,28 @@ public class Board : MonoBehaviour
 
     void CenterObjects()
     {
-        //
+        Cell startPos0 = gridArray[0][(int)Mathf.Floor(columns / 2)].GetComponent<Cell>();
+        Cell startPos1 = gridArray[rows - 1][(int)Mathf.Floor(columns / 2)].GetComponent<Cell>();
+
+        Piece centerPiece0 = gameRules.player0.centerPiece;
+        centerPiece0.level = 1;
+        centerPiece0.modifier.GetModifierValues();
+        centerPiece0.UpdatePiece();
+
+        startPos0.piece = gameRules.player0.centerPiece;
+        print(startPos0.location);
+        startPos0.UpdateCell();
+        startPos0.DisplayCell();
+
+        Piece centerPiece1 = gameRules.player1.centerPiece;
+        centerPiece1.level = 1;
+        centerPiece1.modifier.GetModifierValues();
+        centerPiece1.UpdatePiece();
+
+        startPos1.piece = gameRules.player1.centerPiece;
+        print(startPos1.location);
+        startPos1.UpdateCell();
+        startPos1.DisplayCell();
     }
 
 }

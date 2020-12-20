@@ -23,61 +23,48 @@ public class GameRules : MonoBehaviour
     public Player player1;
     [HideInInspector] public Player player;
 
-    public Text moveCounter;
-    public int moveLimit = 3;
-    private int moves;
-
-    public Text placeCounter;
-    public int placeLimit = 2;
-    private int places;
-
-    public Text drawCounter;
-    public int drawLimit = 1;
-    private int draws;
+    public Text actionCounter;
+    public int actionLimit = 3;
+    private int actions;
 
     public int drawStart = 5;
 
     void Start()
     {
         player = player1;
-        OnDrawEvent.Invoke(drawStart); draws = 0;
-        player = player0; draws = 0;
+        OnTurnEvent.Invoke();
         OnDrawEvent.Invoke(drawStart);
+
+        player = player0;
+        OnTurnEvent.Invoke();
+        OnDrawEvent.Invoke(drawStart);
+
         OnTurnEvent.Invoke();
     }
 
     public void OnTurn()
     {
         player.isTurn = true;
-        draws = 0;
-        moves = 0;
-        places = 0;
-        DrawCounter();
-        PlaceCounter();
-        MoveCounter();
+        actions = -1;
+        ActionCounter();
     }
 
     public void OnDraw(int drawNum)
     {
         if (DrawRules())
         {
-            draws++;
-            DrawCounter();
+            ActionCounter();
             player.Draw(drawNum);
             player.DisplayHand();
             player.ResetSelections();
         }
     }
 
-    public void DrawCounter()
-    {
-        drawCounter.text = draws.ToString();
-    }
-
     public void OnCombine()
     {
         if (CombineRules(player.selectionList))
         {
+            ActionCounter();
             player.Combine();
             player.DisplayHand();
             player.ResetSelections();
@@ -88,33 +75,21 @@ public class GameRules : MonoBehaviour
     {
         if (PlaceRules(player.selectionList))
         {
-            places++;
-            PlaceCounter();
+            ActionCounter();
             player.Place();
             player.DisplayHand();
             player.ResetSelections();
         }
     }
 
-    public void PlaceCounter()
-    {
-        placeCounter.text = places.ToString();
-    }
-
     public void OnMove()
     {
         if (MoveRules(player.selectionList))
         {
-            moves++;
-            MoveCounter();
+            ActionCounter();
             player.Move();
             player.ResetSelections();
         }
-    }
-
-    public void MoveCounter()
-    {
-        moveCounter.text = moves.ToString();
     }
 
     public void OnAura()
@@ -128,7 +103,7 @@ public class GameRules : MonoBehaviour
 
     public bool DrawRules()
     {
-        if (!DrawLimitCheck()) { return false; }
+        if (!LimitCheck()) { return false; }
 
         print("can draw");
         return true;
@@ -141,6 +116,7 @@ public class GameRules : MonoBehaviour
         if (!TypeCheck(selectionList, cardLayer, cardLayer)) { return false; }
         print("passed type check");
         if (!FactionCheck(selectionList)) { return false; }
+        if (!LimitCheck()) { return false; }
         print("passed faction check");
 
         print("can combine");
@@ -154,8 +130,8 @@ public class GameRules : MonoBehaviour
         if (!TypeCheck(selectionList, cardLayer, cellLayer)) { return false; }
         print("passed type check");
         if (!EmptyCheck(selectionList[1])) { return false; }
-        if (!PlaceLimitCheck()) { return false; }
-
+        if (!CenterCheck(selectionList[1])) { return false; }
+        if (!LimitCheck()) { return false; }
         print("can combine");
         return true;
     }
@@ -168,7 +144,7 @@ public class GameRules : MonoBehaviour
         print("passed type check");
         if (!PieceCheck(selectionList[0])) { return false; }
         if (!EmptyCheck(selectionList[1])) { return false; }
-        if (!MoveLimitCheck()) { return false; }
+        if (!LimitCheck()) { return false; }
         if (!FearCheck(selectionList[0])) { return false; }
 
         print("can move");
@@ -225,11 +201,35 @@ public class GameRules : MonoBehaviour
         return true;
     }
 
-    private bool MoveLimitCheck()
+    private bool CenterCheck(GameObject cellObject)
     {
-        if (moves >= moveLimit)
+        Cell selectedCell = cellObject.GetComponent<Cell>();
+        selectedCell.GetAdjacentCells();
+        List<Cell> adjacentCells = selectedCell.adjacentCells;
+
+        foreach (Cell adjacentCell in adjacentCells)
         {
-            Debug.Log("Used up all moves");
+            if(adjacentCell.piece && adjacentCell.piece == player.centerPiece)
+            {
+                return true;
+            }
+        }
+
+        Debug.Log("No centerpiece nearby");
+        return player.ResetSelections();
+    }
+
+    public void ActionCounter()
+    {
+        actions++;
+        actionCounter.text = actions.ToString();
+    }
+
+    private bool LimitCheck()
+    {
+        if (actions >= actionLimit)
+        {
+            Debug.Log("Used up all actions");
             return player.ResetSelections();
         }
         return true;
@@ -241,26 +241,6 @@ public class GameRules : MonoBehaviour
         if (piece.isParalyzed)
         {
             Debug.Log("piece is paralyzed");
-            return player.ResetSelections();
-        }
-        return true;
-    }
-
-    private bool PlaceLimitCheck()
-    {
-        if (places >= placeLimit)
-        {
-            Debug.Log("Used up all places");
-            return player.ResetSelections();
-        }
-        return true;
-    }
-
-    private bool DrawLimitCheck()
-    {
-        if (draws >= drawLimit)
-        {
-            Debug.Log("Used up all draws");
             return player.ResetSelections();
         }
         return true;

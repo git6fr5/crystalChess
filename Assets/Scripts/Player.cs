@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     public GameRules gameRules;
     public Inspector inspector;
 
+    public Piece centerPiece;
+
     public GameObject cardsObject;
     public GameObject piecesObject;
     public int deckSize;

@@ -6,14 +6,9 @@ public class Cell : MonoBehaviour
 {
 
     public Piece piece;
-    private Board board;
+    public Board board;
     [HideInInspector] public Vector2 location;
     [HideInInspector] public List<Cell> adjacentCells;
-
-    void Start()
-    {
-        board = gameObject.transform.parent.GetComponent<Board>();
-    }
 
     public void UpdateCell()
     {
