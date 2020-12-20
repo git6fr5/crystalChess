@@ -208,6 +208,8 @@ public class Player : MonoBehaviour
         
         inspector.locationText.text = "";
         inspector.healthText.text = "";
+        inspector.drownText.text = "";
+        inspector.fearText.text = "";
 
     }
 

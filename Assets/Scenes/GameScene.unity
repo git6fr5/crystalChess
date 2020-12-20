@@ -477,6 +477,18 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1245327499}
+    - target: {fileID: 1110959273504836221, guid: 2b8e66ded13beb84aaff8c205ac343e3, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1245327499}
+    - target: {fileID: 1110959273876836154, guid: 2b8e66ded13beb84aaff8c205ac343e3, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1245327499}
+    - target: {fileID: 1110959274236017664, guid: 2b8e66ded13beb84aaff8c205ac343e3, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1245327499}
     - target: {fileID: 6826907678189074733, guid: 2b8e66ded13beb84aaff8c205ac343e3, type: 3}
       propertyPath: m_Name
       value: Player 2
@@ -560,7 +572,7 @@ PrefabInstance:
       objectReference: {fileID: 1813679495}
     - target: {fileID: 7252208048221002253, guid: 1761573998c1f7d4b9d434fd46b2100c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -296.00003
+      value: 178
       objectReference: {fileID: 0}
     - target: {fileID: 7252208048447749995, guid: 1761573998c1f7d4b9d434fd46b2100c, type: 3}
       propertyPath: m_Name

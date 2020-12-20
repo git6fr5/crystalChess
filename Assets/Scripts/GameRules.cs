@@ -193,7 +193,7 @@ public class GameRules : MonoBehaviour
             return player.ResetSelections();
         }
 
-        if (!cellObject.GetComponent<Cell>().piece.GetComponent<Piece>().player == player)
+        if (cellObject.GetComponent<Cell>().piece.GetComponent<Piece>().player != player)
         {
             Debug.Log("Did not select your piece");
             return player.ResetSelections();
