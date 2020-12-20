@@ -146,6 +146,10 @@ public class Player : MonoBehaviour
                         }
                     }
                     cell.DisplayCell();
+                    foreach (Cell adjacentCell in cell.adjacentCells)
+                    {
+                        adjacentCell.DisplayCell();
+                    }
                 }
                 else if (cell.piece && cell.piece.playerObject == gameObject)
                 {
@@ -161,6 +165,10 @@ public class Player : MonoBehaviour
                     if (!cell.piece.isDrowning) { cell.piece.drownDuration = 0f; }
                     if (cell.piece.isParalyzed) { cell.piece.paralyzeDuration = cell.piece.paralyzeDuration - cell.piece.paralyzeRecovery; }
                     cell.DisplayCell();
+                    foreach (Cell adjacentCell in cell.adjacentCells)
+                    {
+                        adjacentCell.DisplayCell();
+                    }
                 }
             }
         }
@@ -186,7 +194,8 @@ public class Player : MonoBehaviour
         inspector.levelText.text = card.level.ToString();
         
         inspector.locationText.text = "";
-        
+        inspector.healthText.text = "";
+
     }
 
     public void InspectCell(Cell cell)
@@ -198,6 +207,31 @@ public class Player : MonoBehaviour
             inspector.image.sprite = cell.piece.gameObject.GetComponent<SpriteRenderer>().sprite;
             inspector.nameText.text = cell.piece.faction;
             inspector.levelText.text = cell.piece.level.ToString();
+
+            Status status = cell.piece.statusObject.GetComponent<Status>();
+
+            GameObject healthBar = status.healthBar;
+            Slider healthSlider = healthBar.GetComponent<Slider>();
+
+            inspector.healthText.text = healthSlider.value.ToString() + "/" + healthSlider.maxValue.ToString();
+
+            GameObject drownBar = status.drownBar;
+
+            inspector.drownText.text = "";
+            if (drownBar.transform.parent.gameObject.activeSelf)
+            {
+                Slider drownSlider = drownBar.GetComponent<Slider>();
+                inspector.drownText.text = drownSlider.value.ToString() + "/" + drownSlider.maxValue.ToString();
+            }
+
+            GameObject fearBar = status.fearBar;
+
+            inspector.fearText.text = "";
+            if (fearBar.transform.parent.gameObject.activeSelf)
+            {
+                Slider fearSlider = fearBar.GetComponent<Slider>();
+                inspector.fearText.text = fearSlider.value.ToString() + "/" + fearSlider.maxValue.ToString();
+            }
         }
         else
         {

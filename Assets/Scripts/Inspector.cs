@@ -10,4 +10,7 @@ public class Inspector : MonoBehaviour
     public Text nameText;
     public Text levelText;
     public Text locationText;
+    public Text healthText;
+    public Text drownText;
+    public Text fearText;
 }
