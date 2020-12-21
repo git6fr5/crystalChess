@@ -647,10 +647,32 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2602860431554430406, guid: 1761573998c1f7d4b9d434fd46b2100c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -64
+      objectReference: {fileID: 0}
+    - target: {fileID: 3704039410566734718, guid: 1761573998c1f7d4b9d434fd46b2100c, type: 3}
+      propertyPath: m_Text
+      value: 'Drowning
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4059447266068277723, guid: 1761573998c1f7d4b9d434fd46b2100c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -66
+      objectReference: {fileID: 0}
     - target: {fileID: 4108355488047177270, guid: 1761573998c1f7d4b9d434fd46b2100c, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 1853423072e9622469b8494e4123cf12, type: 3}
+    - target: {fileID: 4605071316158980362, guid: 1761573998c1f7d4b9d434fd46b2100c, type: 3}
+      propertyPath: m_Text
+      value: Health
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049377006607371756, guid: 1761573998c1f7d4b9d434fd46b2100c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -65
+      objectReference: {fileID: 0}
     - target: {fileID: 7252208047540329433, guid: 1761573998c1f7d4b9d434fd46b2100c, type: 3}
       propertyPath: m_FontData.m_Font
       value: 
@@ -967,6 +989,10 @@ PrefabInstance:
       propertyPath: board
       value: 
       objectReference: {fileID: 1813679495}
+    - target: {fileID: 7252208048666415332, guid: 1761573998c1f7d4b9d434fd46b2100c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 184
+      objectReference: {fileID: 0}
     - target: {fileID: 7252208048666415334, guid: 1761573998c1f7d4b9d434fd46b2100c, type: 3}
       propertyPath: m_FontData.m_Font
       value: 
@@ -1023,5 +1049,9 @@ PrefabInstance:
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 12800000, guid: 56359aff0fc5c5f40b55477ccecf3496, type: 3}
+    - target: {fileID: 8451202050976833255, guid: 1761573998c1f7d4b9d434fd46b2100c, type: 3}
+      propertyPath: m_Text
+      value: Feared
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1761573998c1f7d4b9d434fd46b2100c, type: 3}
