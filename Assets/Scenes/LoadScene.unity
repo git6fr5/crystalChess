@@ -340,7 +340,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 727468624}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: OnClick_JoinRoom
+        m_MethodName: OnClick_Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

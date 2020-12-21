@@ -19,7 +19,7 @@ public class MenuManager : MonoBehaviourPunCallbacks
     public Transform roomList;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
 
@@ -36,6 +36,15 @@ public class MenuManager : MonoBehaviourPunCallbacks
 
         PhotonNetwork.JoinLobby();
         print("on connected");
+    }
+
+    public override void OnJoinedLobby()
+    {
+        //createRoomButton.interactable = true;
+        //joinRoomButton.interactable = true;
+
+        //PhotonNetwork.JoinLobby();
+        print("on joined lobby");
     }
 
     public override void OnDisconnected(DisconnectCause cause) 
@@ -58,6 +67,7 @@ public class MenuManager : MonoBehaviourPunCallbacks
             _roomListing.gameObject.SetActive(true);
             _roomListing.SetInfo(roomInfo);
         }
+        print(roomInfoList.Count);
     }
 
     // Update is called once per frame
