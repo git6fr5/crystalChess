@@ -19,10 +19,13 @@ public class MenuManager : MonoBehaviourPunCallbacks
     public Transform roomList;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
+    }
 
+    void Start()
+    {
         createRoomButton.interactable = false;
         joinRoomButton.interactable = false;
 
@@ -51,7 +54,7 @@ public class MenuManager : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomInfoList)
     {
-        print("adding a roomm");
+        print("adding a room");
         foreach (RoomInfo roomInfo in roomInfoList)
         {
             RoomListing _roomListing = Instantiate(roomListing, roomList);
@@ -80,10 +83,10 @@ public class MenuManager : MonoBehaviourPunCallbacks
 
     public void OnClick_Play()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.LoadLevel(1);
-        }
+        print("clicked play");
+
+        //PhotonNetwork.LoadLevel(1);
+        gameObject.SetActive(false);
     }
 
 }
