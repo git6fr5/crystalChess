@@ -70,7 +70,7 @@ public class Board : MonoBehaviour
         centerPiece0.UpdatePiece();
 
         startPos0.piece = gameRules.player0.centerPiece;
-        print(startPos0.location);
+        //print(startPos0.location);
         startPos0.UpdateCell();
         startPos0.DisplayCell();
 
@@ -80,7 +80,7 @@ public class Board : MonoBehaviour
         centerPiece1.UpdatePiece();
 
         startPos1.piece = gameRules.player1.centerPiece;
-        print(startPos1.location);
+        //print(startPos1.location);
         startPos1.UpdateCell();
         startPos1.DisplayCell();
     }

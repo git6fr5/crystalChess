@@ -10,51 +10,50 @@ public class MenuManager : MonoBehaviourPunCallbacks
 
     public InputField playerName;
     public InputField roomName;
-    public Button playButton;
+
+    public Button createRoomButton;
+    public Button joinRoomButton;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        playButton.interactable = false;
+        createRoomButton.interactable = false;
+        joinRoomButton.interactable = false;
+
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     public override void OnConnectedToMaster()
     {
-        playButton.interactable = true;
+        createRoomButton.interactable = true;
+        joinRoomButton.interactable = true;
+
+        print("on connected");
+    }
+
+    public override void OnDisconnected(DisconnectCause cause) 
+    {
+        print("disconnect because " + cause.ToString());
     }
 
     // Update is called once per frame
-    public void Play()
+    public void OnClick_CreateRoom()
     {
-        string playerNameText = playerName.text;
         if (roomName.text != "")
         {
-            PhotonNetwork.JoinRoom(roomName.text);
+            PhotonNetwork.CreateRoom(roomName.text);
         }
-        else { PhotonNetwork.JoinRandomRoom(); }
+        else { print("need to give room a name"); }
     }
 
-    public override void OnJoinRoomFailed(short returnCode, string message)
+    public void OnClick_JoinRoom()
     {
-        RoomOptions roomOps = new RoomOptions();
-        roomOps.IsVisible = true;
-        roomOps.IsOpen = true;
-        PhotonNetwork.NickName = playerName.text;
-        string roomNameText = roomName.text;
-        PhotonNetwork.CreateRoom(roomNameText, roomOps);
+        //
     }
 
-    public override void OnJoinRandomFailed(short returnCode, string message)
-    {
-        RoomOptions roomOps = new RoomOptions();
-        roomOps.IsVisible = true;
-        roomOps.IsOpen = true;
-        PhotonNetwork.NickName = playerName.text;
-        string roomNameText = "Room" + Random.Range(0, 1000).ToString();
-        PhotonNetwork.CreateRoom(roomNameText, roomOps);
-    }
+
 
     public override void OnJoinedRoom()
     {

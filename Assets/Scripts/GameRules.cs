@@ -108,7 +108,7 @@ public class GameRules : MonoBehaviour
     {
         if (!LimitCheck()) { return false; }
 
-        print("can draw");
+        //print("can draw");
         return true;
     }
 

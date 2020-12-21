@@ -5,8 +5,19 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
 
-public class RoomControl : MonoBehaviour //IInRoomCallbacks
+public class RoomControl : MonoBehaviourPunCallbacks //IInRoomCallbacks
 {
+
+    public override void OnJoinedRoom()
+    {
+        print("connected");
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        print("disconnect because " + cause.ToString());
+    }
+
     /*public interface OnPlayerEnteredRoom<Player>
     {
         void 
