@@ -78,6 +78,7 @@ public class Player : MonoBehaviour
         GameObject newCardObject = Instantiate(selectionList[0], Vector3.zero, Quaternion.identity, gameObject.transform);
         Card newCard = newCardObject.GetComponent<Card>();
         newCard.level = newLevel;
+        newCard.highlight.SetActive(false);
         newCard.UpdateCard();
 
         handList.Add(newCardObject);
@@ -144,13 +145,13 @@ public class Player : MonoBehaviour
         Board board = gameRules.gameObject.GetComponent<Board>();
         for (int i = 0; i < board.rows; i++)
         {
-            for (int j = 0; j< board.columns; j++)
+            for (int j = 0; j < board.columns; j++)
             {
                 Cell cell = board.gridArray[i][j].GetComponent<Cell>();
                 if (cell.piece && cell.piece.playerObject != gameObject)
                 {
                     cell.DisplayCell();
-                    foreach(Modifier modifier in cell.piece.modifiers)
+                    foreach (Modifier modifier in cell.piece.modifiers)
                     {
                         if (!modifier.isBuff)
                         {
@@ -189,18 +190,8 @@ public class Player : MonoBehaviour
 
     public bool ResetSelections()
     {
+        Unhighlight();
         selectionList.Clear();
-        if (inspector.currentObject)
-        {
-            if (inspector.currentObject.GetComponent<Card>())
-            {
-                inspector.currentObject.GetComponent<Card>().highlight.SetActive(false);
-            }
-            else if (inspector.currentObject.GetComponent<Cell>())
-            {
-                inspector.currentObject.GetComponent<Cell>().highlight.SetActive(false);
-            }
-        }
         return false;
     }
 
@@ -213,47 +204,21 @@ public class Player : MonoBehaviour
     public void InspectCard(Card card)
     {
 
-        if (inspector.currentObject)
-        {
-            if (inspector.currentObject.GetComponent<Card>())
-            {
-                inspector.currentObject.GetComponent<Card>().highlight.SetActive(false);
-            }
-            else if (inspector.currentObject.GetComponent<Cell>())
-            {
-                inspector.currentObject.GetComponent<Cell>().highlight.SetActive(false);
-            }
-        }
-
         inspector.image.sprite = card.gameObject.GetComponent<SpriteRenderer>().sprite;
         inspector.nameText.text = card.faction;
         inspector.levelText.text = card.level.ToString();
-        
+
         inspector.locationText.text = "";
         inspector.healthText.text = "";
         inspector.drownText.text = "";
         inspector.fearText.text = "";
 
-        print("highlighting card");
-        card.highlight.SetActive(true);
         inspector.currentObject = card.gameObject;
 
     }
 
     public void InspectCell(Cell cell)
     {
-
-        if (inspector.currentObject)
-        {
-            if (inspector.currentObject.GetComponent<Card>())
-            {
-                inspector.currentObject.GetComponent<Card>().highlight.SetActive(false);
-            }
-            else if (inspector.currentObject.GetComponent<Cell>())
-            {
-                inspector.currentObject.GetComponent<Cell>().highlight.SetActive(false);
-            }
-        }
 
         inspector.locationText.text = cell.location.x.ToString() + ", " + cell.location.y.ToString();
 
@@ -295,9 +260,59 @@ public class Player : MonoBehaviour
             inspector.levelText.text = "";
         }
 
-        cell.highlight.SetActive(true);
         inspector.currentObject = cell.gameObject;
 
     }
 
+    public void Highlight()
+    {
+
+        foreach (GameObject selection in selectionList)
+        {
+            if (selection.GetComponent<Card>())
+            {
+                selection.GetComponent<Card>().highlight.SetActive(false);
+            }
+            else if (selection.GetComponent<Cell>())
+            {
+                selection.GetComponent<Cell>().highlight.SetActive(false);
+            }
+        }
+
+        if (selectionList.Count > 2)
+        {
+            selectionList[0] = selectionList[1];
+            selectionList[1] = selectionList[2];
+            selectionList.RemoveAt(2);
+        }
+
+
+        foreach (GameObject selection in selectionList)
+        {
+            if (selection.GetComponent<Card>())
+            {
+                selection.GetComponent<Card>().highlight.SetActive(true);
+            }
+            else if (selection.GetComponent<Cell>())
+            {
+                selection.GetComponent<Cell>().highlight.SetActive(true);
+            }
+        }
+    }
+
+    public void Unhighlight()
+    {
+
+        foreach (GameObject selection in selectionList)
+        {
+            if (selection.GetComponent<Card>())
+            {
+                selection.GetComponent<Card>().highlight.SetActive(false);
+            }
+            else if (selection.GetComponent<Cell>())
+            {
+                selection.GetComponent<Cell>().highlight.SetActive(false);
+            }
+        }
+    }
 }

@@ -111,13 +111,14 @@ public class Modifier : MonoBehaviour
 
         Status status = targetPiece.statusObject.GetComponent<Status>();
         GameObject healthBar = status.healthBar;
+        Slider healthSlider = healthBar.GetComponent<Slider>();
 
-        if (targetPiece.health < healthBar.maxValue)
+        if (targetPiece.health < healthSlider.maxValue)
         {
             targetPiece.health = targetPiece.health + armyHealth;
-            if (targetPiece.health > healthBar.maxValue)
+            if (targetPiece.health > healthSlider.maxValue)
             {
-                targetPiece.health = healthBar.maxValue;
+                targetPiece.health = healthSlider.maxValue;
             }
         }
     }

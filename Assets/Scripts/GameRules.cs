@@ -98,6 +98,7 @@ public class GameRules : MonoBehaviour
     {
         player.Aura();
         player.ResetSelections();
+        player.isTurn = false;
         if (player == player0) { player = player1; }
         else if (player == player1) { player = player0; }
         OnTurnEvent.Invoke();

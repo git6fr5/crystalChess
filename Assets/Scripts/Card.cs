@@ -60,6 +60,7 @@ public class Card : MonoBehaviour
         if (player.isTurn)
         {
             player.selectionList.Add(gameObject);
+            player.Highlight();
         }
 
         player.InspectCard(this);

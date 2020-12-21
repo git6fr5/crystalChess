@@ -29,8 +29,17 @@ public class Cell : MonoBehaviour
     void Select()
     {
         print("selected a cell");
-        board.gameRules.player.selectionList.Add(gameObject);
 
+        if (piece && board.gameRules.player.selectionList.Count == 0 && piece.player == board.gameRules.player)
+        {
+            board.gameRules.player.selectionList.Add(gameObject);
+            board.gameRules.player.Highlight();
+        }
+        else if (!piece && board.gameRules.player.selectionList.Count == 1)
+        {
+            board.gameRules.player.selectionList.Add(gameObject);
+            board.gameRules.player.Highlight();
+        }
         board.gameRules.player.InspectCell(this);
     }
 
