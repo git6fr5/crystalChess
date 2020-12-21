@@ -13,16 +13,20 @@ public class MenuManager : MonoBehaviourPunCallbacks
 
     public Button createRoomButton;
     public Button joinRoomButton;
+    public Button playButton;
 
+    public RoomListing roomListing;
+    public Transform roomList;
 
     // Start is called before the first frame update
     void Start()
     {
+        PhotonNetwork.AutomaticallySyncScene = true;
+
         createRoomButton.interactable = false;
         joinRoomButton.interactable = false;
 
         PhotonNetwork.ConnectUsingSettings();
-        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     public override void OnConnectedToMaster()
@@ -30,12 +34,30 @@ public class MenuManager : MonoBehaviourPunCallbacks
         createRoomButton.interactable = true;
         joinRoomButton.interactable = true;
 
+        PhotonNetwork.JoinLobby();
         print("on connected");
     }
 
     public override void OnDisconnected(DisconnectCause cause) 
     {
         print("disconnect because " + cause.ToString());
+    }
+
+    public override void OnJoinedRoom()
+    {
+        //PhotonNetwork.LoadLevel(1);
+        print("joined room");
+    }
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomInfoList)
+    {
+        print("adding a roomm");
+        foreach (RoomInfo roomInfo in roomInfoList)
+        {
+            RoomListing _roomListing = Instantiate(roomListing, roomList);
+            _roomListing.gameObject.SetActive(true);
+            _roomListing.SetInfo(roomInfo);
+        }
     }
 
     // Update is called once per frame
@@ -50,13 +72,18 @@ public class MenuManager : MonoBehaviourPunCallbacks
 
     public void OnClick_JoinRoom()
     {
-        //
+        if (roomName.text != "")
+        {
+            PhotonNetwork.JoinRoom(roomName.text);
+        }
     }
 
-
-
-    public override void OnJoinedRoom()
+    public void OnClick_Play()
     {
-        PhotonNetwork.LoadLevel(1);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel(1);
+        }
     }
+
 }

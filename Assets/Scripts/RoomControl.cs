@@ -7,6 +7,11 @@ using UnityEngine.UI;
 
 public class RoomControl : MonoBehaviourPunCallbacks //IInRoomCallbacks
 {
+    // Start is called before the first frame update
+    void Start()
+    {
+        PhotonNetwork.AutomaticallySyncScene = true;
+    }
 
     public override void OnJoinedRoom()
     {
