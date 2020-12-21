@@ -9,6 +9,7 @@ public class MenuManager : MonoBehaviourPunCallbacks
 {
 
     public InputField playerName;
+    public InputField roomName;
     public Button playButton;
 
     // Start is called before the first frame update
@@ -28,7 +29,21 @@ public class MenuManager : MonoBehaviourPunCallbacks
     public void Play()
     {
         string playerNameText = playerName.text;
-        PhotonNetwork.JoinRandomRoom();
+        if (roomName.text != "")
+        {
+            PhotonNetwork.JoinRoom(roomName.text);
+        }
+        else { PhotonNetwork.JoinRandomRoom(); }
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        RoomOptions roomOps = new RoomOptions();
+        roomOps.IsVisible = true;
+        roomOps.IsOpen = true;
+        PhotonNetwork.NickName = playerName.text;
+        string roomNameText = roomName.text;
+        PhotonNetwork.CreateRoom(roomNameText, roomOps);
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -37,8 +52,8 @@ public class MenuManager : MonoBehaviourPunCallbacks
         roomOps.IsVisible = true;
         roomOps.IsOpen = true;
         PhotonNetwork.NickName = playerName.text;
-        string roomName = "Room" + Random.Range(0, 1000).ToString();
-        PhotonNetwork.CreateRoom(roomName, roomOps);
+        string roomNameText = "Room" + Random.Range(0, 1000).ToString();
+        PhotonNetwork.CreateRoom(roomNameText, roomOps);
     }
 
     public override void OnJoinedRoom()

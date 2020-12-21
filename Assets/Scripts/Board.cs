@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Board : MonoBehaviour
 {
@@ -15,11 +16,15 @@ public class Board : MonoBehaviour
 
     public GameRules gameRules;
 
+    public Text roomNameText;
+
     // Start is called before the first frame update
     void Start()
     {
         CreateBoard();
         CenterObjects();
+
+        roomNameText.text = "hello"; // PhotonNetwork.RoomName
     }
 
     void CreateBoard()

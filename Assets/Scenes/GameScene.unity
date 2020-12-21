@@ -150,6 +150,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 313dc830a6da542498e91612fc0d5556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &458803782 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6361591728647531224, guid: b4c184baed49d714598b60768a64a86c, type: 3}
+  m_PrefabInstance: {fileID: 6445161877772393807}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &573421982 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4145084687143756689, guid: 9ebf3701b9c9f1d418fc8be05c4ec9ca, type: 3}
@@ -266,6 +277,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 722185226352802216, guid: 654295c50ba11984ba8f0ccfb061a886, type: 3}
+      propertyPath: roomNameText
+      value: 
+      objectReference: {fileID: 458803782}
     - target: {fileID: 722185226352802217, guid: 654295c50ba11984ba8f0ccfb061a886, type: 3}
       propertyPath: m_Name
       value: Board
@@ -279,6 +294,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 893893614176714726, guid: 9ebf3701b9c9f1d418fc8be05c4ec9ca, type: 3}
+      propertyPath: viewIdField
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4145084687143756688, guid: 9ebf3701b9c9f1d418fc8be05c4ec9ca, type: 3}
       propertyPath: m_LocalPosition.x
       value: 15
@@ -414,7 +433,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5324462807178181139, guid: a819fa6a3de01f9499677be44cec70de, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5324462807178181142, guid: a819fa6a3de01f9499677be44cec70de, type: 3}
       propertyPath: sceneId
@@ -437,6 +456,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1245327499}
+    - target: {fileID: 3667363810423176756, guid: 661a8980b5597ed4186292320a79906c, type: 3}
+      propertyPath: viewIdField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6333372205735964820, guid: 661a8980b5597ed4186292320a79906c, type: 3}
       propertyPath: m_Name
       value: Player 1
