@@ -147,6 +147,7 @@ public class GameRules : MonoBehaviour
         print("passed type check");
         if (!PieceCheck(selectionList[0])) { return false; }
         if (!EmptyCheck(selectionList[1])) { return false; }
+        if (!AdjacentCheck(selectionList)) { return false; }
         if (!LimitCheck()) { return false; }
         if (!FearCheck(selectionList[0])) { return false; }
 
@@ -187,6 +188,22 @@ public class GameRules : MonoBehaviour
         }
         return true;
     }
+
+    private bool AdjacentCheck(List<GameObject> selectionList)
+    {
+        selectionList[0].GetComponent<Cell>().GetAdjacentCells();
+        foreach (Cell adjacentCell in selectionList[0].GetComponent<Cell>().adjacentCells)
+        {
+            if (adjacentCell.gameObject == selectionList[1])
+            {
+                return true;
+            }
+        }
+
+        Debug.Log("This cell is too far away");
+        return player.ResetSelections(); ;
+    }
+
 
     private bool PieceCheck(GameObject cellObject)
     {
