@@ -1660,6 +1660,7 @@ GameObject:
   - component: {fileID: 4145084687143756688}
   - component: {fileID: 4145084687143756689}
   - component: {fileID: 893893614176714726}
+  - component: {fileID: 163574485861697030}
   m_Layer: 0
   m_Name: Player 2
   m_TagString: Untagged
@@ -1696,8 +1697,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 313dc830a6da542498e91612fc0d5556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameRules: {fileID: 0}
-  inspector: {fileID: 0}
+  gameRules: {fileID: 722185226352802214, guid: 654295c50ba11984ba8f0ccfb061a886, type: 3}
+  inspector: {fileID: 8992088083583284626, guid: 4c696ff3d14c82f42a06e2c4285f4911, type: 3}
   centerPiece: {fileID: 4145084687987350207}
   cardsObject: {fileID: 4145084688373957855}
   piecesObject: {fileID: 4145084688232941047}
@@ -1707,6 +1708,28 @@ MonoBehaviour:
   selectionList: []
   isTurn: 0
 --- !u!114 &893893614176714726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4145084687143756690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents: []
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &163574485861697030
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

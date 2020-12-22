@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
 
     [HideInInspector] public bool isTurn = false;
 
-    void Start()
+    void OnEnable()
     {
         GetCards();
         CreateDeck();
