@@ -28,6 +28,7 @@ public class MenuManager : MonoBehaviourPunCallbacks
     {
         createRoomButton.interactable = false;
         joinRoomButton.interactable = false;
+        playButton.interactable = false;
 
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -49,6 +50,10 @@ public class MenuManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         //PhotonNetwork.LoadLevel(1);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            playButton.interactable = true;
+        }
         print("joined room");
     }
 
@@ -85,8 +90,8 @@ public class MenuManager : MonoBehaviourPunCallbacks
     {
         print("clicked play");
 
-        //PhotonNetwork.LoadLevel(1);
-        gameObject.SetActive(false);
+        PhotonNetwork.LoadLevel(1);
+        //gameObject.SetActive(false);
     }
 
 }

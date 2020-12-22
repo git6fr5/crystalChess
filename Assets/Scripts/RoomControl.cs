@@ -7,21 +7,26 @@ using UnityEngine.UI;
 
 public class RoomControl : MonoBehaviourPunCallbacks //IInRoomCallbacks
 {
-    // Start is called before the first frame update
-    void Start()
+
+    void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
-    public override void OnJoinedRoom()
+    // Start is called before the first frame update
+    void Start()
     {
-        print("connected");
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Instantiate("Player 1", new Vector3(-5, 0, 0), new Quaternion(0f, 0f, 0f, 0f));
+        }
+        else
+        {
+            PhotonNetwork.Instantiate("Player 2", new Vector3(5, 0, 0), new Quaternion(0f, 0f, 0f, 0f));
+            transform.eulerAngles = Vector3.up * 180;
+        }
     }
 
-    public override void OnDisconnected(DisconnectCause cause)
-    {
-        print("disconnect because " + cause.ToString());
-    }
 
     /*public interface OnPlayerEnteredRoom<Player>
     {
