@@ -18,7 +18,7 @@ public class Card : MonoBehaviour
     public Sprite[] sprites;
     public int level = 1;
 
-    void Start()
+    void OnEnabled()
     {
         GetPlayer();
         GetFaction();

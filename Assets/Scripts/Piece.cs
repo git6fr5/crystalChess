@@ -40,7 +40,7 @@ public class Piece : MonoBehaviour
 
     public GameObject statusObject;
 
-    void Start()
+    void OnEnabled()
     {
         GetPlayer();
         GetFaction();

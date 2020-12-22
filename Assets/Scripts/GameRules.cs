@@ -31,7 +31,7 @@ public class GameRules : MonoBehaviour
 
     public GameObject controlPanel;
 
-    void Start()
+    void OnEnabled()
     {
         player = player1;
         OnTurnEvent.Invoke();

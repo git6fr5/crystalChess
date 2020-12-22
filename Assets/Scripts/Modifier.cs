@@ -30,7 +30,7 @@ public class Modifier : MonoBehaviour
 
     public bool isBuff;
 
-    void Start()
+    void OnEnabled()
     {
         if (name == "Burn")
         {

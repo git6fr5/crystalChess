@@ -18,12 +18,7 @@ public class RoomControl : MonoBehaviourPunCallbacks //IInRoomCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.Instantiate("Player 1", new Vector3(-5, 0, 0), new Quaternion(0f, 0f, 0f, 0f));
-        }
-        else
-        {
-            PhotonNetwork.Instantiate("Player 2", new Vector3(5, 0, 0), new Quaternion(0f, 0f, 0f, 0f));
-            transform.eulerAngles = Vector3.up * 180;
+            PhotonNetwork.Instantiate("GameScene", new Vector3(0, 0, 0), new Quaternion(0f, 0f, 0f, 0f));
         }
     }
 
