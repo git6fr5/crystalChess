@@ -1371,6 +1371,7 @@ GameObject:
   - component: {fileID: 4727420764478815818}
   - component: {fileID: 4727420764478815819}
   - component: {fileID: 4727420764478815816}
+  - component: {fileID: 892135110334461323}
   m_Layer: 9
   m_Name: DragonPiece
   m_TagString: Dragon
@@ -1485,6 +1486,25 @@ MonoBehaviour:
   baseRecovery: 1
   paralyzeRecovery: 0
   statusObject: {fileID: 4644392305141302061}
+--- !u!95 &892135110334461323
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4727420764478815817}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9f4510cb0dc906e468f137753e7f5c1a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6524480174219437463
 GameObject:
   m_ObjectHideFlags: 0
@@ -2413,14 +2433,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c120db9c36bc3b7458cff86fa469c56c, type: 3}
---- !u!1 &4644392305141302061 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6626199601389344088, guid: c120db9c36bc3b7458cff86fa469c56c, type: 3}
-  m_PrefabInstance: {fileID: 1981811846765926005}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &4644392305141302062 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6626199601389344091, guid: c120db9c36bc3b7458cff86fa469c56c, type: 3}
+  m_PrefabInstance: {fileID: 1981811846765926005}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4644392305141302061 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6626199601389344088, guid: c120db9c36bc3b7458cff86fa469c56c, type: 3}
   m_PrefabInstance: {fileID: 1981811846765926005}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4644392304833678456

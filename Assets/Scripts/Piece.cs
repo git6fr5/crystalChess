@@ -7,6 +7,7 @@ public class Piece : MonoBehaviour
 {
     /* --- The Player ---*/
     public GameObject playerObject;
+    public PieceAnimator animationScript;
     [HideInInspector] public Player player;
 
     /*--- Piece Properties ---*/
@@ -64,6 +65,10 @@ public class Piece : MonoBehaviour
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprites[level - 1];
+        if (animationScript)
+        {
+            animationScript.SetAnimation(level - 1);
+        }
 
         radius = radiuses[level - 1];
 
