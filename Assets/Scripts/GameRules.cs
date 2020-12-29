@@ -41,6 +41,8 @@ public class GameRules : MonoBehaviour
         OnTurnEvent.Invoke();
         OnDrawEvent.Invoke(drawStart);
 
+        player0.isTurn = false; player1.isTurn = false;
+
         OnTurnEvent.Invoke();
     }
 

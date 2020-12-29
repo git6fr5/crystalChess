@@ -178,6 +178,7 @@ public class Player : MonoBehaviour
                     }
                     if (!cell.piece.isDrowning) { cell.piece.drownDuration = 0f; }
                     if (cell.piece.isParalyzed) { cell.piece.paralyzeDuration = cell.piece.paralyzeDuration - cell.piece.paralyzeRecovery; }
+                    if (cell.piece.paralyzeDuration <= 0 ) { cell.piece.paralyzeDuration = 0; cell.piece.isParalyzed = false; }
                     cell.DisplayCell();
                     foreach (Cell adjacentCell in cell.adjacentCells)
                     {

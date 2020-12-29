@@ -6051,7 +6051,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerObject: {fileID: 446016663}
-  animationScript: {fileID: 0}
+  animationScript: {fileID: 259977411475611831}
   player: {fileID: 0}
   modifier: {fileID: 829600900}
   modifiers: []
@@ -10115,7 +10115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerObject: {fileID: 446016663}
-  animationScript: {fileID: 0}
+  animationScript: {fileID: 4686931618651972127}
   player: {fileID: 0}
   modifier: {fileID: 1463642623}
   modifiers: []

@@ -59,10 +59,39 @@ public class Card : MonoBehaviour
         print("selected a card");
         if (player.isTurn)
         {
+            if (player.selectionList.Count == 1 && player.selectionList[0].GetComponent<Cell>())
+            {
+                Deselect(0);
+                player.Highlight();
+            }
+            else if (player.selectionList.Count == 2 && (player.selectionList[0].GetComponent<Cell>() || player.selectionList[1].GetComponent<Cell>()))
+            {
+                Deselect(1); Deselect(0);
+                player.Highlight();
+            }
+            if (player.selectionList.Count == 1 && player.selectionList[0].GetComponent<Card>() && player.selectionList[0].GetComponent<Card>().faction != faction)
+            {
+                Deselect(0);
+                player.Highlight();
+            }
+
             player.selectionList.Add(gameObject);
             player.Highlight();
         }
 
         player.InspectCard(this);
+    }
+
+    public void Deselect(int index)
+    {
+        if (player.selectionList[index].GetComponent<Cell>())
+        {
+            player.selectionList[index].GetComponent<Cell>().highlight.SetActive(false);
+        }
+        else if (player.selectionList[index].GetComponent<Card>())
+        {
+            player.selectionList[index].GetComponent<Card>().highlight.SetActive(false);
+        }
+        player.selectionList.RemoveAt(index);
     }
 }

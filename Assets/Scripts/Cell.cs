@@ -30,8 +30,32 @@ public class Cell : MonoBehaviour
     {
         print("selected a cell");
 
+        // DESELECTING
+        if (piece && board.gameRules.player.selectionList.Count == 1 && board.gameRules.player.selectionList[0] == gameObject)
+        {
+            Deselect(0);
+            board.gameRules.player.Highlight();
+        }
+        else if (piece && board.gameRules.player.selectionList.Count == 2 && board.gameRules.player.selectionList[0] == gameObject)
+        {
+            Deselect(1); Deselect(0);
+            board.gameRules.player.Highlight();
+        }
+        else if (piece && board.gameRules.player.selectionList.Count == 2 && board.gameRules.player.selectionList[1].GetComponent<Card>())
+        {
+            Deselect(1);
+            board.gameRules.player.Highlight();
+        }
+
         if (piece && board.gameRules.player.selectionList.Count == 0 && piece.player == board.gameRules.player)
         {
+            board.gameRules.player.selectionList.Add(gameObject);
+            board.gameRules.player.Highlight();
+        }
+        // change selection if only one thing has been selected so far
+        else if (piece && board.gameRules.player.selectionList.Count == 1)
+        {
+            Deselect(0);
             board.gameRules.player.selectionList.Add(gameObject);
             board.gameRules.player.Highlight();
         }
@@ -40,7 +64,26 @@ public class Cell : MonoBehaviour
             board.gameRules.player.selectionList.Add(gameObject);
             board.gameRules.player.Highlight();
         }
+        else if (!piece && board.gameRules.player.selectionList.Count == 2)
+        {
+            Deselect(1);
+            board.gameRules.player.selectionList.Add(gameObject);
+            board.gameRules.player.Highlight();
+        }
         board.gameRules.player.InspectCell(this);
+    }
+
+    public void Deselect(int index)
+    {
+        if (board.gameRules.player.selectionList[index].GetComponent<Cell>())
+        {
+            board.gameRules.player.selectionList[index].GetComponent<Cell>().highlight.SetActive(false);
+        }
+        else if (board.gameRules.player.selectionList[index].GetComponent<Card>())
+        {
+            board.gameRules.player.selectionList[index].GetComponent<Card>().highlight.SetActive(false);
+        }
+        board.gameRules.player.selectionList.RemoveAt(index);
     }
 
     public void DisplayCell()
