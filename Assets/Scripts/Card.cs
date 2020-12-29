@@ -18,11 +18,22 @@ public class Card : MonoBehaviour
     public Sprite[] sprites;
     public int level = 1;
 
+    [HideInInspector] public bool isFirstSelected = false;
+
     void Start()
     {
         GetPlayer();
         GetFaction();
         UpdateCard();
+    }
+
+    void Update()
+    {
+        if (isFirstSelected)
+        {
+            Vector3 cameraPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = new Vector3(cameraPos.x, cameraPos.y, transform.position.z);
+        }
     }
 
     public string ReadProperties()
@@ -80,6 +91,11 @@ public class Card : MonoBehaviour
         }
 
         player.InspectCard(this);
+
+        if (player.selectionList[0] == gameObject)
+        {
+            isFirstSelected = true;
+        }     
     }
 
     public void Deselect(int index)
@@ -93,5 +109,7 @@ public class Card : MonoBehaviour
             player.selectionList[index].GetComponent<Card>().highlight.SetActive(false);
         }
         player.selectionList.RemoveAt(index);
+
+        isFirstSelected = false;
     }
 }

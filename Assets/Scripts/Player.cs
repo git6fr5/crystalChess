@@ -309,6 +309,7 @@ public class Player : MonoBehaviour
             if (selection.GetComponent<Card>())
             {
                 selection.GetComponent<Card>().highlight.SetActive(false);
+                selection.GetComponent<Card>().isFirstSelected = false;
             }
             else if (selection.GetComponent<Cell>())
             {
