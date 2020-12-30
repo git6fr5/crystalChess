@@ -60,6 +60,7 @@ public class Player : MonoBehaviour
         for (int i = 0; i < drawNum; i++)
         {
             GameObject newCardObject = Instantiate(deckList[i], Vector3.zero, Quaternion.identity, gameObject.transform);
+            newCardObject.GetComponent<Card>().UpdateCard();
             handList.Add(newCardObject);
         }
         deckList.RemoveRange(0, drawNum);
@@ -78,7 +79,7 @@ public class Player : MonoBehaviour
         GameObject newCardObject = Instantiate(selectionList[0], Vector3.zero, Quaternion.identity, gameObject.transform);
         Card newCard = newCardObject.GetComponent<Card>();
         newCard.level = newLevel;
-        newCard.highlight.SetActive(false);
+        newCard.Select(false, -1);
         newCard.UpdateCard();
 
         handList.Add(newCardObject);
@@ -92,7 +93,7 @@ public class Player : MonoBehaviour
     public void Place()
     {
         Card selectedCard = selectionList[0].GetComponent<Card>();
-        GameObject newPieceObject = Instantiate(selectedCard.pieceObject, Vector3.zero, Quaternion.identity, gameObject.transform);
+        GameObject newPieceObject = Instantiate(selectedCard.piece.gameObject, Vector3.zero, Quaternion.identity, gameObject.transform);
         Piece newPiece = newPieceObject.GetComponent<Piece>();
         newPiece.level = selectedCard.level;
         newPiece.modifier.GetModifierValues();
@@ -148,7 +149,7 @@ public class Player : MonoBehaviour
             for (int j = 0; j < board.columns; j++)
             {
                 Cell cell = board.gridArray[i][j].GetComponent<Cell>();
-                if (cell.piece && cell.piece.playerObject != gameObject)
+                if (cell.piece && cell.piece.player != this)
                 {
                     cell.DisplayCell();
                     foreach (Modifier modifier in cell.piece.modifiers)
@@ -165,7 +166,7 @@ public class Player : MonoBehaviour
                         adjacentCell.DisplayCell();
                     }
                 }
-                else if (cell.piece && cell.piece.playerObject == gameObject)
+                else if (cell.piece && cell.piece.player == this)
                 {
                     cell.DisplayCell();
                     foreach (Modifier modifier in cell.piece.modifiers)
@@ -191,7 +192,12 @@ public class Player : MonoBehaviour
 
     public bool ResetSelections()
     {
-        Unhighlight();
+        for (int i = 0; i < selectionList.Count; i++)
+        {
+            print("resetting selections");
+            if (selectionList[i].GetComponent<Card>()) { selectionList[i].GetComponent<Card>().Select(false, -1); }
+            else if (selectionList[i].GetComponent<Cell>()) { selectionList[i].GetComponent<Cell>().Select(false, -1); }
+        }
         selectionList.Clear();
         return false;
     }
@@ -263,58 +269,5 @@ public class Player : MonoBehaviour
 
         inspector.currentObject = cell.gameObject;
 
-    }
-
-    public void Highlight()
-    {
-
-        foreach (GameObject selection in selectionList)
-        {
-            if (selection.GetComponent<Card>())
-            {
-                selection.GetComponent<Card>().highlight.SetActive(false);
-            }
-            else if (selection.GetComponent<Cell>())
-            {
-                selection.GetComponent<Cell>().highlight.SetActive(false);
-            }
-        }
-
-        if (selectionList.Count > 2)
-        {
-            selectionList[0] = selectionList[1];
-            selectionList[1] = selectionList[2];
-            selectionList.RemoveAt(2);
-        }
-
-
-        foreach (GameObject selection in selectionList)
-        {
-            if (selection.GetComponent<Card>())
-            {
-                selection.GetComponent<Card>().highlight.SetActive(true);
-            }
-            else if (selection.GetComponent<Cell>())
-            {
-                selection.GetComponent<Cell>().highlight.SetActive(true);
-            }
-        }
-    }
-
-    public void Unhighlight()
-    {
-
-        foreach (GameObject selection in selectionList)
-        {
-            if (selection.GetComponent<Card>())
-            {
-                selection.GetComponent<Card>().highlight.SetActive(false);
-                selection.GetComponent<Card>().isFirstSelected = false;
-            }
-            else if (selection.GetComponent<Cell>())
-            {
-                selection.GetComponent<Cell>().highlight.SetActive(false);
-            }
-        }
     }
 }

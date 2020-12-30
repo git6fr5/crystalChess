@@ -5,11 +5,10 @@ public class Card : MonoBehaviour
 {
 
     /* --- Associated Piece ---*/
-    public GameObject pieceObject;
+    public Piece piece;
 
     /* --- The Player ---*/
-    public GameObject playerObject;
-    [HideInInspector] public Player player;
+    public Player player;
 
     public GameObject highlight;
 
@@ -19,11 +18,11 @@ public class Card : MonoBehaviour
     public int level = 1;
 
     [HideInInspector] public bool isFirstSelected = false;
+    [HideInInspector] public Vector3 initPos;
 
     void Start()
     {
-        GetPlayer();
-        GetFaction();
+        faction = tag;
         UpdateCard();
     }
 
@@ -32,8 +31,23 @@ public class Card : MonoBehaviour
         if (isFirstSelected)
         {
             Vector3 cameraPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = new Vector3(cameraPos.x, cameraPos.y, transform.position.z);
+            transform.position = new Vector3(cameraPos.x, cameraPos.y, initPos.z + 5);
         }
+    }
+
+    void OnMouseDown()
+    {
+        SelectFlag();
+    }
+
+    void OnMouseOver()
+    {
+        Highlight();
+    }
+
+    void OnMouseExit()
+    {
+        UnHighlight();
     }
 
     public string ReadProperties()
@@ -44,72 +58,99 @@ public class Card : MonoBehaviour
         return s01 + s02 + s03;
     }
 
-    private void GetPlayer()
-    {
-        player = playerObject.GetComponent<Player>();
-    }
-
     private void GetFaction()
     {
-        faction = gameObject.tag;
+        faction = tag;
     }
 
     public void UpdateCard()
     {
+        gameObject.SetActive(true);
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprites[level - 1];
     }
 
-    void OnMouseDown()
+    void SelectFlag()
     {
-        Select();
-    }
-
-    void Select()
-    {
-        print("selected a card");
         if (player.isTurn)
         {
-            if (player.selectionList.Count == 1 && player.selectionList[0].GetComponent<Cell>())
+            // if selection list is empty
+            if (player.selectionList.Count == 0)
             {
-                Deselect(0);
-                player.Highlight();
+                // add to selection list, make it follow mouse
+                Select(true, 0);
             }
-            else if (player.selectionList.Count == 2 && (player.selectionList[0].GetComponent<Cell>() || player.selectionList[1].GetComponent<Cell>()))
+            // if there is something in selection list
+            else if (player.selectionList.Count == 1)
             {
-                Deselect(1); Deselect(0);
-                player.Highlight();
+                // if it is this thing, then deselect
+                if (player.selectionList[0] == gameObject)
+                {
+                    Select(false, 0);
+                }
+                // if it is this thing, then deselect
+                if (player.selectionList[0].GetComponent<Cell>())
+                {
+                    player.selectionList[0].GetComponent<Cell>().Select(false, 0);
+                    Select(true, 0);
+                }
+                // check if that thing is a card
+                else if (player.selectionList[0].GetComponent<Card>())
+                {
+                    Select(true, 1);
+                    player.gameRules.OnCombineEvent.Invoke();
+                }
             }
-            if (player.selectionList.Count == 1 && player.selectionList[0].GetComponent<Card>() && player.selectionList[0].GetComponent<Card>().faction != faction)
-            {
-                Deselect(0);
-                player.Highlight();
-            }
-
-            player.selectionList.Add(gameObject);
-            player.Highlight();
         }
-
-        player.InspectCard(this);
-
-        if (player.selectionList[0] == gameObject)
-        {
-            isFirstSelected = true;
-        }     
     }
 
-    public void Deselect(int index)
+    public void Select(bool selecting, int index)
     {
-        if (player.selectionList[index].GetComponent<Cell>())
-        {
-            player.selectionList[index].GetComponent<Cell>().highlight.SetActive(false);
-        }
-        else if (player.selectionList[index].GetComponent<Card>())
-        {
-            player.selectionList[index].GetComponent<Card>().highlight.SetActive(false);
-        }
-        player.selectionList.RemoveAt(index);
 
-        isFirstSelected = false;
+        if (index == 0)
+        {
+            if (selecting) 
+            {
+                //GetComponent<BoxCollider2D>().enabled = false;
+                player.selectionList.Add(gameObject);
+                initPos = transform.position; 
+            }
+            else 
+            {
+                //GetComponent<BoxCollider2D>().enabled = true;
+                player.selectionList.RemoveAt(index);
+                transform.position = initPos; 
+
+            }
+            isFirstSelected = selecting;
+        }
+        else if (index == 1)
+        {
+            if (selecting)
+            {
+                player.selectionList.Add(gameObject);
+                player.gameRules.OnCombineEvent.Invoke();
+            }
+            isFirstSelected = false;
+        }
+        else if (index == -1)
+        {
+            if (!selecting)
+            {
+                //GetComponent<BoxCollider2D>().enabled = true;
+                transform.position = initPos;
+            }
+            isFirstSelected = false;
+        }
+    }
+
+    void Highlight()
+    {
+        highlight.SetActive(true);
+    }
+
+    void UnHighlight()
+    {
+        highlight.SetActive(false);
     }
 }

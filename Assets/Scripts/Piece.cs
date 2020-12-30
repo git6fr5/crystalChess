@@ -6,9 +6,8 @@ using UnityEngine.UI;
 public class Piece : MonoBehaviour
 {
     /* --- The Player ---*/
-    public GameObject playerObject;
+    public Player player;
     public PieceAnimator animationScript;
-    [HideInInspector] public Player player;
 
     /*--- Piece Properties ---*/
     public Modifier modifier; // the modifier that this piece casts
@@ -43,8 +42,7 @@ public class Piece : MonoBehaviour
 
     void Start()
     {
-        GetPlayer();
-        GetFaction();
+        faction = tag;
     }
 
     public string ReadProperties()
@@ -63,6 +61,7 @@ public class Piece : MonoBehaviour
 
     public void UpdatePiece()
     {
+        gameObject.SetActive(true);
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprites[level - 1];
         if (animationScript)
@@ -128,15 +127,4 @@ public class Piece : MonoBehaviour
             fearSlider.value = paralyzeDuration;
         }
     }
-
-    private void GetPlayer()
-    {
-        player = playerObject.GetComponent<Player>();
-    }
-
-    private void GetFaction()
-    {
-        faction = gameObject.tag;
-    }
-
 }

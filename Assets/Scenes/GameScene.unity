@@ -153,9 +153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649abc7823bfdf4459fc6220349b99b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 573421981}
+  player: {fileID: 573421982}
   animationScript: {fileID: 0}
-  player: {fileID: 0}
   modifier: {fileID: 27788998}
   modifiers: []
   faction: Kraken
@@ -636,9 +635,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b775bd50fb864d4cb820bc469bffe2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceObject: {fileID: 262142847}
-  playerObject: {fileID: 573421981}
-  player: {fileID: 0}
+  piece: {fileID: 262142848}
+  player: {fileID: 573421982}
   highlight: {fileID: 4204072311554401207}
   faction: Dragon
   sprites:
@@ -652,6 +650,8 @@ MonoBehaviour:
   - {fileID: -1767747003833078727, guid: 8f7eaf6fd79b74141b44e2e9d4c7c7d2, type: 3}
   - {fileID: 7728830261915943447, guid: 8f7eaf6fd79b74141b44e2e9d4c7c7d2, type: 3}
   level: 1
+  isFirstSelected: 0
+  initPos: {x: 0, y: 0, z: 0}
 --- !u!61 &48959392
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1040,6 +1040,88 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &155626152
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 155626154}
+  - component: {fileID: 155626153}
+  m_Layer: 0
+  m_Name: PermaSelection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!212 &155626153
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155626152}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 2a61663404f380240874b5a4c082f267, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 2, y: 2}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &155626154
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155626152}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 687941625}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &189931649
 GameObject:
   m_ObjectHideFlags: 0
@@ -1229,9 +1311,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649abc7823bfdf4459fc6220349b99b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 573421981}
+  player: {fileID: 573421982}
   animationScript: {fileID: 0}
-  player: {fileID: 0}
   modifier: {fileID: 1337112282}
   modifiers: []
   faction: Dragon
@@ -2030,9 +2111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b775bd50fb864d4cb820bc469bffe2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceObject: {fileID: 1329655358}
-  playerObject: {fileID: 573421981}
-  player: {fileID: 0}
+  piece: {fileID: 1329655359}
+  player: {fileID: 573421982}
   highlight: {fileID: 237509520872558747}
   faction: Night
   sprites:
@@ -2046,6 +2126,8 @@ MonoBehaviour:
   - {fileID: -5368809097109509552, guid: c648d6c3058126e46970eff12e4b3918, type: 3}
   - {fileID: -7863444936086905973, guid: c648d6c3058126e46970eff12e4b3918, type: 3}
   level: 1
+  isFirstSelected: 0
+  initPos: {x: 0, y: 0, z: 0}
 --- !u!61 &498760727
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2412,6 +2494,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4108246732056441027}
+  - {fileID: 155626154}
   m_Father: {fileID: 1813679496}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2432,6 +2515,7 @@ MonoBehaviour:
   location: {x: 0, y: 0}
   adjacentCells: []
   highlight: {fileID: 6341183410577574770}
+  selectHighlight: {fileID: 155626152}
 --- !u!1 &779283278
 GameObject:
   m_ObjectHideFlags: 0
@@ -2494,7 +2578,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &796141405
 Transform:
   m_ObjectHideFlags: 0
@@ -3038,9 +3122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649abc7823bfdf4459fc6220349b99b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 573421981}
+  player: {fileID: 573421982}
   animationScript: {fileID: 0}
-  player: {fileID: 0}
   modifier: {fileID: 2018262256}
   modifiers: []
   faction: Angel
@@ -3228,7 +3311,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1232332864
 Transform:
   m_ObjectHideFlags: 0
@@ -3575,9 +3658,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649abc7823bfdf4459fc6220349b99b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 573421981}
+  player: {fileID: 573421982}
   animationScript: {fileID: 0}
-  player: {fileID: 0}
   modifier: {fileID: 195161786}
   modifiers: []
   faction: Night
@@ -3780,7 +3862,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1595145812
 Transform:
   m_ObjectHideFlags: 0
@@ -3890,7 +3972,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1631182841
 Transform:
   m_ObjectHideFlags: 0
@@ -3924,7 +4006,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1765809873
 Transform:
   m_ObjectHideFlags: 0
@@ -3989,9 +4071,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b775bd50fb864d4cb820bc469bffe2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceObject: {fileID: 781550}
-  playerObject: {fileID: 573421981}
-  player: {fileID: 0}
+  piece: {fileID: 781551}
+  player: {fileID: 573421982}
   highlight: {fileID: 5778203941048736356}
   faction: Kraken
   sprites:
@@ -4005,6 +4086,8 @@ MonoBehaviour:
   - {fileID: 542169710918119817, guid: 80627220a5c6e3a44a584d4ee770f3a5, type: 3}
   - {fileID: -6547275862829395972, guid: 80627220a5c6e3a44a584d4ee770f3a5, type: 3}
   level: 1
+  isFirstSelected: 0
+  initPos: {x: 0, y: 0, z: 0}
 --- !u!61 &1787226152
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4125,7 +4208,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1813679494}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 50}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 687941625}
@@ -4419,9 +4502,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649abc7823bfdf4459fc6220349b99b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 573421981}
+  player: {fileID: 573421982}
   animationScript: {fileID: 0}
-  player: {fileID: 0}
   modifier: {fileID: 85767425}
   modifiers: []
   faction: Centre
@@ -4612,9 +4694,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b775bd50fb864d4cb820bc469bffe2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceObject: {fileID: 1123161137}
-  playerObject: {fileID: 573421981}
-  player: {fileID: 0}
+  piece: {fileID: 1123161138}
+  player: {fileID: 573421982}
   highlight: {fileID: 9184295146446310493}
   faction: Angel
   sprites:
@@ -4628,6 +4709,8 @@ MonoBehaviour:
   - {fileID: 3027750191847894976, guid: 3cf9def405b16704eba82ee966ccabbe, type: 3}
   - {fileID: -8196364037890452538, guid: 3cf9def405b16704eba82ee966ccabbe, type: 3}
   level: 1
+  isFirstSelected: 0
+  initPos: {x: 0, y: 0, z: 0}
 --- !u!61 &1930954971
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5134,7 +5217,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2044155294
 Transform:
   m_ObjectHideFlags: 0
@@ -5750,9 +5833,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649abc7823bfdf4459fc6220349b99b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 446016663}
+  player: {fileID: 446016664}
   animationScript: {fileID: 0}
-  player: {fileID: 0}
   modifier: {fileID: 303338665}
   modifiers: []
   faction: Angel
@@ -5805,7 +5887,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 155571474258558445}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.4369278, y: 1.937834, z: -10.469808}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 303338666}
@@ -6050,9 +6132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649abc7823bfdf4459fc6220349b99b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 446016663}
+  player: {fileID: 446016664}
   animationScript: {fileID: 259977411475611831}
-  player: {fileID: 0}
   modifier: {fileID: 829600900}
   modifiers: []
   faction: Kraken
@@ -6143,7 +6224,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 259977411475611830}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.4369278, y: 1.937834, z: -10.469808}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 829600901}
@@ -6685,9 +6766,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b775bd50fb864d4cb820bc469bffe2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceObject: {fileID: 259977411475611830}
-  playerObject: {fileID: 446016663}
-  player: {fileID: 0}
+  piece: {fileID: 259977411475611829}
+  player: {fileID: 446016664}
   highlight: {fileID: 4948630570724896140}
   faction: Kraken
   sprites:
@@ -6701,6 +6781,8 @@ MonoBehaviour:
   - {fileID: 542169710918119817, guid: 80627220a5c6e3a44a584d4ee770f3a5, type: 3}
   - {fileID: -6547275862829395972, guid: 80627220a5c6e3a44a584d4ee770f3a5, type: 3}
   level: 1
+  isFirstSelected: 0
+  initPos: {x: 0, y: 0, z: 0}
 --- !u!61 &564860704122733441
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8500,9 +8582,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b775bd50fb864d4cb820bc469bffe2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceObject: {fileID: 4686931618651972126}
-  playerObject: {fileID: 446016663}
-  player: {fileID: 0}
+  piece: {fileID: 4686931618651972125}
+  player: {fileID: 446016664}
   highlight: {fileID: 1344526150767078919}
   faction: Night
   sprites:
@@ -8516,6 +8597,8 @@ MonoBehaviour:
   - {fileID: -5368809097109509552, guid: c648d6c3058126e46970eff12e4b3918, type: 3}
   - {fileID: -7863444936086905973, guid: c648d6c3058126e46970eff12e4b3918, type: 3}
   level: 1
+  isFirstSelected: 0
+  initPos: {x: 0, y: 0, z: 0}
 --- !u!4 &2563147913817638446
 Transform:
   m_ObjectHideFlags: 0
@@ -9140,9 +9223,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b775bd50fb864d4cb820bc469bffe2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceObject: {fileID: 155571474258558445}
-  playerObject: {fileID: 446016663}
-  player: {fileID: 0}
+  piece: {fileID: 155571474258558444}
+  player: {fileID: 446016664}
   highlight: {fileID: 9019166508681489581}
   faction: Angel
   sprites:
@@ -9156,6 +9238,8 @@ MonoBehaviour:
   - {fileID: 3027750191847894976, guid: 3cf9def405b16704eba82ee966ccabbe, type: 3}
   - {fileID: -8196364037890452538, guid: 3cf9def405b16704eba82ee966ccabbe, type: 3}
   level: 1
+  isFirstSelected: 0
+  initPos: {x: 0, y: 0, z: 0}
 --- !u!61 &3920290418934917361
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9531,9 +9615,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b775bd50fb864d4cb820bc469bffe2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceObject: {fileID: 6493033412095457728}
-  playerObject: {fileID: 446016663}
-  player: {fileID: 0}
+  piece: {fileID: 6493033412095457729}
+  player: {fileID: 446016664}
   highlight: {fileID: 3106059875324020520}
   faction: Dragon
   sprites:
@@ -9547,6 +9630,8 @@ MonoBehaviour:
   - {fileID: -1767747003833078727, guid: 8f7eaf6fd79b74141b44e2e9d4c7c7d2, type: 3}
   - {fileID: 7728830261915943447, guid: 8f7eaf6fd79b74141b44e2e9d4c7c7d2, type: 3}
   level: 1
+  isFirstSelected: 0
+  initPos: {x: 0, y: 0, z: 0}
 --- !u!4 &4218422980362611473
 Transform:
   m_ObjectHideFlags: 0
@@ -10043,7 +10128,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4686931618651972126}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.4369278, y: 1.937834, z: -10.469808}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1463642624}
@@ -10114,9 +10199,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649abc7823bfdf4459fc6220349b99b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 446016663}
+  player: {fileID: 446016664}
   animationScript: {fileID: 4686931618651972127}
-  player: {fileID: 0}
   modifier: {fileID: 1463642623}
   modifiers: []
   faction: Night
@@ -14585,9 +14669,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649abc7823bfdf4459fc6220349b99b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 446016663}
+  player: {fileID: 446016664}
   animationScript: {fileID: 6493033412095457732}
-  player: {fileID: 0}
   modifier: {fileID: 1278503878}
   modifiers: []
   faction: Dragon
@@ -14673,7 +14756,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6493033412095457728}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.4369278, y: 1.937834, z: -10.469808}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1278503879}
@@ -18674,9 +18757,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649abc7823bfdf4459fc6220349b99b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 446016663}
+  player: {fileID: 446016664}
   animationScript: {fileID: 0}
-  player: {fileID: 0}
   modifier: {fileID: 779283280}
   modifiers: []
   faction: Centre
@@ -18703,7 +18785,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7300861256759410032}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.4369278, y: 1.9378347, z: -10.469803}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 779283279}

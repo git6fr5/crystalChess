@@ -273,8 +273,8 @@ public class GameRules : MonoBehaviour
         //check that there atleast two items, if not wait
         if (selectionList.Count < 2)
         {
-            Debug.Log("Not enough items selected");  
-            return player.ResetSelections();
+            Debug.Log("Not enough items selected");
+            return false;
         }
         //check that there are only two items, if not reset
         if (selectionList.Count > 2)

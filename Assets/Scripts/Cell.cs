@@ -11,79 +11,32 @@ public class Cell : MonoBehaviour
     [HideInInspector] public List<Cell> adjacentCells;
 
     public GameObject highlight;
+    public GameObject selectHighlight;
+
 
     public void UpdateCell()
     {
         if (piece)
         {
             piece.transform.parent = gameObject.transform;
-            piece.transform.localPosition = new Vector3(0, 0, -5);
+            piece.transform.localPosition = new Vector3(0, 0, -1);
+            piece.UpdatePiece();
         }
     }
 
     void OnMouseDown()
     {
-        Select();
+        SelectFlag();
     }
 
-    void Select()
+    void OnMouseOver()
     {
-        print("selected a cell");
-
-        // DESELECTING
-        if (piece && board.gameRules.player.selectionList.Count == 1 && board.gameRules.player.selectionList[0] == gameObject)
-        {
-            Deselect(0);
-            board.gameRules.player.Highlight();
-        }
-        else if (piece && board.gameRules.player.selectionList.Count == 2 && board.gameRules.player.selectionList[0] == gameObject)
-        {
-            Deselect(1); Deselect(0);
-            board.gameRules.player.Highlight();
-        }
-        else if (piece && board.gameRules.player.selectionList.Count == 2 && board.gameRules.player.selectionList[1].GetComponent<Card>())
-        {
-            Deselect(1);
-            board.gameRules.player.Highlight();
-        }
-
-        if (piece && board.gameRules.player.selectionList.Count == 0 && piece.player == board.gameRules.player)
-        {
-            board.gameRules.player.selectionList.Add(gameObject);
-            board.gameRules.player.Highlight();
-        }
-        // change selection if only one thing has been selected so far
-        else if (piece && board.gameRules.player.selectionList.Count == 1)
-        {
-            Deselect(0);
-            board.gameRules.player.selectionList.Add(gameObject);
-            board.gameRules.player.Highlight();
-        }
-        else if (!piece && board.gameRules.player.selectionList.Count == 1)
-        {
-            board.gameRules.player.selectionList.Add(gameObject);
-            board.gameRules.player.Highlight();
-        }
-        else if (!piece && board.gameRules.player.selectionList.Count == 2)
-        {
-            Deselect(1);
-            board.gameRules.player.selectionList.Add(gameObject);
-            board.gameRules.player.Highlight();
-        }
-        board.gameRules.player.InspectCell(this);
+        Highlight();
     }
 
-    public void Deselect(int index)
+    void OnMouseExit()
     {
-        if (board.gameRules.player.selectionList[index].GetComponent<Cell>())
-        {
-            board.gameRules.player.selectionList[index].GetComponent<Cell>().highlight.SetActive(false);
-        }
-        else if (board.gameRules.player.selectionList[index].GetComponent<Card>())
-        {
-            board.gameRules.player.selectionList[index].GetComponent<Card>().highlight.SetActive(false);
-        }
-        board.gameRules.player.selectionList.RemoveAt(index);
+        UnHighlight();
     }
 
     public void DisplayCell()
@@ -134,5 +87,80 @@ public class Cell : MonoBehaviour
                 adjacentCells.Add(board.gridArray[(int)newLocation.x][(int)newLocation.y].GetComponent<Cell>());
             }
         }
+    }
+
+    void SelectFlag()
+    {
+        if (piece)
+        {
+            // if selection list is empty
+            if (board.gameRules.player.selectionList.Count == 1)
+            {
+                // add to selection list, make it follow mouse
+                if (board.gameRules.player.selectionList[0] == gameObject)
+                {
+                    Select(false, 0);
+                }
+            }
+            else if (board.gameRules.player.selectionList.Count == 0 && piece.player.isTurn == board.gameRules.player.isTurn)
+            {
+                Select(true, 0);
+            }
+        }
+        else
+        {
+            // if selection list is empty
+            if (board.gameRules.player.selectionList.Count == 1)
+            {
+                Select(true, 1);
+            }
+        }
+    }
+
+    public void Select(bool selecting, int index)
+    {
+        Player player = board.gameRules.player;
+        if (index == 0)
+        {
+            selectHighlight.SetActive(selecting);
+            if (selecting)
+            {
+                player.selectionList.Add(gameObject);
+            }
+            else
+            {
+                player.selectionList.RemoveAt(index);
+            }
+        }
+        else if (index == 1)
+        {
+            selectHighlight.SetActive(selecting);
+            if (selecting)
+            {
+                player.selectionList.Add(gameObject);
+                if (player.selectionList[0].GetComponent<Card>())
+                {
+                    player.gameRules.OnPlaceEvent.Invoke();
+                }
+                else if (player.selectionList[0].GetComponent<Cell>())
+                {
+                    player.gameRules.OnMoveEvent.Invoke();
+                }
+            }
+        }
+        else if (index == -1)
+        {
+            selectHighlight.SetActive(selecting);
+        }
+    }
+
+    void Highlight()
+    {
+        highlight.SetActive(true);
+    }
+
+    void UnHighlight()
+    {
+        highlight.SetActive(false);
     }
 }
