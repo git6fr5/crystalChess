@@ -116,14 +116,16 @@ public class Cell : MonoBehaviour
                     Attach(false);
                     return;
                 }
-                if (IsCard(firstSelection))
-                {
-                    player.gameRules.OnPlaceEvent.Invoke();
-                }
-                // check if that thing is a card
-                else
+
+                // check if that thing is a cell
+                if (IsCell(firstSelection))
                 {
                     player.gameRules.OnMoveEvent.Invoke();
+                }
+                else
+                {
+                    player.gameRules.OnPlaceEvent.Invoke();
+
                 }
             }
         }
@@ -134,6 +136,7 @@ public class Cell : MonoBehaviour
         Player player = board.gameRules.player;
         if (select) { player.selectionList.Add(gameObject); }
         else { player.selectionList.Remove(gameObject); }
+        player.InspectCell(this);
     }
 
     public void Attach(bool attach)
@@ -146,9 +149,9 @@ public class Cell : MonoBehaviour
         highlightObject.SetActive(highlight);
     }
 
-    bool IsCard(GameObject _object)
+    public static bool IsCell(GameObject _object)
     {
-        if (_object.GetComponent<Card>()) { return true; }
+        if (_object.GetComponent<Cell>()) { return true; }
         else { return false; }
     }
 }

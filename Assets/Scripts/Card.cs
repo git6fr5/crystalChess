@@ -31,7 +31,7 @@ public class Card : MonoBehaviour
         if (isAttached)
         {
             Vector3 cameraPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = new Vector3(cameraPos.x, cameraPos.y, initPos.z + 5);
+            transform.position = new Vector3(cameraPos.x, cameraPos.y, initPos.z + 1);
         }
     }
 
@@ -68,6 +68,7 @@ public class Card : MonoBehaviour
         gameObject.SetActive(true);
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprites[level - 1];
+        initPos = transform.position;
     }
 
     void SelectFlag()
@@ -112,7 +113,8 @@ public class Card : MonoBehaviour
     public void Select(bool select)
     {
         if (select) { player.selectionList.Add(gameObject); }
-        else { player.selectionList.Remove(gameObject); }       
+        else { player.selectionList.Remove(gameObject); }
+        player.InspectCard(this);
     }
 
     public void Attach(bool attach)
@@ -127,7 +129,7 @@ public class Card : MonoBehaviour
         highlightObject.SetActive(highlight);
     }
 
-    bool IsCard(GameObject _object)
+    public static bool IsCard(GameObject _object)
     {
         if (_object.GetComponent<Card>()) { return true; }
         else { return false; }

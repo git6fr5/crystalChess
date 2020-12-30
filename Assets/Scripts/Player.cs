@@ -51,6 +51,7 @@ public class Player : MonoBehaviour
         {
             //Instantiate(handList[i], new Vector3(i, 0, 0), Quaternion.identity, gameObject.transform);
             handList[i].transform.localPosition = new Vector3(i, 0, 0);
+            handList[i].GetComponent<Card>().UpdateCard();
         }
     }
 
@@ -194,18 +195,11 @@ public class Player : MonoBehaviour
     {
         for (int i = 0; i < selectionList.Count; i++)
         {
-            print("resetting selections");
-            if (IsCard(selectionList[i])) { selectionList[i].GetComponent<Card>().Attach(false); }
+            if (Card.IsCard(selectionList[i])) { selectionList[i].GetComponent<Card>().Attach(false); }
             else { selectionList[i].GetComponent<Cell>().Attach(false); }
         }
         selectionList.Clear();
         return false;
-    }
-
-    bool IsCard(GameObject _object)
-    {
-        if (_object.GetComponent<Card>()) { return true; }
-        else { return false; }
     }
 
     public void Discard(GameObject cardObject)
