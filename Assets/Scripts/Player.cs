@@ -79,7 +79,7 @@ public class Player : MonoBehaviour
         GameObject newCardObject = Instantiate(selectionList[0], Vector3.zero, Quaternion.identity, gameObject.transform);
         Card newCard = newCardObject.GetComponent<Card>();
         newCard.level = newLevel;
-        newCard.Select(false, -1);
+        newCard.Attach(false);
         newCard.UpdateCard();
 
         handList.Add(newCardObject);
@@ -195,11 +195,17 @@ public class Player : MonoBehaviour
         for (int i = 0; i < selectionList.Count; i++)
         {
             print("resetting selections");
-            if (selectionList[i].GetComponent<Card>()) { selectionList[i].GetComponent<Card>().Select(false, -1); }
-            else if (selectionList[i].GetComponent<Cell>()) { selectionList[i].GetComponent<Cell>().Select(false, -1); }
+            if (IsCard(selectionList[i])) { selectionList[i].GetComponent<Card>().Attach(false); }
+            else { selectionList[i].GetComponent<Cell>().Attach(false); }
         }
         selectionList.Clear();
         return false;
+    }
+
+    bool IsCard(GameObject _object)
+    {
+        if (_object.GetComponent<Card>()) { return true; }
+        else { return false; }
     }
 
     public void Discard(GameObject cardObject)

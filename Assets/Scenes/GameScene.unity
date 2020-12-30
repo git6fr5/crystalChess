@@ -637,7 +637,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   piece: {fileID: 262142848}
   player: {fileID: 573421982}
-  highlight: {fileID: 4204072311554401207}
+  highlightObject: {fileID: 4204072311554401207}
   faction: Dragon
   sprites:
   - {fileID: 1186199272885921202, guid: 8f7eaf6fd79b74141b44e2e9d4c7c7d2, type: 3}
@@ -650,7 +650,7 @@ MonoBehaviour:
   - {fileID: -1767747003833078727, guid: 8f7eaf6fd79b74141b44e2e9d4c7c7d2, type: 3}
   - {fileID: 7728830261915943447, guid: 8f7eaf6fd79b74141b44e2e9d4c7c7d2, type: 3}
   level: 1
-  isFirstSelected: 0
+  isAttached: 0
   initPos: {x: 0, y: 0, z: 0}
 --- !u!61 &48959392
 BoxCollider2D:
@@ -2113,7 +2113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   piece: {fileID: 1329655359}
   player: {fileID: 573421982}
-  highlight: {fileID: 237509520872558747}
+  highlightObject: {fileID: 237509520872558747}
   faction: Night
   sprites:
   - {fileID: 6313671502113735080, guid: c648d6c3058126e46970eff12e4b3918, type: 3}
@@ -2126,7 +2126,7 @@ MonoBehaviour:
   - {fileID: -5368809097109509552, guid: c648d6c3058126e46970eff12e4b3918, type: 3}
   - {fileID: -7863444936086905973, guid: c648d6c3058126e46970eff12e4b3918, type: 3}
   level: 1
-  isFirstSelected: 0
+  isAttached: 0
   initPos: {x: 0, y: 0, z: 0}
 --- !u!61 &498760727
 BoxCollider2D:
@@ -2514,8 +2514,8 @@ MonoBehaviour:
   board: {fileID: 1813679495}
   location: {x: 0, y: 0}
   adjacentCells: []
-  highlight: {fileID: 6341183410577574770}
-  selectHighlight: {fileID: 155626152}
+  highlightObject: {fileID: 6341183410577574770}
+  selectHighlightObject: {fileID: 155626152}
 --- !u!1 &779283278
 GameObject:
   m_ObjectHideFlags: 0
@@ -4073,7 +4073,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   piece: {fileID: 781551}
   player: {fileID: 573421982}
-  highlight: {fileID: 5778203941048736356}
+  highlightObject: {fileID: 5778203941048736356}
   faction: Kraken
   sprites:
   - {fileID: 6965997158851993578, guid: 80627220a5c6e3a44a584d4ee770f3a5, type: 3}
@@ -4086,7 +4086,7 @@ MonoBehaviour:
   - {fileID: 542169710918119817, guid: 80627220a5c6e3a44a584d4ee770f3a5, type: 3}
   - {fileID: -6547275862829395972, guid: 80627220a5c6e3a44a584d4ee770f3a5, type: 3}
   level: 1
-  isFirstSelected: 0
+  isAttached: 0
   initPos: {x: 0, y: 0, z: 0}
 --- !u!61 &1787226152
 BoxCollider2D:
@@ -4696,7 +4696,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   piece: {fileID: 1123161138}
   player: {fileID: 573421982}
-  highlight: {fileID: 9184295146446310493}
+  highlightObject: {fileID: 9184295146446310493}
   faction: Angel
   sprites:
   - {fileID: -4125689739190869616, guid: 3cf9def405b16704eba82ee966ccabbe, type: 3}
@@ -4709,7 +4709,7 @@ MonoBehaviour:
   - {fileID: 3027750191847894976, guid: 3cf9def405b16704eba82ee966ccabbe, type: 3}
   - {fileID: -8196364037890452538, guid: 3cf9def405b16704eba82ee966ccabbe, type: 3}
   level: 1
-  isFirstSelected: 0
+  isAttached: 0
   initPos: {x: 0, y: 0, z: 0}
 --- !u!61 &1930954971
 BoxCollider2D:
@@ -6768,7 +6768,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   piece: {fileID: 259977411475611829}
   player: {fileID: 446016664}
-  highlight: {fileID: 4948630570724896140}
+  highlightObject: {fileID: 4948630570724896140}
   faction: Kraken
   sprites:
   - {fileID: 6965997158851993578, guid: 80627220a5c6e3a44a584d4ee770f3a5, type: 3}
@@ -6781,7 +6781,7 @@ MonoBehaviour:
   - {fileID: 542169710918119817, guid: 80627220a5c6e3a44a584d4ee770f3a5, type: 3}
   - {fileID: -6547275862829395972, guid: 80627220a5c6e3a44a584d4ee770f3a5, type: 3}
   level: 1
-  isFirstSelected: 0
+  isAttached: 0
   initPos: {x: 0, y: 0, z: 0}
 --- !u!61 &564860704122733441
 BoxCollider2D:
@@ -8584,7 +8584,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   piece: {fileID: 4686931618651972125}
   player: {fileID: 446016664}
-  highlight: {fileID: 1344526150767078919}
+  highlightObject: {fileID: 1344526150767078919}
   faction: Night
   sprites:
   - {fileID: 6313671502113735080, guid: c648d6c3058126e46970eff12e4b3918, type: 3}
@@ -8597,7 +8597,7 @@ MonoBehaviour:
   - {fileID: -5368809097109509552, guid: c648d6c3058126e46970eff12e4b3918, type: 3}
   - {fileID: -7863444936086905973, guid: c648d6c3058126e46970eff12e4b3918, type: 3}
   level: 1
-  isFirstSelected: 0
+  isAttached: 0
   initPos: {x: 0, y: 0, z: 0}
 --- !u!4 &2563147913817638446
 Transform:
@@ -9225,7 +9225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   piece: {fileID: 155571474258558444}
   player: {fileID: 446016664}
-  highlight: {fileID: 9019166508681489581}
+  highlightObject: {fileID: 9019166508681489581}
   faction: Angel
   sprites:
   - {fileID: -4125689739190869616, guid: 3cf9def405b16704eba82ee966ccabbe, type: 3}
@@ -9238,7 +9238,7 @@ MonoBehaviour:
   - {fileID: 3027750191847894976, guid: 3cf9def405b16704eba82ee966ccabbe, type: 3}
   - {fileID: -8196364037890452538, guid: 3cf9def405b16704eba82ee966ccabbe, type: 3}
   level: 1
-  isFirstSelected: 0
+  isAttached: 0
   initPos: {x: 0, y: 0, z: 0}
 --- !u!61 &3920290418934917361
 BoxCollider2D:
@@ -9617,7 +9617,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   piece: {fileID: 6493033412095457729}
   player: {fileID: 446016664}
-  highlight: {fileID: 3106059875324020520}
+  highlightObject: {fileID: 3106059875324020520}
   faction: Dragon
   sprites:
   - {fileID: 1186199272885921202, guid: 8f7eaf6fd79b74141b44e2e9d4c7c7d2, type: 3}
@@ -9630,7 +9630,7 @@ MonoBehaviour:
   - {fileID: -1767747003833078727, guid: 8f7eaf6fd79b74141b44e2e9d4c7c7d2, type: 3}
   - {fileID: 7728830261915943447, guid: 8f7eaf6fd79b74141b44e2e9d4c7c7d2, type: 3}
   level: 1
-  isFirstSelected: 0
+  isAttached: 0
   initPos: {x: 0, y: 0, z: 0}
 --- !u!4 &4218422980362611473
 Transform:

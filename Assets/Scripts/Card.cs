@@ -10,14 +10,14 @@ public class Card : MonoBehaviour
     /* --- The Player ---*/
     public Player player;
 
-    public GameObject highlight;
+    public GameObject highlightObject;
 
     /*--- Card Properties ---*/
     [HideInInspector] public string faction;
     public Sprite[] sprites;
     public int level = 1;
 
-    [HideInInspector] public bool isFirstSelected = false;
+    [HideInInspector] public bool isAttached = false;
     [HideInInspector] public Vector3 initPos;
 
     void Start()
@@ -28,7 +28,7 @@ public class Card : MonoBehaviour
 
     void Update()
     {
-        if (isFirstSelected)
+        if (isAttached)
         {
             Vector3 cameraPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(cameraPos.x, cameraPos.y, initPos.z + 5);
@@ -42,12 +42,12 @@ public class Card : MonoBehaviour
 
     void OnMouseOver()
     {
-        Highlight();
+        Highlight(true);
     }
 
     void OnMouseExit()
     {
-        UnHighlight();
+        Highlight(false);
     }
 
     public string ReadProperties()
@@ -78,79 +78,58 @@ public class Card : MonoBehaviour
             if (player.selectionList.Count == 0)
             {
                 // add to selection list, make it follow mouse
-                Select(true, 0);
+                Select(true);
+                Attach(true);
             }
             // if there is something in selection list
             else if (player.selectionList.Count == 1)
             {
+                GameObject firstSelection = player.selectionList[0];
                 // if it is this thing, then deselect
-                if (player.selectionList[0] == gameObject)
+                if (firstSelection == gameObject)
                 {
-                    Select(false, 0);
+                    Select(false);
+                    Attach(false);
+                    return;
                 }
+
+                Select(true);
                 // if it is this thing, then deselect
-                if (player.selectionList[0].GetComponent<Cell>())
+                if (IsCard(firstSelection))
                 {
-                    player.selectionList[0].GetComponent<Cell>().Select(false, 0);
-                    Select(true, 0);
-                }
-                // check if that thing is a card
-                else if (player.selectionList[0].GetComponent<Card>())
-                {
-                    Select(true, 1);
                     player.gameRules.OnCombineEvent.Invoke();
                 }
+                else
+                {
+                    player.ResetSelections();
+                    Select(true);
+                    Attach(true);
+                }
             }
         }
     }
 
-    public void Select(bool selecting, int index)
+    public void Select(bool select)
     {
-
-        if (index == 0)
-        {
-            if (selecting) 
-            {
-                //GetComponent<BoxCollider2D>().enabled = false;
-                player.selectionList.Add(gameObject);
-                initPos = transform.position; 
-            }
-            else 
-            {
-                //GetComponent<BoxCollider2D>().enabled = true;
-                player.selectionList.RemoveAt(index);
-                transform.position = initPos; 
-
-            }
-            isFirstSelected = selecting;
-        }
-        else if (index == 1)
-        {
-            if (selecting)
-            {
-                player.selectionList.Add(gameObject);
-                player.gameRules.OnCombineEvent.Invoke();
-            }
-            isFirstSelected = false;
-        }
-        else if (index == -1)
-        {
-            if (!selecting)
-            {
-                //GetComponent<BoxCollider2D>().enabled = true;
-                transform.position = initPos;
-            }
-            isFirstSelected = false;
-        }
+        if (select) { player.selectionList.Add(gameObject); }
+        else { player.selectionList.Remove(gameObject); }       
     }
 
-    void Highlight()
+    public void Attach(bool attach)
     {
-        highlight.SetActive(true);
+        if (attach) { initPos = transform.position; }
+        else { transform.position = initPos; }
+        isAttached = attach;
     }
 
-    void UnHighlight()
+    void Highlight(bool highlight)
     {
-        highlight.SetActive(false);
+        highlightObject.SetActive(highlight);
+    }
+
+    bool IsCard(GameObject _object)
+    {
+        if (_object.GetComponent<Card>()) { return true; }
+        else { return false; }
     }
 }
