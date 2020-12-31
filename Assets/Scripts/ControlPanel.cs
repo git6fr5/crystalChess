@@ -33,10 +33,16 @@ public class ControlPanel : MonoBehaviour
             board.gameRules.OnMoveEvent.Invoke();
         }
 
-        if (name == "Aura")
+        if (name == "Attack")
+        {
+            print("clicked attack button");
+            board.gameRules.OnAttackEvent.Invoke();
+        }
+
+        if (name == "End")
         {
             print("clicked aura button");
-            board.gameRules.OnAuraEvent.Invoke();
+            board.gameRules.OnEndEvent.Invoke();
         }
     }
 }

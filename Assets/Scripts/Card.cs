@@ -20,12 +20,6 @@ public class Card : MonoBehaviour
     [HideInInspector] public bool isAttached = false;
     [HideInInspector] public Vector3 initPos;
 
-    void Start()
-    {
-        faction = tag;
-        UpdateCard();
-    }
-
     void Update()
     {
         if (isAttached)
@@ -50,22 +44,10 @@ public class Card : MonoBehaviour
         Highlight(false);
     }
 
-    public string ReadProperties()
-    {
-        string s01 = "Name: " + name;
-        string s02 = "\nFaction: " + faction;
-        string s03 = "\nLevel: " + level.ToString();
-        return s01 + s02 + s03;
-    }
-
-    private void GetFaction()
-    {
-        faction = tag;
-    }
-
-    public void UpdateCard()
+    public void StartCard()
     {
         gameObject.SetActive(true);
+        faction = tag;
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprites[level - 1];
         initPos = transform.position;

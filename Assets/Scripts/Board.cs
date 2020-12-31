@@ -62,22 +62,21 @@ public class Board : MonoBehaviour
         Piece centerPiece0 = gameRules.player0.centerPiece;
         centerPiece0.level = 1;
         centerPiece0.modifier.GetModifierValues();
-        centerPiece0.UpdatePiece();
+        centerPiece0.StartPiece();
 
         startPos0.piece = gameRules.player0.centerPiece;
         print(startPos0.location);
         startPos0.UpdateCell();
-        startPos0.DisplayCell();
+        //startPos0.TintAdjacentCells(centerPiece0.modifier.color);
 
         Piece centerPiece1 = gameRules.player1.centerPiece;
         centerPiece1.level = 1;
         centerPiece1.modifier.GetModifierValues();
-        centerPiece1.UpdatePiece();
+        centerPiece1.StartPiece();
 
         startPos1.piece = gameRules.player1.centerPiece;
         print(startPos1.location);
         startPos1.UpdateCell();
-        startPos1.DisplayCell();
     }
 
 }

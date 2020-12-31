@@ -16,115 +16,89 @@ public class Piece : MonoBehaviour
     [HideInInspector] public string faction;
     public Sprite[] sprites;
 
-    private int[] radiuses = { 1, 1, 1, 2, 2, 2, 3, 3, 4 };
-    [HideInInspector] public int radius = 0;
-
     [HideInInspector] public int level = 1;
 
     /*--- Modifiers ---*/
     [HideInInspector] public float baseHealth = 1;
+    [HideInInspector] public float maxHealth = 0;
     [HideInInspector] public float health = 0;
 
-    [HideInInspector] public float drownDuration = 0f;
-    [HideInInspector] public bool isDrowning = false;
-    [HideInInspector] public float baseThreshold = 2f;
-    [HideInInspector] public float drownThreshold = 0f;
-
-    [HideInInspector] public float paralyzeDuration = 0f;
-    [HideInInspector] public bool isParalyzed = false;
-    [HideInInspector] public float baseRecovery = 1f;
-    [HideInInspector] public float paralyzeRecovery = 0f;
-
-
     /*--- UI ---*/
+    [HideInInspector] public bool isAttached = false;
+    [HideInInspector] public Vector3 initPos;
 
     public GameObject statusObject;
+    private Status status;
 
-    void Start()
+    void Update()
     {
-        faction = tag;
+        if (isAttached)
+        {
+            Vector3 cameraPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = new Vector3(cameraPos.x, cameraPos.y, initPos.z + 1);
+        }
     }
 
-    public string ReadProperties()
+    public void StartPiece()
     {
-        string s01 = "Name: " + name;
-        string s02 = "\nFaction: " + faction;
-        string s03 = "\nLevel: " + level.ToString();
-        string s04 = "\nHealth: " + health.ToString();
-        //string s05; string s06; string s07; string s08;
-        /*if (burnDamage != 0) { s05 = "\nBurning for: " + burnDamage.ToString(); } else { s05 = "\nNot burning"; }
-        if (armyCount != 0) { s06 = "\nArmy bonus in vicinity: " + armyCount.ToString(); } else { s06 = "\nNo army bonus in vicinity"; }
-        if (drownTicker != 0) { s07 = "\nDrowning for: " + drownTicker.ToString() + " / Threshold: " + drownThreshold.ToString(); } else { s07 = "\nNot drowning"; }
-        if (paralyzed) { s08 = "\nParalyze time left: " + paralyzeTicker.ToString(); } else { s08 = "\nNot paralyzed"; }*/
-        return s01;
+        gameObject.SetActive(true);
+        faction = tag;
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = sprites[level - 1];
+
+        if (animationScript) { animationScript.SetAnimation(level - 1); }
+
+        maxHealth = baseHealth * level;
+        health = maxHealth;
+
+        status = statusObject.GetComponent<Status>();
+        status.healthBar.SetActive(true);
+
     }
 
     public void UpdatePiece()
     {
-        gameObject.SetActive(true);
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = sprites[level - 1];
-        if (animationScript)
-        {
-            animationScript.SetAnimation(level - 1);
-        }
-
-        radius = radiuses[level - 1];
-
-        health = baseHealth * level;
-        drownThreshold = baseThreshold * level;
-        paralyzeRecovery = baseRecovery * level;
-
-        Status status = statusObject.GetComponent<Status>();
-
         GameObject healthBar = status.healthBar;
         Slider healthSlider = healthBar.GetComponent<Slider>();
-        healthSlider.maxValue = health;
+        healthSlider.maxValue = maxHealth;
+        healthSlider.value = health;
 
-        GameObject drownBar = status.drownBar;
-        Slider drownSlider = drownBar.GetComponent<Slider>();
-        drownSlider.value = drownThreshold;
+        if (health <= 0)
+        {
+            player.gameRules.Play(player.gameRules.controlPanelAnimator.deathAnim, transform.position);
+            player.gameRules.PlayAudio(player.gameRules.controlPanelAnimator.deathAudio);
+            player.pauseAction = true;
+            StartCoroutine(IEDeath(8f/6f));
+        }
+
+        initPos = transform.position;
     }
 
-    public void DisplayStatus()
+    private IEnumerator IEDeath(float delay)
     {
+        yield return new WaitForSeconds(delay);
 
+        Destroy(gameObject);
+        player.gameRules.Play(player.gameRules.controlPanelAnimator.idleAnim, Vector3.zero);
+
+        player.pauseAction = false;
+
+        yield return null;
+    }
+
+        public void DisplayStatus()
+    {
         Status status = statusObject.GetComponent<Status>();
 
         GameObject healthBar = status.healthBar;
         Slider healthSlider = healthBar.GetComponent<Slider>();
         healthSlider.value = health;
+    }
 
-        if (health <= 0)
-        {
-            Destroy(gameObject);
-        }
-
-        status.burnObject.SetActive(false);
-        status.drownObject.SetActive(false); isDrowning = false;
-        status.fearObject.SetActive(false);
-        status.armyObject.SetActive(false);
-
-        foreach (Modifier effectModifier in modifiers)
-        {
-            if (effectModifier.name == "Burn") { status.burnObject.SetActive(true); }
-            if (effectModifier.name == "Drown") { status.drownObject.SetActive(true); isDrowning = true; }
-            if (effectModifier.name == "Fear") { status.fearObject.SetActive(true); }
-            if (effectModifier.name == "Army") { status.armyObject.SetActive(true); }
-        }
-
-        if (isDrowning)
-        {
-            GameObject drownBar = status.drownBar;
-            Slider drownSlider = drownBar.GetComponent<Slider>();
-            drownSlider.value = drownDuration;
-        }
-
-        if (isParalyzed)
-        {
-            GameObject fearBar = status.fearBar;
-            Slider fearSlider = fearBar.GetComponent<Slider>();
-            fearSlider.value = paralyzeDuration;
-        }
+    public void Attach(bool attach)
+    {
+        if (attach) { initPos = transform.position; }
+        else { transform.position = initPos; }
+        isAttached = attach;
     }
 }

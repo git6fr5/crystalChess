@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
@@ -13,7 +14,8 @@ public class GameRules : MonoBehaviour
     public UnityEvent OnCombineEvent;
     public UnityEvent OnPlaceEvent;
     public UnityEvent OnMoveEvent;
-    public UnityEvent OnAuraEvent;
+    public UnityEvent OnAttackEvent;
+    public UnityEvent OnEndEvent;
 
     public LayerMask cardLayer;
     public LayerMask pieceLayer;
@@ -28,6 +30,8 @@ public class GameRules : MonoBehaviour
     private int actions;
 
     public int drawStart = 5;
+
+    public ControlPanelAnimation controlPanelAnimator;
 
     public GameObject controlPanel;
 
@@ -68,22 +72,54 @@ public class GameRules : MonoBehaviour
     {
         if (CombineRules(player.selectionList))
         {
-            ActionCounter();
-            player.Combine();
-            player.DisplayHand();
-            player.ResetSelections();
+            Play(controlPanelAnimator.combineAnim, player.selectionList[1].transform.position);
+            PlayAudio(controlPanelAnimator.combineAudio);
+            player.pauseAction = true;
+            StartCoroutine(IECombine(8f/6f));
         }
+    }
+
+    private IEnumerator IECombine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        Play(controlPanelAnimator.idleAnim, Vector3.zero);
+
+        ActionCounter();
+        player.Combine();
+        player.DisplayHand();
+        player.ResetSelections();
+
+        player.pauseAction = false;
+
+        yield return null;
     }
 
     public void OnPlace()
     {
         if (PlaceRules(player.selectionList))
         {
-            ActionCounter();
-            player.Place();
-            player.DisplayHand();
-            player.ResetSelections();
+            Play(controlPanelAnimator.placeAnim, player.selectionList[1].transform.position);
+            PlayAudio(controlPanelAnimator.placeAudio);
+            player.pauseAction = true;
+            StartCoroutine(IEPlace(8f / 6f));
         }
+    }
+
+    private IEnumerator IEPlace(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        Play(controlPanelAnimator.idleAnim, Vector3.zero);
+
+        ActionCounter();
+        player.Place();
+        player.DisplayHand();
+        player.ResetSelections();
+
+        player.pauseAction = false;
+
+        yield return null;
     }
 
     public void OnMove()
@@ -96,9 +132,19 @@ public class GameRules : MonoBehaviour
         }
     }
 
-    public void OnAura()
+    public void OnAttack()
     {
-        player.Aura();
+        print("onAttack");
+        if (AttackRules(player.selectionList))
+        {
+            ActionCounter();
+            player.Attack();
+            player.ResetSelections();
+        }
+    }
+
+    public void OnEnd()
+    {
         player.ResetSelections();
         player.isTurn = false;
         if (player == player0) { player = player1; }
@@ -157,6 +203,21 @@ public class GameRules : MonoBehaviour
         return true;
     }
 
+    public bool AttackRules(List<GameObject> selectionList)
+    {
+        if (!GeneralCheck(selectionList)) { return false; }
+        print("passed general check");
+        if (!TypeCheck(selectionList, cellLayer, cellLayer)) { return false; }
+        print("passed type check");
+        if (!PieceCheck(selectionList[0])) { return false; }
+        if (!NotEmptyCheck(selectionList[1])) { return false; }
+        if (!AdjacentCheck(selectionList)) { return false; }
+        if (!LimitCheck()) { return false; }
+
+        print("can attack");
+        return true;
+    }
+
     private bool TypeCheck(List<GameObject> selectionList, LayerMask layer1, LayerMask layer2)
     {
 
@@ -186,6 +247,16 @@ public class GameRules : MonoBehaviour
         if (cellObject.GetComponent<Cell>().piece)
         {
             Debug.Log("This cell is not empty");
+            return player.ResetSelections();
+        }
+        return true;
+    }
+
+    private bool NotEmptyCheck(GameObject cellObject)
+    {
+        if (!cellObject.GetComponent<Cell>().piece)
+        {
+            Debug.Log("This cell is  empty");
             return player.ResetSelections();
         }
         return true;
@@ -260,11 +331,11 @@ public class GameRules : MonoBehaviour
     private bool FearCheck(GameObject cellObject)
     {
         Piece piece = cellObject.GetComponent<Cell>().piece;
-        if (piece.isParalyzed)
+        /*if (piece.isParalyzed)
         {
             Debug.Log("piece is paralyzed");
             return player.ResetSelections();
-        }
+        }*/
         return true;
     }
 
@@ -292,4 +363,15 @@ public class GameRules : MonoBehaviour
         return true;
     }
 
+    public void Play(AnimationClip animation, Vector3 animPosition)
+    {
+        controlPanelAnimator.gameObject.transform.position = animPosition;
+        controlPanelAnimator.animator.Play(animation.name);
+    }
+
+    public void PlayAudio(AudioClip audio)
+    {
+        controlPanelAnimator.audioSource.clip = audio;
+        controlPanelAnimator.audioSource.Play();
+    }
 }

@@ -10,9 +10,10 @@ public class Cell : MonoBehaviour
     [HideInInspector] public Vector2 location;
     [HideInInspector] public List<Cell> adjacentCells;
 
+    public SpriteRenderer spriteRenderer;
     public GameObject highlightObject;
     public GameObject selectHighlightObject;
-
+    private Color baseColor = new Color(1f, 1f, 1f, 1f);
 
     public void UpdateCell()
     {
@@ -39,35 +40,19 @@ public class Cell : MonoBehaviour
         Highlight(false);
     }
 
-    public void DisplayCell()
-    {
-        GetAdjacentCells();
-
-        if (piece)
-        {
-            piece.statusObject.SetActive(true);
-            piece.modifiers = new List<Modifier>();
-
-            foreach (Cell cell in adjacentCells)
-            {
-                if (cell.piece && cell.piece.player != piece.player && (!cell.piece.modifier.isBuff))
-                {
-                    piece.modifiers.Add(cell.piece.modifier);
-                }
-                else if (cell.piece && cell.piece.player == piece.player && cell.piece.modifier.isBuff)
-                {
-                    piece.modifiers.Add(cell.piece.modifier);
-                }
-            }
-
-            piece.DisplayStatus();
-
-        }
-    }
-
     public void SetLocation(int i, int j)
     {
         location = new Vector2(i, j);
+    }
+
+    public void TintAdjacentCells(Color color)
+    {
+        GetAdjacentCells();
+
+        foreach (Cell adjacentCell in adjacentCells)
+        {
+            adjacentCell.spriteRenderer.color = new Color(color.r, color.g, color.b, 1f);
+        }
     }
 
     public void GetAdjacentCells()
@@ -94,13 +79,24 @@ public class Cell : MonoBehaviour
         Player player = board.gameRules.player;
         List<GameObject> selectionList = player.selectionList;
 
-        if (piece && piece.player.isTurn == player.isTurn)
+        if (piece)
         {
             // if selection list is empty
-            if (selectionList.Count == 0)
+            if (selectionList.Count == 0 && piece.player.isTurn == player.isTurn)
             {
                 Select(true);
                 Attach(true);
+            }
+            else if (selectionList.Count == 1 && IsCell(selectionList[0]))
+            {
+                Piece attackingPiece = selectionList[0].GetComponent<Cell>().piece;
+                print("attempting to select to attack");
+                if ((attackingPiece.modifier.isBuff && piece.player == attackingPiece.player) || (!attackingPiece.modifier.isBuff && piece.player != attackingPiece.player))
+                {
+                    print("could select to attack");
+                    Select(true);
+                    player.gameRules.OnAttackEvent.Invoke();
+                }
             }
         }
         else
@@ -142,6 +138,18 @@ public class Cell : MonoBehaviour
     public void Attach(bool attach)
     {
         selectHighlightObject.SetActive(attach);
+        if (piece)
+        {
+            piece.Attach(attach);
+        }
+        /*if (attach && piece)
+        {
+            TintAdjacentCells(piece.modifier.color);
+        }
+        else
+        {
+            TintAdjacentCells(baseColor);
+        }*/
     }
 
     void Highlight(bool highlight)

@@ -5,11 +5,9 @@ using UnityEngine.UI;
 
 public class Modifier : MonoBehaviour
 {
-    public Vector4 color;
-    [HideInInspector] public delegate void EffectDelegate();
-    private EffectDelegate effectDelegate;
-
+    public Color color;
     public Piece casterPiece;
+
     [HideInInspector] public Piece targetPiece;
 
     [HideInInspector] private float burnDamage = 0f;
@@ -30,31 +28,6 @@ public class Modifier : MonoBehaviour
 
     public bool isBuff;
 
-    void Start()
-    {
-        if (name == "Burn")
-        {
-            effectDelegate = Burn;
-        }
-
-        else if (name == "Drown")
-        {
-            effectDelegate = Drown;
-        }
-
-        else if (name == "Fear")
-        {
-            effectDelegate = Fear;
-        }
-
-        else if (name == "Army")
-        {
-            effectDelegate = Army;
-        }
-
-        else { effectDelegate = Nullity; }
-    }
-
     public void GetModifierValues()
     {
         burnDamage = casterPiece.level * burnDamageIncrement + baseBurnDamage;
@@ -63,35 +36,52 @@ public class Modifier : MonoBehaviour
         armyHealth = casterPiece.level * armyHealthIncrement + baseArmyHealth;
     }
 
-    public void Apply()
+    public void Apply(Piece targetPiece)
     {
-        if (targetPiece)
+        if (name == "Burn")
         {
-            effectDelegate();
+            Burn(targetPiece);
         }
+        else if (name == "Drown")
+        {
+            Drown(targetPiece);
+        }
+
+        else if (name == "Fear")
+        {
+            Fear(targetPiece);
+        }
+
+        else if (name == "Army")
+        {
+            Army(targetPiece);
+        }
+
+        targetPiece.UpdatePiece();
     }
 
-    void Burn()
+    void Burn(Piece targetPiece)
     {
         print("burning");
         targetPiece.health = targetPiece.health - burnDamage;
     }
 
-    void Drown()
+    void Drown(Piece targetPiece)
     {
         print("drowning");
+        /*
         targetPiece.drownDuration = targetPiece.drownDuration + drownRate;
         if (targetPiece.drownDuration >= targetPiece.drownThreshold)
         {
             targetPiece.health = 0f;
-        }
+        }*/
     }
 
-    void Fear()
+    void Fear(Piece targetPiece)
     {
-        if (!targetPiece.isParalyzed)
-        {
-            print("fear");
+        print("fear");
+        /*if (!targetPiece.isParalyzed)
+        { 
 
             targetPiece.paralyzeDuration = paralyzeDuration;
 
@@ -102,30 +92,22 @@ public class Modifier : MonoBehaviour
             fearSlider.value = paralyzeDuration;
 
             targetPiece.isParalyzed = true;
-        }
+        }*/
     }
 
-    void Army()
+    void Army(Piece targetPiece)
     {
         print("army");
+        targetPiece.health = targetPiece.health + armyHealth;
 
-        Status status = targetPiece.statusObject.GetComponent<Status>();
-        GameObject healthBar = status.healthBar;
-        Slider healthSlider = healthBar.GetComponent<Slider>();
-
-        if (targetPiece.health < healthSlider.maxValue)
+        if (targetPiece.health < targetPiece.maxHealth)
         {
-            targetPiece.health = targetPiece.health + armyHealth;
-            if (targetPiece.health > healthSlider.maxValue)
-            {
-                targetPiece.health = healthSlider.maxValue;
-            }
+            targetPiece.health = targetPiece.maxHealth;
         }
     }
 
-    void Nullity()
+    void Nullity(Piece targetPiece)
     {
-        //
         print("nullity");
     }
 }

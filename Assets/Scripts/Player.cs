@@ -22,11 +22,20 @@ public class Player : MonoBehaviour
     private List<GameObject> cardsList = new List<GameObject>();
 
     [HideInInspector] public bool isTurn = false;
+    [HideInInspector] public bool pauseAction = false;
 
     void Start()
     {
         GetCards();
         CreateDeck();
+    }
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (isTurn && !pauseAction) { ResetSelections(); }
+        }
     }
 
     void GetCards()
@@ -51,7 +60,7 @@ public class Player : MonoBehaviour
         {
             //Instantiate(handList[i], new Vector3(i, 0, 0), Quaternion.identity, gameObject.transform);
             handList[i].transform.localPosition = new Vector3(i, 0, 0);
-            handList[i].GetComponent<Card>().UpdateCard();
+            handList[i].GetComponent<Card>().StartCard();
         }
     }
 
@@ -61,7 +70,7 @@ public class Player : MonoBehaviour
         for (int i = 0; i < drawNum; i++)
         {
             GameObject newCardObject = Instantiate(deckList[i], Vector3.zero, Quaternion.identity, gameObject.transform);
-            newCardObject.GetComponent<Card>().UpdateCard();
+            newCardObject.GetComponent<Card>().StartCard();
             handList.Add(newCardObject);
         }
         deckList.RemoveRange(0, drawNum);
@@ -77,18 +86,13 @@ public class Player : MonoBehaviour
             newLevel = newLevel + card.level;
         }
 
-        GameObject newCardObject = Instantiate(selectionList[0], Vector3.zero, Quaternion.identity, gameObject.transform);
-        Card newCard = newCardObject.GetComponent<Card>();
+        Card newCard = selectionList[1].GetComponent<Card>();
         newCard.level = newLevel;
         newCard.Attach(false);
-        newCard.UpdateCard();
+        newCard.StartCard();
 
-        handList.Add(newCardObject);
 
-        foreach (GameObject cardObject in selectionList)
-        {
-            Discard(cardObject);
-        }
+        Discard(selectionList[0]);
     }
 
     public void Place()
@@ -98,18 +102,12 @@ public class Player : MonoBehaviour
         Piece newPiece = newPieceObject.GetComponent<Piece>();
         newPiece.level = selectedCard.level;
         newPiece.modifier.GetModifierValues();
-        newPiece.UpdatePiece();
+        newPiece.StartPiece();
 
         Cell selectedCell = selectionList[1].GetComponent<Cell>();
+
         selectedCell.piece = newPiece;
         selectedCell.UpdateCell();
-        selectedCell.DisplayCell();
-
-        foreach (Cell adjacentCell in selectedCell.adjacentCells)
-        {
-            adjacentCell.DisplayCell();
-        }
-
 
         Discard(selectionList[0]);
     }
@@ -124,71 +122,18 @@ public class Player : MonoBehaviour
         previousCell.piece = null;
 
         previousCell.UpdateCell();
-        previousCell.DisplayCell();
-
         selectedCell.UpdateCell();
-        selectedCell.DisplayCell();
-
-        foreach (Cell adjacentCell in previousCell.adjacentCells)
-        {
-            adjacentCell.DisplayCell();
-        }
-
-        foreach (Cell adjacentCell in selectedCell.adjacentCells)
-        {
-            adjacentCell.DisplayCell();
-        }
 
         previousCell.piece = null;
     }
 
-    public void Aura()
+    public void Attack()
     {
-        Board board = gameRules.gameObject.GetComponent<Board>();
-        for (int i = 0; i < board.rows; i++)
-        {
-            for (int j = 0; j < board.columns; j++)
-            {
-                Cell cell = board.gridArray[i][j].GetComponent<Cell>();
-                if (cell.piece && cell.piece.player != this)
-                {
-                    cell.DisplayCell();
-                    foreach (Modifier modifier in cell.piece.modifiers)
-                    {
-                        if (!modifier.isBuff)
-                        {
-                            modifier.targetPiece = cell.piece;
-                            modifier.Apply();
-                        }
-                    }
-                    cell.DisplayCell();
-                    foreach (Cell adjacentCell in cell.adjacentCells)
-                    {
-                        adjacentCell.DisplayCell();
-                    }
-                }
-                else if (cell.piece && cell.piece.player == this)
-                {
-                    cell.DisplayCell();
-                    foreach (Modifier modifier in cell.piece.modifiers)
-                    {
-                        if (modifier.isBuff)
-                        {
-                            modifier.targetPiece = cell.piece;
-                            modifier.Apply();
-                        }
-                    }
-                    if (!cell.piece.isDrowning) { cell.piece.drownDuration = 0f; }
-                    if (cell.piece.isParalyzed) { cell.piece.paralyzeDuration = cell.piece.paralyzeDuration - cell.piece.paralyzeRecovery; }
-                    if (cell.piece.paralyzeDuration <= 0 ) { cell.piece.paralyzeDuration = 0; cell.piece.isParalyzed = false; }
-                    cell.DisplayCell();
-                    foreach (Cell adjacentCell in cell.adjacentCells)
-                    {
-                        adjacentCell.DisplayCell();
-                    }
-                }
-            }
-        }
+        print("attacking");
+        Cell casterCell = selectionList[0].GetComponent<Cell>();
+        Cell targetCell = selectionList[1].GetComponent<Cell>();
+
+        casterCell.piece.modifier.Apply(targetCell.piece);
     }
 
     public bool ResetSelections()
