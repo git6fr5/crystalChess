@@ -532,7 +532,7 @@ MonoBehaviour:
   actionCounter: {fileID: 6919539675663485815}
   actionLimit: 3
   drawStart: 5
-  maxCardLevel: 9
+  maxCardLevel: 5
   controlPanelAnimator: {fileID: 6919539675457903719}
   controlPanel: {fileID: 6919539675419979283}
 --- !u!1 &6919539673883901019

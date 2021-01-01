@@ -103,8 +103,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 593d4c52109b527f0800000000000000
-      internalID: -637900357623295083
+      spriteID: 99adc18136ec090d0800000000000000
+      internalID: -3418005192172578151
       vertices: []
       indices: 
       edges: []
@@ -124,8 +124,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 466775e6262084e90800000000000000
-      internalID: -7041375395612494236
+      spriteID: 7a1cff18ab42d43e0800000000000000
+      internalID: -2067956270429650521
       vertices: []
       indices: 
       edges: []
@@ -145,8 +145,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 65532b70829a6c0c0800000000000000
-      internalID: -4555767983645772458
+      spriteID: 041ee3c979ba77010800000000000000
+      internalID: 1186605694485193024
       vertices: []
       indices: 
       edges: []
@@ -166,8 +166,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b53e96dc3215c43b0800000000000000
-      internalID: -5526953428478467237
+      spriteID: 324f0d031554bdb10800000000000000
+      internalID: 2007274273937355811
       vertices: []
       indices: 
       edges: []
@@ -187,92 +187,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e4fb1af66d64bee90800000000000000
-      internalID: -6995419709380116658
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: AngelPieces_5
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cb4a963d4e6f6db50800000000000000
-      internalID: 6617748165127414972
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: AngelPieces_6
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0d38df76368c89c30800000000000000
-      internalID: 4366460168007680976
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: AngelPieces_7
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 796df33671eedc2a0800000000000000
-      internalID: -6715449685122754921
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: AngelPieces_8
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1ef5ded1e97fcdba0800000000000000
-      internalID: -6062698739868540959
+      spriteID: b573b38b04fc95110800000000000000
+      internalID: 1250258248447768411
       vertices: []
       indices: 
       edges: []

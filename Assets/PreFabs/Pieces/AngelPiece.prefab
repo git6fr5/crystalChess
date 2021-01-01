@@ -109,10 +109,6 @@ MonoBehaviour:
   - {fileID: -4555767983645772458, guid: cedaf3ce849868146a5526f9a4fbe8de, type: 3}
   - {fileID: -5526953428478467237, guid: cedaf3ce849868146a5526f9a4fbe8de, type: 3}
   - {fileID: -6995419709380116658, guid: cedaf3ce849868146a5526f9a4fbe8de, type: 3}
-  - {fileID: 6617748165127414972, guid: cedaf3ce849868146a5526f9a4fbe8de, type: 3}
-  - {fileID: 4366460168007680976, guid: cedaf3ce849868146a5526f9a4fbe8de, type: 3}
-  - {fileID: -6715449685122754921, guid: cedaf3ce849868146a5526f9a4fbe8de, type: 3}
-  - {fileID: -6062698739868540959, guid: cedaf3ce849868146a5526f9a4fbe8de, type: 3}
   level: 0
   baseHealth: 1
   maxHealth: 0

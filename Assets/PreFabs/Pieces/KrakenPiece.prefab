@@ -158,10 +158,6 @@ MonoBehaviour:
   - {fileID: -4555767983645772458, guid: 3dd2c84b0c91d504ca90022324804bc5, type: 3}
   - {fileID: -5526953428478467237, guid: 3dd2c84b0c91d504ca90022324804bc5, type: 3}
   - {fileID: -6995419709380116658, guid: 3dd2c84b0c91d504ca90022324804bc5, type: 3}
-  - {fileID: 6617748165127414972, guid: 3dd2c84b0c91d504ca90022324804bc5, type: 3}
-  - {fileID: 4366460168007680976, guid: 3dd2c84b0c91d504ca90022324804bc5, type: 3}
-  - {fileID: -6715449685122754921, guid: 3dd2c84b0c91d504ca90022324804bc5, type: 3}
-  - {fileID: -6062698739868540959, guid: 3dd2c84b0c91d504ca90022324804bc5, type: 3}
   level: 0
   baseHealth: 1
   maxHealth: 0
@@ -202,13 +198,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animations:
   - {fileID: 7400000, guid: bb54e7d7c94c7324c963db21a9599902, type: 2}
-  - {fileID: 7400000, guid: e8eb6bb4f8ae1bc478e7982d4ddc405b, type: 2}
   - {fileID: 7400000, guid: abdf1bdde237bf9449497d21fd299cda, type: 2}
-  - {fileID: 7400000, guid: e0027e64a6db66a4cabb5b39b210622a, type: 2}
   - {fileID: 7400000, guid: 8900f3d4a873bf445a9b2f92b4f467c5, type: 2}
-  - {fileID: 7400000, guid: 7c1930a33646ea44185453f851deb25c, type: 2}
   - {fileID: 7400000, guid: 4967af6d88f73594ea2e20ee708f6ca2, type: 2}
-  - {fileID: 7400000, guid: 1492059e3e459f945a6e84f62571153d, type: 2}
   - {fileID: 7400000, guid: a387aa58e6d4d4840a0d8a09c0d3b528, type: 2}
   animator: {fileID: 2227265134157059910}
 --- !u!1001 &1605321826927995245
