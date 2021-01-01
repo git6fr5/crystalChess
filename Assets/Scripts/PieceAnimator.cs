@@ -16,6 +16,6 @@ public class PieceAnimator : MonoBehaviour
 
     public void SetAnimation(int level)
     {
-        //animator.Play(animations[level].name);
+        animator.Play(animations[level-1].name);
     }
 }

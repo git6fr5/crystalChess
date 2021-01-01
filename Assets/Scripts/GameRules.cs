@@ -30,6 +30,8 @@ public class GameRules : MonoBehaviour
     private int actions;
 
     public int drawStart = 5;
+    public int maxCardLevel = 9;
+
 
     public ControlPanelAnimation controlPanelAnimator;
 
@@ -74,7 +76,7 @@ public class GameRules : MonoBehaviour
         {
             Play(controlPanelAnimator.combineAnim, player.selectionList[1].transform.position);
             PlayAudio(controlPanelAnimator.combineAudio);
-            player.pauseAction = true;
+            player.pauseAction = true; player.selectionList[0].SetActive(false);
             StartCoroutine(IECombine(8f/6f));
         }
     }
@@ -101,7 +103,7 @@ public class GameRules : MonoBehaviour
         {
             Play(controlPanelAnimator.placeAnim, player.selectionList[1].transform.position);
             PlayAudio(controlPanelAnimator.placeAudio);
-            player.pauseAction = true;
+            player.pauseAction = true; player.selectionList[0].SetActive(false);
             StartCoroutine(IEPlace(8f / 6f));
         }
     }
@@ -167,6 +169,7 @@ public class GameRules : MonoBehaviour
         if (!TypeCheck(selectionList, cardLayer, cardLayer)) { return false; }
         print("passed type check");
         if (!FactionCheck(selectionList)) { return false; }
+        if (!LevelCheck(selectionList)) { return false; }
         if (!LimitCheck()) { return false; }
         print("passed faction check");
 
@@ -231,6 +234,20 @@ public class GameRules : MonoBehaviour
         }
         return true;
     }
+
+    private bool LevelCheck(List<GameObject> selectionList)
+    {
+        Card card0 = selectionList[0].GetComponent<Card>();
+        Card card1 = selectionList[1].GetComponent<Card>();
+
+        if (card1.level + card0.level > maxCardLevel)
+        {
+            Debug.Log("Incorrect types of selections");
+            return player.ResetSelections();
+        }
+        return true;
+    }
+
 
     private bool FactionCheck(List<GameObject> selectionList)
     {
@@ -365,7 +382,7 @@ public class GameRules : MonoBehaviour
 
     public void Play(AnimationClip animation, Vector3 animPosition)
     {
-        controlPanelAnimator.gameObject.transform.position = animPosition;
+        controlPanelAnimator.gameObject.transform.position = new Vector3(animPosition.x, animPosition.y, animPosition.z - 1);
         controlPanelAnimator.animator.Play(animation.name);
     }
 

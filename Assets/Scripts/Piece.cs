@@ -46,7 +46,8 @@ public class Piece : MonoBehaviour
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprites[level - 1];
 
-        if (animationScript) { animationScript.SetAnimation(level - 1); }
+        print(level);
+        if (animationScript) { animationScript.SetAnimation(level); }
 
         maxHealth = baseHealth * level;
         health = maxHealth;
