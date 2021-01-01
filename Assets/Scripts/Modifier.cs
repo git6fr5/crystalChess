@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class Modifier : MonoBehaviour
 {
     public Color color;
+    public GameObject projectile;
+
     public Piece casterPiece;
 
     [HideInInspector] public Piece targetPiece;
@@ -27,6 +29,8 @@ public class Modifier : MonoBehaviour
     [HideInInspector] private float baseArmyHealth = 1f;
 
     public bool isBuff;
+
+    private float travelDuration = 1f;
 
     public void GetModifierValues()
     {
@@ -56,14 +60,31 @@ public class Modifier : MonoBehaviour
         {
             Army(targetPiece);
         }
-
-        targetPiece.UpdatePiece();
     }
 
     void Burn(Piece targetPiece)
     {
         print("burning");
+
+        projectile.SetActive(true);
+        transform.position = casterPiece.transform.position;
+        projectile.transform.SetParent(null);
+        Vector3 direction = new Vector3(-casterPiece.transform.position.x + targetPiece.transform.position.x, -casterPiece.transform.position.y + targetPiece.transform.position.y, 0);
+        projectile.GetComponent<Rigidbody2D>().velocity = direction;
+
+        StartCoroutine(IEBurn(targetPiece));
+        casterPiece.player.pauseAction = true;
+    }
+
+    IEnumerator IEBurn(Piece targetPiece)
+    {
+        yield return new WaitForSeconds(travelDuration);
+
         targetPiece.health = targetPiece.health - burnDamage;
+        casterPiece.player.pauseAction = false;
+        targetPiece.UpdatePiece();
+
+        yield return null;
     }
 
     void Drown(Piece targetPiece)

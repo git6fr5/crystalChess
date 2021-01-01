@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 3281020447725290874}
   - component: {fileID: 3281020447725290875}
   - component: {fileID: 3281020447725290872}
+  - component: {fileID: 1617106747659134461}
+  - component: {fileID: 6193820519773613800}
   m_Layer: 9
   m_Name: AngelPiece
   m_TagString: Angel
@@ -99,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  animationScript: {fileID: 0}
+  animationScript: {fileID: 6193820519773613800}
   modifier: {fileID: 3431802121127488573}
   modifiers: []
   faction: Angel
@@ -116,6 +118,44 @@ MonoBehaviour:
   isAttached: 0
   initPos: {x: 0, y: 0, z: 0}
   statusObject: {fileID: 0}
+--- !u!95 &1617106747659134461
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3281020447725290873}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 373413a9ac7ff134e9110f55b100da0c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6193820519773613800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3281020447725290873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13e77e6a84395134aac454f128605c57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animations:
+  - {fileID: 7400000, guid: b56dca69262324f41b871a7871e33564, type: 2}
+  - {fileID: 7400000, guid: e03ca0985d02b60458f904a3149f0431, type: 2}
+  - {fileID: 7400000, guid: af33d45367d23e549850d7ceb3bbe6ba, type: 2}
+  - {fileID: 7400000, guid: d9a971f4e5c1c2f4eabde5c25c2ef861, type: 2}
+  - {fileID: 7400000, guid: b327026e6c186a344956123bed9aacee, type: 2}
+  animator: {fileID: 1617106747659134461}
 --- !u!1 &3431802121127488572
 GameObject:
   m_ObjectHideFlags: 0

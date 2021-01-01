@@ -9,6 +9,13 @@ public class ControlPanel : MonoBehaviour
 
     public void OnClick()
     {
+        StartCoroutine(IEClick());
+    }
+
+    public IEnumerator IEClick()
+    {
+        yield return new WaitUntil(() => !board.gameRules.player.pauseAction);
+
         if (name == "Draw")
         {
             print("clicked draw button");
@@ -44,5 +51,7 @@ public class ControlPanel : MonoBehaviour
             print("clicked aura button");
             board.gameRules.OnEndEvent.Invoke();
         }
+
+        yield return null;
     }
 }
