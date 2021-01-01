@@ -24,12 +24,6 @@ public class Player : MonoBehaviour
     [HideInInspector] public bool isTurn = false;
     [HideInInspector] public bool pauseAction = false;
 
-    void Start()
-    {
-        GetCards();
-        CreateDeck();
-    }
-
     void Update()
     {
         if (Input.GetMouseButtonDown(1))
@@ -38,7 +32,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void GetCards()
+    public void GetCards()
     {
         foreach (Transform cardTransform in cardsObject.transform)
         {
@@ -46,7 +40,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void CreateDeck()
+    public void CreateDeck()
     {
         for (int i = 0; i < deckSize; i++)
         {
@@ -67,6 +61,7 @@ public class Player : MonoBehaviour
     public void Draw(int drawNum)
     {
         if (drawNum > deckList.Count) { drawNum = deckList.Count; }
+        print(drawNum); print(deckList.Count);
         for (int i = 0; i < drawNum; i++)
         {
             GameObject newCardObject = Instantiate(deckList[i], Vector3.zero, Quaternion.identity, gameObject.transform);

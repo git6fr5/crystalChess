@@ -39,11 +39,12 @@ public class GameRules : MonoBehaviour
 
     void Start()
     {
-        player = player1;
+        print("staring game rules");
+        player = player1; player.GetCards(); player.CreateDeck();
         OnTurnEvent.Invoke();
         OnDrawEvent.Invoke(drawStart);
 
-        player = player0;
+        player = player0; player.GetCards(); player.CreateDeck();
         OnTurnEvent.Invoke();
         OnDrawEvent.Invoke(drawStart);
 

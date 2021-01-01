@@ -16,6 +16,9 @@ public class PieceAnimator : MonoBehaviour
 
     public void SetAnimation(int level)
     {
-        animator.Play(animations[level-1].name);
+        if (gameObject.activeSelf)
+        {
+            animator.Play(animations[level - 1].name);
+        }
     }
 }
