@@ -1013,8 +1013,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AssetsPPU: 16
-  m_RefResolutionX: 640
-  m_RefResolutionY: 360
+  m_RefResolutionX: 320
+  m_RefResolutionY: 320
   m_UpscaleRT: 0
   m_PixelSnapping: 1
   m_CropFrameX: 1
@@ -1902,8 +1902,8 @@ Canvas:
   m_GameObject: {fileID: 6919539675419979283}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 3616193765141240252, guid: 95accf1f5c4cdc14d9b35b2ba6e46750, type: 3}
+  m_RenderMode: 1
+  m_Camera: {fileID: 6919539674263687328}
   m_PlaneDistance: 100
   m_PixelPerfect: 1
   m_ReceivesEvents: 1
