@@ -15,6 +15,7 @@ public class Inspector : MonoBehaviour
     public Text fearText;
 
     public Sprite defaultSprite;
+    public GameObject healthBar;
 
     [HideInInspector] public GameObject currentObject;
 }

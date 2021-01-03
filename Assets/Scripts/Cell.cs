@@ -132,7 +132,6 @@ public class Cell : MonoBehaviour
         Player player = board.gameRules.player;
         if (select) { player.selectionList.Add(gameObject); }
         else { player.selectionList.Remove(gameObject); }
-        player.InspectCell(this);
     }
 
     public void Attach(bool attach)
@@ -154,6 +153,8 @@ public class Cell : MonoBehaviour
 
     void Highlight(bool highlight)
     {
+        if (highlight) { board.gameRules.player.InspectCell(this); }
+        else { board.gameRules.ClearInspector(); }
         highlightObject.SetActive(highlight);
     }
 

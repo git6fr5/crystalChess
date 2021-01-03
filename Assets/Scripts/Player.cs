@@ -61,6 +61,8 @@ public class Player : MonoBehaviour
     public void Draw(int drawNum)
     {
         if (drawNum > deckList.Count) { drawNum = deckList.Count; }
+        if (drawNum + handList.Count > gameRules.handLimit) { drawNum = gameRules.handLimit - handList.Count; }
+
         print(drawNum); print(deckList.Count);
         for (int i = 0; i < drawNum; i++)
         {
@@ -131,6 +133,22 @@ public class Player : MonoBehaviour
         casterCell.piece.modifier.Apply(targetCell.piece);
     }
 
+    public void End()
+    {
+        Board board = gameRules.gameObject.GetComponent<Board>();
+        for (int i = 0; i < board.rows; i++)
+        {
+            for (int j = 0; j < board.columns; j++)
+            {
+                Cell cell = board.gridArray[i][j].GetComponent<Cell>();
+                if (cell.piece && cell.piece.player != this)
+                {
+                    cell.piece.Afflict();
+                }
+            }
+        }
+    }
+
     public bool ResetSelections()
     {
         for (int i = 0; i < selectionList.Count; i++)
@@ -162,6 +180,8 @@ public class Player : MonoBehaviour
 
         inspector.currentObject = card.gameObject;
 
+        inspector.healthBar.SetActive(false);
+
     }
 
     public void InspectCell(Cell cell)
@@ -181,6 +201,9 @@ public class Player : MonoBehaviour
             Slider healthSlider = healthBar.GetComponent<Slider>();
 
             inspector.healthText.text = healthSlider.value.ToString() + "/" + healthSlider.maxValue.ToString();
+            inspector.healthBar.SetActive(true);
+            inspector.healthBar.GetComponent<Slider>().value = healthSlider.value;
+            inspector.healthBar.GetComponent<Slider>().maxValue = healthSlider.maxValue;
 
             GameObject drownBar = status.drownBar;
 

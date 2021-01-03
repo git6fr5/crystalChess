@@ -13,30 +13,30 @@ public class Modifier : MonoBehaviour
     [HideInInspector] public Piece targetPiece;
 
     [HideInInspector] private float burnDamage = 0f;
-    [HideInInspector] private float burnDamageIncrement = 0.2f;
-    [HideInInspector] private float baseBurnDamage = 0.5f;
+    [HideInInspector] private float burnDamageIncrement = 0.5f;
+    [HideInInspector] private float baseBurnDamage = 0f;
 
     [HideInInspector] private float drownRate = 0f;
     [HideInInspector] private float drownRateIncrement = 0.5f;
     [HideInInspector] private float baseDrownRate = 0.5f;
 
-    [HideInInspector] private float paralyzeDuration = 0f;
-    [HideInInspector] private float paralyzeDurationIncrement = 0.5f;
-    [HideInInspector] private float baseParalyzeDuration = 2f;
+    [HideInInspector] private float curseDamage = 0f;
+    [HideInInspector] private float curseDamageIncrement = 0.2f;
+    [HideInInspector] private float baseCurseDamage = 0f;
 
     [HideInInspector] private float armyHealth = 0f;
-    [HideInInspector] private float armyHealthIncrement = 0.2f;
-    [HideInInspector] private float baseArmyHealth = 1f;
+    [HideInInspector] private float armyHealthIncrement = 0.3f;
+    [HideInInspector] private float baseArmyHealth = 0f;
 
     public bool isBuff;
 
-    private float travelDuration = 1f;
+    //private float travelDuration = 1f;
 
     public void GetModifierValues()
     {
         burnDamage = casterPiece.level * burnDamageIncrement + baseBurnDamage;
         drownRate = casterPiece.level * drownRateIncrement + baseDrownRate;
-        paralyzeDuration = casterPiece.level * paralyzeDurationIncrement + baseParalyzeDuration;
+        curseDamage = casterPiece.level * curseDamageIncrement + baseCurseDamage;
         armyHealth = casterPiece.level * armyHealthIncrement + baseArmyHealth;
     }
 
@@ -60,23 +60,28 @@ public class Modifier : MonoBehaviour
         {
             Army(targetPiece);
         }
+        targetPiece.UpdatePiece();
+        //casterPiece.UpdatePiece();
     }
 
     void Burn(Piece targetPiece)
     {
         print("burning");
 
-        projectile.SetActive(true);
+        /*projectile.SetActive(true);
         transform.position = casterPiece.transform.position;
         projectile.transform.SetParent(null);
         Vector3 direction = new Vector3(-casterPiece.transform.position.x + targetPiece.transform.position.x, -casterPiece.transform.position.y + targetPiece.transform.position.y, 0);
         projectile.GetComponent<Rigidbody2D>().velocity = direction;
 
         StartCoroutine(IEBurn(targetPiece));
-        casterPiece.player.pauseAction = true;
+        casterPiece.player.pauseAction = true;*/
+
+        targetPiece.health = targetPiece.health - burnDamage;
+
     }
 
-    IEnumerator IEBurn(Piece targetPiece)
+    /*IEnumerator IEBurn(Piece targetPiece)
     {
         yield return new WaitForSeconds(travelDuration);
 
@@ -85,7 +90,7 @@ public class Modifier : MonoBehaviour
         targetPiece.UpdatePiece();
 
         yield return null;
-    }
+    }*/
 
     void Drown(Piece targetPiece)
     {
@@ -101,19 +106,9 @@ public class Modifier : MonoBehaviour
     void Fear(Piece targetPiece)
     {
         print("fear");
-        /*if (!targetPiece.isParalyzed)
-        { 
-
-            targetPiece.paralyzeDuration = paralyzeDuration;
-
-            Status status = targetPiece.statusObject.GetComponent<Status>();
-            GameObject fearBar = status.fearBar;
-            Slider fearSlider = fearBar.GetComponent<Slider>();
-            fearSlider.maxValue = paralyzeDuration;
-            fearSlider.value = paralyzeDuration;
-
-            targetPiece.isParalyzed = true;
-        }*/
+        // note that this functionality means that there can only be one applied curse at a time
+        targetPiece.curseDamage = curseDamage;
+        casterPiece.health = casterPiece.health - curseDamage;
     }
 
     void Army(Piece targetPiece)
@@ -121,7 +116,7 @@ public class Modifier : MonoBehaviour
         print("army");
         targetPiece.health = targetPiece.health + armyHealth;
 
-        if (targetPiece.health < targetPiece.maxHealth)
+        if (targetPiece.health >= targetPiece.maxHealth)
         {
             targetPiece.health = targetPiece.maxHealth;
         }

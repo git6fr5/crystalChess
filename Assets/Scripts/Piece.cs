@@ -23,6 +23,8 @@ public class Piece : MonoBehaviour
     [HideInInspector] public float maxHealth = 0;
     [HideInInspector] public float health = 0;
 
+    [HideInInspector] public float curseDamage = 0;
+
     /*--- UI ---*/
     [HideInInspector] public bool isAttached = false;
     [HideInInspector] public Vector3 initPos;
@@ -101,5 +103,11 @@ public class Piece : MonoBehaviour
         if (attach) { initPos = transform.position; }
         else { transform.position = initPos; }
         isAttached = attach;
+    }
+
+    public void Afflict()
+    {
+        health = health - curseDamage;
+        UpdatePiece();
     }
 }

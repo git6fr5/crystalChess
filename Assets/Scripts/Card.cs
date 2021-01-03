@@ -108,6 +108,8 @@ public class Card : MonoBehaviour
 
     void Highlight(bool highlight)
     {
+        if (highlight) { player.InspectCard(this); }
+        else { player.gameRules.ClearInspector(); }
         highlightObject.SetActive(highlight);
     }
 

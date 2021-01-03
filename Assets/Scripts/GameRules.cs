@@ -32,6 +32,9 @@ public class GameRules : MonoBehaviour
     public int drawStart = 5;
     public int maxCardLevel = 9;
 
+    public int handLimit = 10;
+
+    public Inspector inspector;
 
     public ControlPanelAnimation controlPanelAnimator;
 
@@ -148,6 +151,7 @@ public class GameRules : MonoBehaviour
 
     public void OnEnd()
     {
+        player.End();
         player.ResetSelections();
         player.isTurn = false;
         if (player == player0) { player = player1; }
@@ -158,7 +162,8 @@ public class GameRules : MonoBehaviour
     public bool DrawRules()
     {
         if (!LimitCheck()) { return false; }
-
+        if (!HandFullCheck()) { return false; }
+        if (!DeckEmptyCheck()) { return false; }
         print("can draw");
         return true;
     }
@@ -330,10 +335,28 @@ public class GameRules : MonoBehaviour
         return player.ResetSelections();
     }
 
+    private bool HandFullCheck()
+    {
+        if (player.handList.Count >= handLimit)
+        {
+            return player.ResetSelections();
+        }
+        return true;
+    }
+
+    private bool DeckEmptyCheck()
+    {
+        if (player.deckList.Count <= 0)
+        {
+            return player.ResetSelections();
+        }
+        return true;
+    }
+
     public void ActionCounter()
     {
         actions++;
-        actionCounter.text = actions.ToString();
+        actionCounter.text = (actionLimit - actions).ToString();
     }
 
     private bool LimitCheck()
@@ -391,5 +414,20 @@ public class GameRules : MonoBehaviour
     {
         controlPanelAnimator.audioSource.clip = audio;
         controlPanelAnimator.audioSource.Play();
+    }
+
+    public void ClearInspector()
+    {
+
+        inspector.locationText.text = "";
+        inspector.image.sprite = inspector.defaultSprite;
+        inspector.nameText.text = "";
+        inspector.levelText.text = "";
+        inspector.currentObject = null;
+        inspector.locationText.text = "";
+        inspector.healthText.text = "";
+        inspector.drownText.text = "";
+        inspector.fearText.text = "";
+        inspector.healthBar.SetActive(false);
     }
 }

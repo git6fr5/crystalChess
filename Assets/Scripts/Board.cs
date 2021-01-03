@@ -20,6 +20,7 @@ public class Board : MonoBehaviour
     {
         CreateBoard();
         CenterObjects();
+        gameRules.ClearInspector();
     }
 
     void CreateBoard()
