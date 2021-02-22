@@ -4,56 +4,124 @@ using UnityEngine.UI;
 public class Card : MonoBehaviour
 {
 
-    // the piece it can convert to
-    public GameObject pieceObject;
+    /* --- Associated Piece ---*/
+    public Piece piece;
 
-    // the player who owns the card
-    public GameObject playerObject;
+    /* --- The Player ---*/
+    public Player player;
 
-    // the cards properties
-    public string faction;
+    public GameObject highlightObject;
+
+    /*--- Card Properties ---*/
+    [HideInInspector] public string faction;
     public Sprite[] sprites;
     public int level = 1;
 
-    void Awake()
+    [HideInInspector] public bool isAttached = false;
+    [HideInInspector] public Vector3 initPos;
+
+    void Update()
     {
-        playerObject = gameObject.transform.parent.gameObject;
-        gameObject.transform.GetChild(0).gameObject.SetActive(false);
-        UpdateSprite();
+        if (isAttached)
+        {
+            Vector3 cameraPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = new Vector3(cameraPos.x, cameraPos.y, initPos.z + 1);
+        }
     }
 
-    public void UpdateSprite()
+    void OnMouseDown()
     {
+        SelectFlag();
+    }
+
+    void OnMouseOver()
+    {
+        Highlight(true);
+    }
+
+    void OnMouseExit()
+    {
+        Highlight(false);
+    }
+
+    public void StartCard()
+    {
+        gameObject.SetActive(true);
+        faction = tag;
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprites[level - 1];
+        initPos = transform.position;
     }
 
-    public void OnMouseDown()
+    void SelectFlag()
     {
-        Debug.Log("In Card, OnMouseDown; Selected a card");
-        Player player = playerObject.GetComponent<Player>();
         if (player.isTurn)
         {
-            if (player.phase == 1 && player.selections.Count < 2)
+            // if selection list is empty
+            if (player.selectionList.Count == 0)
             {
-                player.selections.Add(gameObject);
+                // add to selection list, make it follow mouse
+                Select(true);
+                Attach(true);
             }
-            else if (player.phase == 2 && player.selections.Count < 1)
+            // if there is something in selection list
+            else if (player.selectionList.Count == 1)
             {
-                Debug.Log("During place phase, added card to selections");
-                player.selections.Add(gameObject);
+                GameObject firstSelection = player.selectionList[0];
+                // if it is this thing, then deselect
+                if (firstSelection == gameObject)
+                {
+                    Select(false);
+                    Attach(false);
+                    return;
+                }
+
+                Select(true);
+                // if it is this thing, then deselect
+                if (IsCard(firstSelection))
+                {
+                    player.gameRules.OnCombineEvent.Invoke();
+                }
+                else
+                {
+                    player.ResetSelections();
+                    Select(true);
+                    Attach(true);
+                }
             }
         }
-        player.infoField.GetComponent<Text>().text = Properties();
-        // false for not clearing selections
-        player.Highlight(gameObject.transform.GetChild(0).gameObject, false);
     }
 
-    public string Properties()
+    public void Select(bool select)
     {
+        if (select) { player.selectionList.Add(gameObject); }
+        else { player.selectionList.Remove(gameObject); }
+        player.InspectCard(this);
+    }
+
+    public void Attach(bool attach)
+    {
+<<<<<<< HEAD
         string s01 = "\nFaction: " + faction;
         string s02 = "\nLevel: " + level.ToString();
         return s01 + s02;
+=======
+        if (attach) { initPos = transform.position; }
+        else { transform.position = initPos; }
+        isAttached = attach;
+>>>>>>> max_level_5(v2)
     }
 
+    void Highlight(bool highlight)
+    {
+        if (highlight) { player.InspectCard(this); }
+        else { player.gameRules.ClearInspector(); }
+        highlightObject.SetActive(highlight);
+    }
+
+    public static bool IsCard(GameObject _object)
+    {
+        if (_object.GetComponent<Card>()) { return true; }
+        else { return false; }
+    }
 }

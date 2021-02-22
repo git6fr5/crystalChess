@@ -4,11 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Dragon Faction
-  - Kraken Faction
-  - cardTag
-  - squareTag
-  - centrePieceTag
+  - Dragon
+  - Kraken
+  - Angel
+  - Nightmare
+  - Center
   layers:
   - Default
   - TransparentFX
@@ -18,9 +18,9 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
+  - Card
+  - Piece
+  - Cell
   - 
   - 
   - 

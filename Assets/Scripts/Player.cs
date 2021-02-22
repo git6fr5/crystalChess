@@ -1,37 +1,30 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
-    /*-------------------------------------------------------------------------------------------------------*/
-    // DECLARING THE VARIABLES
-    /*-------------------------------------------------------------------------------------------------------*/
 
-    // the player number
-    public float playerNumber;
+    public GameRules gameRules;
+    public Inspector inspector;
 
-    // the card object bases
-    public List<GameObject> ALLCARDS;
+    public Piece centerPiece;
 
-    public GameObject centrePieceObject;
-    public GameObject phaseObjectBase;
-    public GameObject infoFieldBase;
-    public GameObject highlightObjectBase;
+    public GameObject cardsObject;
+    public GameObject piecesObject;
+    public int deckSize;
 
-    // private objects
-    public GameObject infoField;
-    public GameObject phaseObject;
+    [HideInInspector] public List<GameObject> deckList = new List<GameObject>();
+    [HideInInspector] public List<GameObject> handList = new List<GameObject>();
+    [HideInInspector] public List<GameObject> selectionList = new List<GameObject>();
 
-    public float playerBaseHealth = 10;
-    public float playerHealth;
+    private List<GameObject> cardsList = new List<GameObject>();
 
-    // the different lists
-    public List<GameObject> deck;
-    public List<GameObject> hand;
-    public List<GameObject> selections;
-    private List<GameObject> highlights;
+    [HideInInspector] public bool isTurn = false;
+    [HideInInspector] public bool pauseAction = false;
 
+<<<<<<< HEAD
     // the locations of objects
     private Vector3 handPos;
     private Vector3 deckPos;
@@ -69,38 +62,41 @@ public class Player : MonoBehaviour
         infoField.GetComponent<Text>().text = "Nothing selected";
         //infoField.transform.position = infoPos;
         phaseObject = Instantiate(phaseObjectBase, phasePos, Quaternion.identity, gameObject.transform);
-    }
-
-    public void UpdatePlayer()
+=======
+    void Update()
     {
-        playerHealth = centrePieceObject.GetComponent<Piece>().health;
-        phaseObject.GetComponent<Phaser>().Sign(phase);
-        UpdateHand();
-    }
-
-    public void UpdateHand()
-    {
-        int handLength = hand.Count;
-        int n = -1;
-        if (playerNumber != 0)
+        if (Input.GetMouseButtonDown(1))
         {
-            n = 1;
+            if (isTurn && !pauseAction) { ResetSelections(); }
         }
-        for (int i = 0; i < handLength; i++)
+>>>>>>> max_level_5(v2)
+    }
+
+    public void GetCards()
+    {
+        foreach (Transform cardTransform in cardsObject.transform)
         {
-            Vector3 pos = handPos + new Vector3(n * i, 0, 0);
-            hand[i].transform.position = pos;
-            hand[i].GetComponent<Card>().UpdateSprite();
+            cardsList.Add(cardTransform.gameObject);
         }
     }
 
-    public void SetLocations()
+    public void CreateDeck()
     {
-        int n = -1;
-        if (playerNumber != 0)
+        for (int i = 0; i < deckSize; i++)
         {
-            n = 1;
+            deckList.Add(cardsList[Random.Range(0, 4)]);
         }
+    }
+
+    public void DisplayHand()
+    {
+        for (int i = 0; i < handList.Count; i++)
+        {
+            //Instantiate(handList[i], new Vector3(i, 0, 0), Quaternion.identity, gameObject.transform);
+            handList[i].transform.localPosition = new Vector3(i, 0, 0);
+            handList[i].GetComponent<Card>().StartCard();
+        }
+<<<<<<< HEAD
         float s = 0;
         if (n == 1) { s = 0f; }
         float interX = gameObject.transform.position.x; 
@@ -110,62 +106,64 @@ public class Player : MonoBehaviour
         handPos = new Vector3(n * 10 + s, 0, 0);
         //infoPos = new Vector3(n * 10 + s, -4, 0);
         phasePos = new Vector3(n * 15 + s, 4, 0);
+=======
+>>>>>>> max_level_5(v2)
     }
 
-    /*-------------------------------------------------------------------------------------------------------*/
-    // THE PLAYER ACTIONS
-    /*-------------------------------------------------------------------------------------------------------*/
-
-    public void DrawCard()
+    public void Draw(int drawNum)
     {
-        if (deck.Count > 0 && hand.Count < 10)
+        if (drawNum > deckList.Count) { drawNum = deckList.Count; }
+        if (drawNum + handList.Count > gameRules.handLimit) { drawNum = gameRules.handLimit - handList.Count; }
+
+        print(drawNum); print(deckList.Count);
+        for (int i = 0; i < drawNum; i++)
         {
-            hand.Add(deck[0]);
-            deck.RemoveAt(0);
+            GameObject newCardObject = Instantiate(deckList[i], Vector3.zero, Quaternion.identity, gameObject.transform);
+            newCardObject.GetComponent<Card>().StartCard();
+            handList.Add(newCardObject);
         }
+        deckList.RemoveRange(0, drawNum);
     }
 
-    public void CombineCards(GameObject cardObject0, GameObject cardObject1)
+    public void Combine()
     {
-        int newLevel = cardObject0.GetComponent<Card>().level + cardObject1.GetComponent<Card>().level;
-        CreateCardFromBase(cardObject0, newLevel, true);
-        Discard(cardObject0);
-        Discard(cardObject1);
-    }
+        int newLevel = 0;
 
-    public void PlaceCard(GameObject cardObject, GameObject squareObject)
-    {
-        GameObject pieceObject = ConvertToPiece(cardObject);
-        squareObject.GetComponent<Square>().AddPiece(pieceObject);
-        if (squareObject.GetComponent<Square>().pieceObject == null)
+        foreach (GameObject cardObject in selectionList)
         {
-            Debug.Log("pieceObject still null");
+            Card card = cardObject.GetComponent<Card>();
+            newLevel = newLevel + card.level;
         }
-        Discard(cardObject);
+
+        Card newCard = selectionList[1].GetComponent<Card>();
+        newCard.level = newLevel;
+        newCard.Attach(false);
+        newCard.StartCard();
+
+
+        Discard(selectionList[0]);
     }
 
-    public void MovePiece(GameObject squareObject0, GameObject squareObject1)
+    public void Place()
     {
-        squareObject1.GetComponent<Square>().AddPiece(squareObject0.GetComponent<Square>().pieceObject);
-        squareObject0.GetComponent<Square>().RemovePiece();
+        Card selectedCard = selectionList[0].GetComponent<Card>();
+        GameObject newPieceObject = Instantiate(selectedCard.piece.gameObject, Vector3.zero, Quaternion.identity, gameObject.transform);
+        Piece newPiece = newPieceObject.GetComponent<Piece>();
+        newPiece.level = selectedCard.level;
+        newPiece.modifier.GetModifierValues();
+        newPiece.StartPiece();
+
+        Cell selectedCell = selectionList[1].GetComponent<Cell>();
+
+        selectedCell.piece = newPiece;
+        selectedCell.UpdateCell();
+
+        Discard(selectionList[0]);
     }
 
-
-    public void SkipPhase()
+    public void Move()
     {
-        if (0 < phase && phase < 4)
-        {
-            skipButtonPressed = true;
-            phase++;
-        }
-    }
-
-    /*-------------------------------------------------------------------------------------------------------*/
-    // MANIPULATION OF CARDS
-    /*-------------------------------------------------------------------------------------------------------*/
-
-    public GameObject CreateCardFromBase(GameObject cardObjectBase, int newLevel, bool addToHand)
-    {
+<<<<<<< HEAD
         //Debug.Log("Instantiating card object");
 
         GameObject newCardObject = Instantiate(cardObjectBase, deckPos, Quaternion.identity, gameObject.transform);
@@ -173,65 +171,128 @@ public class Player : MonoBehaviour
         newCardObject.GetComponent<Card>().UpdateSprite();
         if (addToHand) { hand.Add(newCardObject); }
         return newCardObject;
+=======
+        print("moving");
+        Cell previousCell = selectionList[0].GetComponent<Cell>();
+        Cell selectedCell = selectionList[1].GetComponent<Cell>();
+
+        selectedCell.piece = previousCell.piece;
+        previousCell.piece = null;
+
+        previousCell.UpdateCell();
+        selectedCell.UpdateCell();
+
+        previousCell.piece = null;
+>>>>>>> max_level_5(v2)
     }
 
-    public GameObject ConvertToPiece(GameObject cardObject)
+    public void Attack()
     {
-        Card card = cardObject.GetComponent<Card>();
-        GameObject newPieceObject = Instantiate(card.pieceObject, gameObject.transform.position, Quaternion.identity, gameObject.transform);
-        newPieceObject.GetComponent<Piece>().level = card.level;
-        return newPieceObject;
+        print("attacking");
+        Cell casterCell = selectionList[0].GetComponent<Cell>();
+        Cell targetCell = selectionList[1].GetComponent<Cell>();
+
+        casterCell.piece.modifier.Apply(targetCell.piece);
+    }
+
+    public void End()
+    {
+        Board board = gameRules.gameObject.GetComponent<Board>();
+        for (int i = 0; i < board.rows; i++)
+        {
+            for (int j = 0; j < board.columns; j++)
+            {
+                Cell cell = board.gridArray[i][j].GetComponent<Cell>();
+                if (cell.piece && cell.piece.player != this)
+                {
+                    cell.piece.Afflict();
+                }
+            }
+        }
+    }
+
+    public bool ResetSelections()
+    {
+        for (int i = 0; i < selectionList.Count; i++)
+        {
+            if (Card.IsCard(selectionList[i])) { selectionList[i].GetComponent<Card>().Attach(false); }
+            else { selectionList[i].GetComponent<Cell>().Attach(false); }
+        }
+        selectionList.Clear();
+        return false;
     }
 
     public void Discard(GameObject cardObject)
     {
-        if (hand.Contains(cardObject)) { Debug.Log("Remove card from hand"); hand.Remove(cardObject); }
+        if (handList.Contains(cardObject)) { Debug.Log("Remove card from hand"); handList.Remove(cardObject); }
         Destroy(cardObject);
-        //maybe have to setactive to false here, not sure
     }
 
-    public void NewDeck()
+    public void InspectCard(Card card)
     {
-        deck = new List<GameObject>();
-        for (int i = 0; i < deckSize; i++)
+
+        inspector.image.sprite = card.gameObject.GetComponent<SpriteRenderer>().sprite;
+        inspector.nameText.text = card.faction;
+        inspector.levelText.text = card.level.ToString();
+
+        inspector.locationText.text = "";
+        inspector.healthText.text = "";
+        inspector.drownText.text = "";
+        inspector.fearText.text = "";
+
+        inspector.currentObject = card.gameObject;
+
+        inspector.healthBar.SetActive(false);
+
+    }
+
+    public void InspectCell(Cell cell)
+    {
+
+        inspector.locationText.text = cell.location.x.ToString() + ", " + cell.location.y.ToString();
+
+        if (cell.piece)
         {
-            GameObject cardObjectBase = RandomCardObject();
-            GameObject newCardObject = CreateCardFromBase(cardObjectBase, 1, false);
-            deck.Add(newCardObject);
-        }
-    }
+            inspector.image.sprite = cell.piece.gameObject.GetComponent<SpriteRenderer>().sprite;
+            inspector.nameText.text = cell.piece.faction;
+            inspector.levelText.text = cell.piece.level.ToString();
 
-    public GameObject RandomCardObject()
-    {
-        int numberOfDiffCards = ALLCARDS.Count;
-        int randNumber = Random.Range(0, numberOfDiffCards);
-        return ALLCARDS[randNumber];
-    }
+            Status status = cell.piece.statusObject.GetComponent<Status>();
 
+            GameObject healthBar = status.healthBar;
+            Slider healthSlider = healthBar.GetComponent<Slider>();
 
-    public bool ResetSelections()
-    {
-        selections.Clear();
-        Highlight(highlights[0], true);
-        return false;
-    }
+            inspector.healthText.text = healthSlider.value.ToString() + "/" + healthSlider.maxValue.ToString();
+            inspector.healthBar.SetActive(true);
+            inspector.healthBar.GetComponent<Slider>().value = healthSlider.value;
+            inspector.healthBar.GetComponent<Slider>().maxValue = healthSlider.maxValue;
 
-    public void Highlight(GameObject highlight, bool clearSelections)
-    {
-        if (!clearSelections)
-        {
-            print("adding item to selection");
-            highlight.SetActive(true);
-            highlights.Add(highlight);
+            GameObject drownBar = status.drownBar;
+
+            inspector.drownText.text = "";
+            if (drownBar.transform.parent.gameObject.activeSelf)
+            {
+                Slider drownSlider = drownBar.GetComponent<Slider>();
+                inspector.drownText.text = drownSlider.value.ToString() + "/" + drownSlider.maxValue.ToString();
+            }
+
+            GameObject fearBar = status.fearBar;
+
+            inspector.fearText.text = "";
+            if (fearBar.transform.parent.gameObject.activeSelf)
+            {
+                Slider fearSlider = fearBar.GetComponent<Slider>();
+                inspector.fearText.text = fearSlider.value.ToString() + "/" + fearSlider.maxValue.ToString();
+            }
         }
         else
         {
-            foreach (GameObject tempHighlight in highlights)
-            {
-                tempHighlight.SetActive(false);
-            }
-            highlights.Clear();
+            inspector.image.sprite = inspector.defaultSprite;
+            inspector.nameText.text = "";
+            inspector.levelText.text = "";
         }
-    }
 
+        inspector.currentObject = cell.gameObject;
+
+    }
 }

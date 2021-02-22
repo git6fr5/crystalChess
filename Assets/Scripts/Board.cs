@@ -1,51 +1,33 @@
-﻿using UnityEngine;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System;
-using System.Reflection;
+using UnityEngine;
 
 public class Board : MonoBehaviour
 {
 
-    /*-------------------------------------------------------------------------------------------------------*/
-    // DECLARING VARIABLES
-    /*-------------------------------------------------------------------------------------------------------*/
+    public int rows;
+    public int columns;
 
+<<<<<<< HEAD
     // the board
     public int height = 9;
     public int width = 9;
     public int scale = 2;
     public GameObject[][] gridArray; // initialized within
     public GameObject squareObject; // from inspector
+=======
+    public int scale = 2;
+>>>>>>> max_level_5(v2)
 
-    // the players
-    public GameObject[] playerObjects; // from inspector
-    public Player[] players; // initialized within
-    public int playerTurn = 0;
+    public GameObject[][] gridArray;
+    public GameObject cellObject;
 
-    // the phases
-    public int phase = 0;
-    public int moveTick = 0;
+    public GameRules gameRules;
 
-    // starting game variables
-    public int startingCardsNum = 5;
-    public int drawCardsNum = 2;
-    private int cardsNum; // initialized within
-    private Vector2 startPosition0 = new Vector2(0, 0);
-    private Vector2 startPosition1 = new Vector2(8, 8);
-
-    // scripts
-    public Aura aura;
-
-    // the function list
-    private List<Action> phaseFunctions; // initialized within
-
-    /*-------------------------------------------------------------------------------------------------------*/
-    // INITIALIZING AND RUNNING THE GAME
-    /*-------------------------------------------------------------------------------------------------------*/
-
-    // start the game
+    // Start is called before the first frame update
     void Start()
     {
+<<<<<<< HEAD
 
         // initialize the aura system
         Debug.Log("Initializing the aura system");
@@ -126,277 +108,68 @@ public class Board : MonoBehaviour
             playerTurn = (playerTurn + 1) % 2;
             player.isTurn = false;
         }
+=======
+        CreateBoard();
+        CenterObjects();
+        gameRules.ClearInspector();
+>>>>>>> max_level_5(v2)
     }
 
-    void UpdateGameState()
+    void CreateBoard()
     {
-        for (int i = 0; i < 2; i++)
+        gridArray = new GameObject[rows][];
+        for (int i = 0; i < gridArray.Length; i++)
         {
-            players[i].UpdatePlayer();
+            gridArray[i] = new GameObject[columns];
+            for (int j = 0; j < gridArray[i].Length; j++)
+            {
+                AttachCell(i, j);
+            }
         }
-        UpdateBoard();
     }
 
-    public void UpdateBoard()
+    void AttachCell(int i, int j)
     {
-        ResetColors();
-        for (int i = 0; i < height; i++)
-        {
-            for (int j = 0; j < width; j++)
-            {
-                Square square = gridArray[i][j].GetComponent<Square>();
-                if (square.pieceObject != null)
-                {
-                    //Debug.Log("pieceObject exists");
-                    square.UpdateSquare();
-                    List<GameObject> auraSquares = square.AdjacentSquares();
-                    List<float> distances = square.SquareDistances(auraSquares);
-                    aura.AuraLayer(gridArray[i][j], auraSquares, distances);
-                    square.UpdateSquare();
-                }
-            }
-        }
+        gridArray[i][j] = Instantiate(cellObject, Vector3.zero, Quaternion.identity, gameObject.transform);
+
+        Vector3 cellPosition = new Vector3(i - (rows - 1) / 2, j - (columns - 1) / 2, 0) * scale;
+        gridArray[i][j].transform.localPosition = cellPosition;
+        gridArray[i][j].GetComponent<Cell>().SetLocation(i, j);
+        gridArray[i][j].SetActive(true);
     }
 
-    public void ResetColors()
+    public bool ValidLocation(int i, int j)
     {
-        for (int i = 0; i < height; i++)
+        if (i < rows && j < columns && i >= 0 && j >= 0)
         {
-            for (int j = 0; j < width; j++)
-            {
-                Square square = gridArray[i][j].GetComponent<Square>();
-                square.ResetColor();
-            }
+            return true;
         }
+        return false;
     }
 
-    /*-------------------------------------------------------------------------------------------------------*/
-    // TURN STRUCTURE
-    /*-------------------------------------------------------------------------------------------------------*/
-
-    // draws cards for the player
-    private void DrawPhase()
+    void CenterObjects()
     {
-        Player player = players[playerTurn];
-        for (int i = 0; i < cardsNum; i++)
-        {
-            Debug.Log("Drawing cards");
-            player.DrawCard();
-            Debug.Log("Drew cards");
-            UpdateGameState();
-        }
-        phase++;
+        Cell startPos0 = gridArray[0][(int)Mathf.Floor(columns / 2)].GetComponent<Cell>();
+        Cell startPos1 = gridArray[rows - 1][(int)Mathf.Floor(columns / 2)].GetComponent<Cell>();
+
+        Piece centerPiece0 = gameRules.player0.centerPiece;
+        centerPiece0.level = 1;
+        centerPiece0.modifier.GetModifierValues();
+        centerPiece0.StartPiece();
+
+        startPos0.piece = gameRules.player0.centerPiece;
+        print(startPos0.location);
+        startPos0.UpdateCell();
+        //startPos0.TintAdjacentCells(centerPiece0.modifier.color);
+
+        Piece centerPiece1 = gameRules.player1.centerPiece;
+        centerPiece1.level = 1;
+        centerPiece1.modifier.GetModifierValues();
+        centerPiece1.StartPiece();
+
+        startPos1.piece = gameRules.player1.centerPiece;
+        print(startPos1.location);
+        startPos1.UpdateCell();
     }
-
-    // combines cards that the player has selected to combine
-    private void CombinePhase()
-    {
-        if (GeneralCheck(phase, "cardTag", "cardTag"))
-        {
-            Debug.Log("Combining cards");
-            Player player = players[playerTurn];
-            List<GameObject> selectedItems = player.selections;
-            player.CombineCards(selectedItems[0], selectedItems[1]);
-            player.ResetSelections();
-            Debug.Log("Combined cards");
-            UpdateGameState();
-        }
-    }
-
-    // places cards that the player has selected to place
-    private void PlacePhase()
-    {
-        if (GeneralCheck(phase, "cardTag", "squareTag"))
-        {
-            Debug.Log("Placing cards");
-            Player player = players[playerTurn];
-            List<GameObject> selectedItems = player.selections;
-            player.PlaceCard(selectedItems[0], selectedItems[1]);
-            player.ResetSelections();
-            Debug.Log("Placed card");
-            phase++;
-            //UpdateGameState();
-            UpdateGameState();
-        }
-    }
-
-    // moves pieces that the player has selected to move
-    private void MovePhase()
-    {
-        if (GeneralCheck(phase, "squareTag", "squareTag"))
-        {
-            Debug.Log("Moving piece");
-            Player player = players[playerTurn];
-            List<GameObject> selectedItems = player.selections;
-            player.MovePiece(selectedItems[0], selectedItems[1]);
-            player.ResetSelections();
-            moveTick++;
-            if (moveTick > 2)
-            {
-                phase++;
-                moveTick = 0;
-            }
-            Debug.Log("Moved piece");
-            UpdateGameState();
-        }
-    }
-
-    // apply the aura to all pieces
-    private void AuraPhase()
-    {
-        Debug.Log("Applying auras");
-        for (int i = 0; i < height; i++)
-        {
-            for (int j = 0; j < width; j++)
-            {
-                Square square = gridArray[i][j].GetComponent<Square>();
-                if (square.pieceObject != null)
-                {
-                    aura.ApplyAura(gridArray[i][j]);
-                }
-            }
-        }
-        Debug.Log("Applied auras");
-        phase++;
-        UpdateGameState();
-    }
-
-    /*-------------------------------------------------------------------------------------------------------*/
-    // CHECKING WHETHER THE ACTION IS VALID
-    /*-------------------------------------------------------------------------------------------------------*/
-
-    private bool GeneralCheck(int phase, string itemTagCheck0, string itemTagCheck1)
-    {
-
-        // Get the appropriate data
-        Player player = players[playerTurn];
-        List<GameObject> selectedItems = player.selections;
-
-        //check that there atleast two items, if not wait
-        if (selectedItems.Count < 2)
-        {
-            //Debug.Log("Not enough items selected");  
-            return false;
-        }
-        //check that there are only two items, if not reset
-        if (selectedItems.Count > 2)
-        {
-            Debug.Log("Too many items selected");
-            return player.ResetSelections();
-        }
-        //check that same item has not been selected twice, and if it has then deselect
-        if (selectedItems[0] == selectedItems[1])
-        {
-            Debug.Log("Selected same item twice");
-            return player.ResetSelections();
-        }
-        //check that the items are of the correct type
-        if (selectedItems[0].tag != itemTagCheck0 || selectedItems[1].tag != itemTagCheck1)
-        {
-            Debug.Log("Incorrect types of items");
-            return player.ResetSelections();
-        }
-        //check that, if a card has been selected first, it is in the players hand
-        if (itemTagCheck0 == "cardTag")
-        {
-            if (!player.hand.Contains(selectedItems[0]))
-            {
-                Debug.Log("First card not in players hand");
-                return player.ResetSelections();
-            }
-            //check that, if a card has been selected second that it is also in the players hand
-            if (itemTagCheck1 == "cardTag")
-            {
-                if (!player.hand.Contains(selectedItems[1]))
-                {
-                    Debug.Log("Second card not in players hand");
-                    return player.ResetSelections();
-                }
-                //if the selection is both cards, then check they are the same faction
-                Card card0 = selectedItems[0].GetComponent<Card>();
-                Card card1 = selectedItems[1].GetComponent<Card>();
-                if (card0.faction != card1.faction)
-                {
-                    Debug.Log("Cards not of the same faction");
-                    return player.ResetSelections();
-                }
-            }
-        }
-        //check that if the second item is a square
-        if (itemTagCheck1 == "squareTag")
-        {
-            //check that theres nothing on it
-            Square square1 = selectedItems[1].GetComponent<Square>();
-            if (square1.pieceObject != null)
-            {
-                Debug.Log("Second selected square is occupied");
-                return player.ResetSelections();
-            }
-            // if trying to place a card, check its adjacent to a centrepiece
-            if (itemTagCheck0 == "cardTag")
-            {
-                bool inVicinity = false;
-                square1.UpdateSquare();
-                List<GameObject> placeableSquares = square1.AdjacentSquares();
-                foreach (GameObject squareObject in placeableSquares)
-                {           
-                    Square adjSquare = squareObject.GetComponent<Square>();
-                    adjSquare.GetVectorLocation();
-                    Debug.Log("Vector Location (" + adjSquare.vectorLocation.x.ToString() + ", " + adjSquare.vectorLocation.y.ToString() + ")");
-                    if (adjSquare.pieceObject != null)
-                    {
-                        if (adjSquare.pieceObject.tag.Equals("centrePieceTag"))
-                        {
-                            Debug.Log("Found the centrepiece");
-                            inVicinity = true;
-                        }
-                    }
-                }
-                if (inVicinity == false)
-                {
-                    Debug.Log("Not next to centrepiece");
-                    return player.ResetSelections();
-                }
-                Debug.Log(inVicinity);
-            }
-        }
-        // check that if a piece was selected first
-        if (itemTagCheck0 == "squareTag")
-        {
-            //check that theres something on it
-            Square square0 = selectedItems[0].GetComponent<Square>();
-            if (square0.pieceObject == null)
-            {
-                Debug.Log("First selected square is empty");
-                return player.ResetSelections();
-            }
-            //check that the piece selected is not paralyzed
-            Piece piece0 = square0.pieceObject.GetComponent<Piece>();
-            if (piece0.paralyzed)
-            {
-                Debug.Log("First selected piece is paralyzed");
-                return player.ResetSelections();
-            }
-            //check its owned by the player selecting it
-            Player playerOwner = piece0.playerObject.GetComponent<Player>();
-            if (playerOwner != players[playerTurn])
-            {
-                Debug.Log("First selected piece is not owned by you");
-                return player.ResetSelections();
-            }
-            //check that the square being moved to is adjacent
-            List<GameObject> adjacentSquares = square0.AdjacentSquares();
-            if (!adjacentSquares.Contains(selectedItems[1]))
-            {
-                Debug.Log("This piece cannot move to that location");
-                return player.ResetSelections();
-            }
-        }
-        return true;
-    }
-
 
 }
-
-
-
